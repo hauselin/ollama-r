@@ -6,12 +6,12 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The Ollama R library provides the easiest way to integrate R with
-[Ollama](https://ollama.com/), which lets you run language models
-locally on your own machine. For Ollama Python, see
-[ollama-python](https://github.com/ollama/ollama-python). You’ll need to
-have the [Ollama](https://ollama.com/) app installed on your computer to
-use this library.
+The [Ollama R library](https://hauselin.github.io/ollamar/) provides the
+easiest way to integrate R with [Ollama](https://ollama.com/), which
+lets you run language models locally on your own machine. For Ollama
+Python, see [ollama-python](https://github.com/ollama/ollama-python).
+You’ll need to have the [Ollama](https://ollama.com/) app installed on
+your computer to use this library.
 
 > Note: You should have at least 8 GB of RAM available to run the 7B
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
@@ -119,7 +119,7 @@ doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-comp
 messages <- list(
     list(role = "user", content = "Who is the prime minister of the uk?")
 )
-chat("llama3", messages)  # returns a httr2 response object
+chat("llama3", messages)  # returns httr2 response object
 chat("llama3", messages, output = "df")  # data frame/tibble
 chat("llama3", messages, output = "raw")  # raw string
 chat("llama3", messages, output = "jsonlist")  # list
