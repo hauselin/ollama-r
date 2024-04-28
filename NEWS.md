@@ -1,0 +1,3 @@
+# ollamar
+
+* Initial CRAN submission.
