@@ -4,12 +4,14 @@
 \alias{embeddings}
 \title{Get vector embedding for a prompt}
 \usage{
-embeddings(model, prompt, endpoint = "/api/embeddings")
+embeddings(model, prompt, normalize = TRUE, endpoint = "/api/embeddings")
 }
 \arguments{
 \item{model}{A character string of the model name such as "llama3".}
 
 \item{prompt}{A character string of the prompt that you want to get the vector embedding for.}
+
+\item{normalize}{Normalize the vector to length 1. Default is TRUE.}
 
 \item{endpoint}{The endpoint to get the vector embedding. Default is "/api/embeddings".}
 }

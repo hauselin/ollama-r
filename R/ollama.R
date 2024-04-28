@@ -271,11 +271,18 @@ delete <- function(model, endpoint = "/api/delete") {
 }
 
 
+normalize <- function(x) {
+    norm <- sqrt(sum(x^2))
+    normalized_vector <- x / norm
+    return(normalized_vector)
+}
+
 
 #' Get vector embedding for a prompt
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param prompt A character string of the prompt that you want to get the vector embedding for.
+#' @param normalize Normalize the vector to length 1. Default is TRUE.
 #' @param endpoint The endpoint to get the vector embedding. Default is "/api/embeddings".
 #'
 #' @return A numeric vector of the embedding.
@@ -285,7 +292,7 @@ delete <- function(model, endpoint = "/api/delete") {
 #' \dontrun{
 #' get_embeddings("gemma:latest", "The quick brown fox jumps over the lazy dog.")
 #' }
-embeddings <- function(model, prompt, endpoint = "/api/embeddings") {
+embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddings") {
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
 
@@ -295,7 +302,11 @@ embeddings <- function(model, prompt, endpoint = "/api/embeddings") {
     tryCatch({
         resp <- httr2::req_perform(req)
         print(resp)
-        return(unlist(resp_process(resp, "jsonlist")$embedding))
+        v <- unlist(resp_process(resp, "jsonlist")$embedding)
+        if (normalize) {
+            v <- normalize(v)
+        }
+        return(v)
     }, error = function(e) {
         stop(e)
     })

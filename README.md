@@ -136,8 +136,33 @@ chat("llama3", messages, stream = TRUE)
 
 ### Embeddings
 
-Get the vector embedding of some prompt/text.
+Get the vector embedding of some prompt/text. By default, the embeddings
+are normalized to length 1, which means the following:
+
+- cosine similarity can be computed slightly faster using just a dot
+  product
+- cosine similarity and Euclidean distance will result in the identical
+  rankings
 
 ``` r
 embeddings("llama3", "Hello, how are you?")
+
+# don't normalize embeddings
+embeddings("llama3", "Hello, how are you?", normalize = FALSE)
+```
+
+``` r
+# get embeddings for similar prompts
+e1 <- embeddings("llama3", "Hello, how are you?")
+e2 <- embeddings("llama3", "Hi, how are you?")
+
+# compute cosine similarity
+sum(e1 * e2) # 0.9859769
+sum(e1 * e1)  # 1 (identical vectors/embeddings)
+
+# non-normalized embeddings
+e3 <- embeddings("llama3", "Hello, how are you?", normalize = FALSE)
+e4 <- embeddings("llama3", "Hi, how are you?", normalize = FALSE)
+sum(e3 * e4)  # 23695.96
+sum(e3 * e3)  # 24067.32
 ```
