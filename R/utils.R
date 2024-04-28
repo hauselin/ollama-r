@@ -57,5 +57,14 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp")) {
 
         return(df_response)
 
+    # process generate endpoint
+    } else if (grepl("api/generate", resp$url)) {
+
+        json_body <- httr2::resp_body_json(resp)
+        df_response <- tibble::tibble(model = json_body$model,
+                                      response = json_body$response,
+                                      created_at = json_body$created_at)
+
+        return(df_response)
     }
 }

@@ -139,7 +139,7 @@ chat <- function(model, messages, stream = FALSE, output = c("resp", "jsonlist",
     resp <- httr2::req_perform_stream(req, stream_handler, buffer_kb = 1)
     cat("\n\n")
 
-    # process treaming output
+    # process streaming output
     json_lines <- strsplit(rawToChar(accumulated_data), "\n")[[1]]
     json_lines_output <- vector("list", length = length(json_lines))
     df_response <- tibble::tibble(
@@ -220,7 +220,6 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
         s <- rawToChar(x)
         accumulated_data <<- append(accumulated_data, x)
         json_strings <- strsplit(s, '\n')[[1]]
-
         for (i in seq_along(json_strings)) {
             tryCatch({
                 json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
@@ -310,4 +309,107 @@ embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddi
     }, error = function(e) {
         stop(e)
     })
+}
+
+
+
+
+
+
+#' Generate a completion.
+#'
+#' Generate a response for a given prompt with a provided model.
+#'
+#' @param model A character string of the model name such as "llama3".
+#' @param prompt A character string of the promp like "The sky is..."
+#' @param stream Enable response streaming. Default is FALSE.
+#' @param output A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df".
+#' @param endpoint The endpoint to generate the completion. Default is "/api/generate".
+#'
+#' @return A response in the format specified in the output parameter.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' generate("llama3", "The sky is...", stream = FALSE, output = "df")
+#' generate("llama3", "The sky is...", stream = TRUE, output = "df")
+#' generate("llama3", "The sky is...", stream = FALSE, output = "resp")
+#' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
+#' }
+generate <- function(model, prompt, stream = FALSE, output = c("resp", "jsonlist", "raw", "df"), endpoint = "/api/generate") {
+
+    req <- create_request(endpoint)
+    req <- httr2::req_method(req, "POST")
+
+    body_json <- list(model = model,
+                      stream = stream,
+                      prompt = prompt)
+    req <- httr2::req_body_json(req, body_json)
+
+    content <- ""
+    if (!stream) {
+        tryCatch({
+            resp <- httr2::req_perform(req)
+            print(resp)
+            return(resp_process(resp = resp, output = output[1]))
+        }, error = function(e) {
+            stop(e)
+        })
+    }
+
+    # streaming
+    buffer <- ""
+    content <- ""
+    accumulated_data <- raw()
+    stream_handler <- function(x) {
+        s <- rawToChar(x)
+        accumulated_data <<- append(accumulated_data, x)
+        json_strings <- strsplit(s, '\n')[[1]]
+
+        for (i in seq_along(json_strings)) {
+            tryCatch({
+                json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
+                stream_content <- jsonlite::fromJSON(json_string)$response
+                content <<- c(content, stream_content)
+                buffer <<- ""
+                # stream/print stream
+                cat(stream_content)
+            }, error = function(e) {
+                buffer <<- paste0(buffer, json_strings[i])
+            })
+        }
+        return(TRUE)
+    }
+    resp <- httr2::req_perform_stream(req, stream_handler, buffer_kb = 1)
+    cat("\n\n")
+
+    # process streaming output
+    json_lines <- strsplit(rawToChar(accumulated_data), "\n")[[1]]
+    json_lines_output <- vector("list", length = length(json_lines))
+    df_response <- tibble::tibble(
+        model = character(length(json_lines_output)),
+        response = character(length(json_lines_output)),
+        created_at = character(length(json_lines_output))
+    )
+
+    if (output[1] == "raw") {
+        return(rawToChar(accumulated_data))
+    }
+
+    for (i in seq_along(json_lines)) {
+        json_lines_output[[i]] <- jsonlite::fromJSON(json_lines[[i]])
+        df_response$model[i] <- json_lines_output[[i]]$model
+        df_response$response[i] <- json_lines_output[[i]]$response
+        df_response$created_at[i] <- json_lines_output[[i]]$created_at
+    }
+
+    if (output[1] == "jsonlist") {
+        return(json_lines_output)
+    }
+
+    if (output[1] == "df") {
+        return(df_response)
+    }
+
+    return(resp)
 }

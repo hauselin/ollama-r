@@ -17,16 +17,16 @@ use this library.
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
 See [Ollama’s Github page](https://github.com/ollama/ollama) for more
-information.
+information. See also the [Ollama API documentation and
+endpoints](https://github.com/ollama/ollama/blob/main/docs/api.md).
 
 ## Installation
 
-1.  You need to have the Ollama app installed on your computer. Download
+1.  You should have the Ollama app installed on your computer. Download
     it from [Ollama](https://ollama.com/).
 
-2.  After installing the Ollama app, you should open/launch the Ollama
-    app to start the local server. Then you can run your language models
-    locally, on your own machine/computer.
+2.  Open/launch the Ollama app to start the local server. You can then
+    run your language models locally, on your own machine/computer.
 
 3.  Install the development version of `ollamar` R library like so:
 
@@ -81,6 +81,8 @@ resp_process(resp, "resp")  # returns the input httr2 response object
 
 ### Pull/download model
 
+Download a model from the ollama library (see [API
+doc](https://github.com/ollama/ollama/blob/main/docs/api.md#pull-a-model)).
 For the list of models you can pull/download, see [Ollama
 library](https://ollama.com/library).
 
@@ -92,6 +94,8 @@ list_models("df")  # verify you've downloaded the model
 
 ### Delete a model
 
+Delete a model and its data (see [API
+doc](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)).
 You can see what models you’ve downloaded with `list_models()`. To
 download a model, specify the name of the model.
 
@@ -101,6 +105,9 @@ delete("all-minilm:latest")  # returns a httr2 response object
 ```
 
 ### Chat
+
+Generate the next message in a chat (see [API
+doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion)).
 
 ``` r
 messages <- list(
@@ -136,8 +143,10 @@ chat("llama3", messages, stream = TRUE)
 
 ### Embeddings
 
-Get the vector embedding of some prompt/text. By default, the embeddings
-are normalized to length 1, which means the following:
+Get the vector embedding of some prompt/text (see [API
+doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings)).
+By default, the embeddings are normalized to length 1, which means the
+following:
 
 - cosine similarity can be computed slightly faster using just a dot
   product
@@ -165,4 +174,15 @@ e3 <- embeddings("llama3", "Hello, how are you?", normalize = FALSE)
 e4 <- embeddings("llama3", "Hi, how are you?", normalize = FALSE)
 sum(e3 * e4)  # 23695.96
 sum(e3 * e3)  # 24067.32
+```
+
+### Generate a completion
+
+Generate a response for a given prompt (see [API
+doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)).
+
+``` r
+generate("llama3", "Tomorrow is a...", stream = TRUE)
+generate("llama3", "Tomorrow is a...", output = "df")
+generate("llama3", "Tomorrow is a...", stream = TRUE, output = "df")
 ```
