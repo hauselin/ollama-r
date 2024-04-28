@@ -73,6 +73,7 @@ the Ollama server.
 ``` r
 resp <- list_models(output = "resp")  # returns a httr2 response object
 
+# process the httr2 response object with the resp_process() function
 resp_process(resp, "df")
 resp_process(resp, "jsonlist")  # list
 resp_process(resp, "raw")  # raw string

@@ -70,6 +70,7 @@ If a function in the library returns an `httr2_response` object, you can parse t
 ```{r eval=FALSE}
 resp <- list_models(output = "resp")  # returns a httr2 response object
 
+# process the httr2 response object with the resp_process() function
 resp_process(resp, "df")
 resp_process(resp, "jsonlist")  # list
 resp_process(resp, "raw")  # raw string
