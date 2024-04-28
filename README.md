@@ -4,6 +4,8 @@
 # Ollama R Library
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/hauselin/ollamar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hauselin/ollamar/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The [Ollama R library](https://hauselin.github.io/ollamar/) provides the
