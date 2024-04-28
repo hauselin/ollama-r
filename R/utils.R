@@ -7,12 +7,11 @@
 #' @export
 #'
 #' @examples
-#' resp <- list_models()
-#' resp_process(resp)
-#' resp_process(resp, "df")
-#' resp_process(resp, "jsonlist")
-#' resp_process(resp, "raw")
-#' resp_process(resp, "resp")
+#' resp <- list_models("resp")
+#' resp_process(resp, "df")  # parse response to dataframe/tibble
+#' resp_process(resp, "jsonlist")  # parse response to list
+#' resp_process(resp, "raw")  # parse response to raw string
+#' resp_process(resp, "resp")  # return input response object
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp")) {
 
     if (is.null(resp) || resp$status_code != 200) {

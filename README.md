@@ -42,25 +42,17 @@ If it doesn’t work or you don’t have `devtools` installed, please run
 ``` r
 library(ollamar)
 
-# test connection to Ollama server
-test_connection()  # returns a httr2 response object
+test_connection()  # test connection to Ollama server
+# returns a httr2 response object
 # Ollama local server running
 # <httr2_response>
-# GET http://localhost:11434/
-# Status: 200 OK
-# Content-Type: text/plain
-# Body: In memory (17 bytes)
 
-# list available models (models you've downloaded)
-list_models()  # by default returns a httr2 response object
-list_models("df")  # return a data frame of models
+list_models()  # list available models (models you've downloaded)
 # A tibble: 16 × 4
    name                     model                    parameter_size quantization_level
    <chr>                    <chr>                    <chr>          <chr>             
- 1 codegemma:instruct       codegemma:instruct       9B             Q4_0              
- 2 codellama:python         codellama:python         7B             Q4_0              
- 3 gemma:latest             gemma:latest             9B             Q4_0              
- 4 llama3:latest            llama3:latest            8B             Q4_0              
+ 1 mixtral:latest           mixtral:latest           47B            Q4_0              
+ 2 llama3:latest            llama3:latest            8B             Q4_0              
 ```
 
 ### Notes
@@ -70,10 +62,8 @@ to open the Ollama app before using this library.
 
 ``` r
 test_connection()
-Ollama local server not running or wrong server.
-Download and launch Ollama app to run the server. Visit https://ollama.com or https://github.com/ollama/ollama
-<error/httr2_failure>
-Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:
+# Ollama local server not running or wrong server.
+# Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:
 ```
 
 If a function in the library returns an `httr2_response` object, you can
@@ -84,10 +74,7 @@ the Ollama server.
 ``` r
 resp <- list_models()  # by default, returns a httr2 response object 
 # <httr2_response>
-# GET http://localhost:11434/api/tags
 # Status: 200 OK
-# Content-Type: application/json
-# Body: In memory (5401 bytes)
 
 resp_process(resp, "df")
 resp_process(resp, "jsonlist")  # list
@@ -101,10 +88,19 @@ For the list of models you can pull/download, see [Ollama
 library](https://ollama.com/library).
 
 ``` r
-pull_model("llama3")  # returns a httr2 response object
-pull_model("ollama run mistral-openorca")
+pull("llama3")  # returns a httr2 response object
+pull("mistral-openorca")
+list_models("df")  # verify you've downloaded the model
+```
 
+### Delete a model
+
+You can see what models you’ve downloaded with `list_models()`. To
+download a model, specify the name of the model.
+
+``` r
 list_models("df")  # see the models you've downloaded
+delete("all-minilm:latest")  # returns a httr2 response object
 ```
 
 ### Chat

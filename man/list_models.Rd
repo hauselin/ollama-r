@@ -5,27 +5,27 @@
 \title{Get available local models}
 \usage{
 list_models(
-  output = c("resp", "jsonlist", "raw", "df"),
+  output = c("df", "resp", "jsonlist", "raw"),
   endpoint = "/api/tags"
 )
 }
 \arguments{
-\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df".}
+\item{output}{The output format. Default is "df". Other options are "resp", "jsonlist", "raw".}
 
 \item{endpoint}{The endpoint to get the models. Default is "/api/tags".}
 }
 \value{
-A httr2 response object, json list, raw or data frame.
+A httr2 response object, json list, raw or data frame. Default is "df".
 }
 \description{
 Get available local models
 }
 \examples{
 \dontrun{
-list_models()
+list_models()  # returns dataframe/tibble by default
+list_models("df")
 list_models("resp")
 list_models("jsonlist")
 list_models("raw")
-list_models("df")
 }
 }

@@ -33,21 +33,21 @@ create_request <- function(endpoint) {
 
 #' Get available local models
 #'
-#' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df".
+#' @param output The output format. Default is "df". Other options are "resp", "jsonlist", "raw".
 #' @param endpoint The endpoint to get the models. Default is "/api/tags".
 #'
-#' @return A httr2 response object, json list, raw or data frame.
+#' @return A httr2 response object, json list, raw or data frame. Default is "df".
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' list_models()
+#' list_models()  # returns dataframe/tibble by default
+#' list_models("df")
 #' list_models("resp")
 #' list_models("jsonlist")
 #' list_models("raw")
-#' list_models("df")
 #' }
-list_models <- function(output = c("resp", "jsonlist", "raw", "df"), endpoint = "/api/tags") {
+list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = "/api/tags") {
 
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "GET")
@@ -238,4 +238,35 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
     }
     resp <- httr2::req_perform_stream(req, stream_handler, buffer_kb = 1)
     return(resp)
+}
+
+
+
+#' Delete a model
+#'
+#' Delete a model from your local machine that you downlaoded using the pull() function. To see which models are available, use the list_models() function.
+#'
+#' @param model A character string of the model name such as "llama3".
+#' @param endpoint The endpoint to delete the model. Default is "/api/delete".
+#'
+#' @return A httr2 response object.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' delete("llama3")
+#' }
+delete <- function(model, endpoint = "/api/delete") {
+    req <- create_request(endpoint)
+    req <- httr2::req_method(req, "DELETE")
+    body_json <- list(model = model)
+    req <- httr2::req_body_json(req, body_json)
+
+    tryCatch({
+        resp <- httr2::req_perform(req)
+        print(resp)
+        return(resp)
+    }, error = function(e) {
+        message("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
+    })
 }
