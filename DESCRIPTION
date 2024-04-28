@@ -2,7 +2,7 @@ Package: ollamar
 Title: Ollama Language Models
 Version: 0.0.0.9000
 Authors@R: 
-    person("Hause", "Lin", , "first.last@example.com", role = c("aut", "cre"),
+    person("Hause", "Lin", , "hauselin@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4590-7039"))
 Description: Provides an interface to run local language models in R with Ollama.
 License: MIT + file LICENSE

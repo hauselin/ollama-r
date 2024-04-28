@@ -71,9 +71,7 @@ library](https://httr2.r-lib.org/index.html) to make HTTP requests to
 the Ollama server.
 
 ``` r
-resp <- list_models()  # by default, returns a httr2 response object 
-# <httr2_response>
-# Status: 200 OK
+resp <- list_models(output = "resp")  # returns a httr2 response object
 
 resp_process(resp, "df")
 resp_process(resp, "jsonlist")  # list
@@ -109,9 +107,9 @@ messages <- list(
     list(role = "user", content = "Who is the prime minister of the uk?")
 )
 chat("llama3", messages)  # returns a httr2 response object
-chat("llama3", messages, output = "df")
-chat("llama3", messages, output = "raw")
-chat("llama3", messages, output = "jsonlist")
+chat("llama3", messages, output = "df")  # data frame/tibble
+chat("llama3", messages, output = "raw")  # raw string
+chat("llama3", messages, output = "jsonlist")  # list
 
 messages <- list(
     list(role = "user", content = "Hello!"),
