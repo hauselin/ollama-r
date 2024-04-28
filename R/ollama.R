@@ -270,3 +270,34 @@ delete <- function(model, endpoint = "/api/delete") {
         message("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
     })
 }
+
+
+
+#' Get vector embedding for a prompt
+#'
+#' @param model A character string of the model name such as "llama3".
+#' @param prompt A character string of the prompt that you want to get the vector embedding for.
+#' @param endpoint The endpoint to get the vector embedding. Default is "/api/embeddings".
+#'
+#' @return A numeric vector of the embedding.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_embeddings("gemma:latest", "The quick brown fox jumps over the lazy dog.")
+#' }
+embeddings <- function(model, prompt, endpoint = "/api/embeddings") {
+    req <- create_request(endpoint)
+    req <- httr2::req_method(req, "POST")
+
+    body_json <- list(model = model, prompt = prompt)
+    req <- httr2::req_body_json(req, body_json)
+
+    tryCatch({
+        resp <- httr2::req_perform(req)
+        print(resp)
+        return(unlist(resp_process(resp, "jsonlist")$embedding))
+    }, error = function(e) {
+        stop(e)
+    })
+}

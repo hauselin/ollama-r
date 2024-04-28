@@ -135,3 +135,11 @@ messages <- list(
 )
 chat("llama3", messages, stream = TRUE)
 ```
+
+### Embeddings
+
+Get the vector embedding of some prompt/text.
+
+``` r
+embeddings("llama3", "Hello, how are you?")
+```

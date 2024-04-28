@@ -3,6 +3,7 @@
 export(chat)
 export(create_request)
 export(delete)
+export(embeddings)
 export(list_models)
 export(pull)
 export(resp_process)
