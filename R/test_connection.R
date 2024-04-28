@@ -18,6 +18,7 @@ test_connection <- function(url = "http://localhost:11434") {
         return(resp)
     }, error = function(e) {
         message("Ollama local server not running or wrong server.\nDownload and launch Ollama app to run the server. Visit https://ollama.com or https://github.com/ollama/ollama")
-        return(e)
+        req$status_code <- 503
+        return(req)
     })
 }
