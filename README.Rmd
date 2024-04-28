@@ -18,16 +18,20 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The Ollama R library provides the easiest way to integrate R with [Ollama](https://ollama.com/). For Ollama Python, see [ollama-python](https://github.com/ollama/ollama-python). You'll need to have the [Ollama](https://ollama.com/) app installed on your computer to use this library. 
-
-After installing the Ollama app, you should open/launch the Ollama app to start the local server. Then you can run your language models locally, on your own machine/computer. See also [Ollama's Github page](https://github.com/ollama/ollama) for more information.
+The Ollama R library provides the easiest way to integrate R with [Ollama](https://ollama.com/), which lets you run language models locally on your own machine. For Ollama Python, see [ollama-python](https://github.com/ollama/ollama-python). You'll need to have the [Ollama](https://ollama.com/) app installed on your computer to use this library. 
 
 > Note: You should have at least 8 GB of RAM available to run the 7B models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
 
+See [Ollama's Github page](https://github.com/ollama/ollama) for more information.
+
 ## Installation
 
-You can install the development version of ollamar like so:
+1. You need to have the Ollama app installed on your computer. Download it from [Ollama](https://ollama.com/).
+
+2. After installing the Ollama app, you should open/launch the Ollama app to start the local server. Then you can run your language models locally, on your own machine/computer. 
+
+3. Install the development version of `ollamar` R library like so:
 
 ``` r
 devtools::install_github("hauselin/ollamar")
@@ -41,11 +45,54 @@ If it doesn't work or you don't have `devtools` installed, please run `install.p
 library(ollamar)
 
 # test connection to Ollama server
-test_connection()
+test_connection()  # returns a httr2 response object
+# Ollama local server running
+# <httr2_response>
+# GET http://localhost:11434/
+# Status: 200 OK
+# Content-Type: text/plain
+# Body: In memory (17 bytes)
 
-# list available models
-list_models()
+# list available models (models you've downloaded)
+list_models()  # by default returns a httr2 response object
+list_models("df")  # return a data frame of models
+# A tibble: 16 × 4
+   name                     model                    parameter_size quantization_level
+   <chr>                    <chr>                    <chr>          <chr>             
+ 1 codegemma:instruct       codegemma:instruct       9B             Q4_0              
+ 2 codellama:python         codellama:python         7B             Q4_0              
+ 3 gemma:latest             gemma:latest             9B             Q4_0              
+ 4 llama3:latest            llama3:latest            8B             Q4_0              
 ```
+
+### Notes
+
+If you don't have the Ollama app running, you'll get an error. Make sure to open the Ollama app before using this library.
+
+```{r eval=FALSE}
+test_connection()
+Ollama local server not running or wrong server.
+Download and launch Ollama app to run the server. Visit https://ollama.com or https://github.com/ollama/ollama
+<error/httr2_failure>
+Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:
+```
+
+If a function in the library returns an `httr2_response` object, you can parse the output with `resp_process()`. `ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server. 
+
+```{r eval=FALSE}
+resp <- list_models()  # by default, returns a httr2 response object 
+# <httr2_response>
+# GET http://localhost:11434/api/tags
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (5401 bytes)
+
+resp_process(resp, "df")
+resp_process(resp, "jsonlist")  # list
+resp_process(resp, "raw")  # raw string
+resp_process(resp, "resp")  # returns the input httr2 response object
+```
+
 
 ### Chat
 
