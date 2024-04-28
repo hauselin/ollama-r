@@ -42,12 +42,11 @@ If it doesn’t work or you don’t have `devtools` installed, please run
 ``` r
 library(ollamar)
 
-test_connection()  # test connection to Ollama server
-# returns a httr2 response object
+test_connection()  # test connection to Ollama server; returns a httr2 response object
 # Ollama local server running
 # <httr2_response>
 
-list_models()  # list available models (models you've downloaded)
+list_models()  # list available models (models you've pulled/downloaded)
 # A tibble: 16 × 4
    name                     model                    parameter_size quantization_level
    <chr>                    <chr>                    <chr>          <chr>             
@@ -99,7 +98,7 @@ You can see what models you’ve downloaded with `list_models()`. To
 download a model, specify the name of the model.
 
 ``` r
-list_models("df")  # see the models you've downloaded
+list_models("df")  # see the models you've pulled/downloaded
 delete("all-minilm:latest")  # returns a httr2 response object
 ```
 
