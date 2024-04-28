@@ -173,3 +173,69 @@ chat <- function(model, messages, stream = FALSE, output = c("resp", "jsonlist",
     return(resp)
 }
 
+
+
+
+
+
+#' Pull/download a model
+#'
+#' See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine.
+#'
+#' @param model A character string of the model name such as "llama3".
+#' @param stream Enable response streaming. Default is TRUE.
+#' @param endpoint The endpoint to pull the model. Default is "/api/pull".
+#'
+#' @return A httr2 response object.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' pull("llama3")
+#' pull("llama3", stream = FALSE)
+#" pull("all-minilm")
+#' }
+pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
+    req <- create_request(endpoint)
+    req <- httr2::req_method(req, "POST")
+
+    body_json <- list(model = model, stream = stream)
+    req <- httr2::req_body_json(req, body_json)
+
+    content <- ""
+    if (!stream) {
+        tryCatch({
+            resp <- httr2::req_perform(req)
+            print(resp)
+            return(resp)
+        }, error = function(e) {
+            stop(e)
+        })
+    }
+
+    # streaming
+    buffer <- ""
+    content <- ""
+    accumulated_data <- raw()
+    stream_handler <- function(x) {
+        s <- rawToChar(x)
+        accumulated_data <<- append(accumulated_data, x)
+        json_strings <- strsplit(s, '\n')[[1]]
+
+        for (i in seq_along(json_strings)) {
+            tryCatch({
+                json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
+                stream_content <- jsonlite::fromJSON(json_string)$status
+                content <<- c(content, stream_content)
+                buffer <<- ""
+                # stream/print stream
+                cat(stream_content, "\n")
+            }, error = function(e) {
+                buffer <<- paste0(buffer, json_strings[i])
+            })
+        }
+        return(TRUE)
+    }
+    resp <- httr2::req_perform_stream(req, stream_handler, buffer_kb = 1)
+    return(resp)
+}

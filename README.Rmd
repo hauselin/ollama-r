@@ -93,6 +93,16 @@ resp_process(resp, "raw")  # raw string
 resp_process(resp, "resp")  # returns the input httr2 response object
 ```
 
+### Pull/download model
+
+For the list of models you can pull/download, see [Ollama library](https://ollama.com/library).
+
+```{r eval=FALSE}
+pull_model("llama3")  # returns a httr2 response object
+pull_model("ollama run mistral-openorca")
+
+list_models("df")  # see the models you've downloaded
+```
 
 ### Chat
 

@@ -3,6 +3,7 @@
 export(chat)
 export(create_request)
 export(list_models)
+export(pull)
 export(resp_process)
 export(test_connection)
 importFrom(glue,glue)
