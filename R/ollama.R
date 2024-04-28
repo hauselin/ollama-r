@@ -1,7 +1,7 @@
 #' Package configuration
 #' @importFrom glue glue
 package_config <- list(
-    baseurls = c("http://localhost:11434", "http://127.0.0.1:11434"),
+    baseurls = c("http://127.0.0.1:11434", "http://localhost:11434"),
     package_version = packageVersion("ollamar"),
     user_agent = glue("ollama-r/{packageVersion('ollamar')} ({tolower(R.version$platform)}) R/{R.version$major}.{R.version$minor}")
 )
@@ -17,16 +17,15 @@ package_config <- list(
 #' @examples
 #' create_request("/api/tags")
 create_request <- function(endpoint) {
-    for (url in package_config$baseurls) {
-        url <- httr2::url_parse(url)
-        url$path <- endpoint
-        req <- httr2::request(httr2::url_build(url))
-        headers <- list(content_type = "application/json",
-                        accept = "application/json",
-                        user_agent = package_config$user_agent)
-        req <- httr2::req_headers(req, !!!headers)
-        return(req)
-    }
+    url <- package_config$baseurls[1]
+    url <- httr2::url_parse(url)
+    url$path <- endpoint
+    req <- httr2::request(httr2::url_build(url))
+    headers <- list(content_type = "application/json",
+                    accept = "application/json",
+                    user_agent = package_config$user_agent)
+    req <- httr2::req_headers(req, !!!headers)
+    return(req)
 }
 
 
