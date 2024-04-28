@@ -56,6 +56,11 @@ list_models()  # list available models (models you've pulled/downloaded)
 
 ### Notes
 
+Optional/advanced parameters (see [API
+docs](https://github.com/ollama/ollama/blob/main/docs/api.md)) such as
+`temperature` are not yet implemented as of now but will be implemented
+in future versions.
+
 If you don’t have the Ollama app running, you’ll get an error. Make sure
 to open the Ollama app before using this library.
 
