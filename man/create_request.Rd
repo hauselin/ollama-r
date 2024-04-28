@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{create_request}
 \alias{create_request}
-\title{Create a httr2 request object}
+\title{Create a httr2 request object.}
 \usage{
 create_request(endpoint)
 }
@@ -13,8 +13,5 @@ create_request(endpoint)
 A httr2 request object.
 }
 \description{
-Create a httr2 request object
-}
-\examples{
-create_request("/api/tags")
+Creates a httr2 request object with the base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
 }

@@ -17,3 +17,4 @@ Imports:
     httr2,
     jsonlite,
     tibble
+URL: https://hauselin.github.io/ollamar/

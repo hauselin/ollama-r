@@ -7,15 +7,13 @@ package_config <- list(
 )
 
 
-#' Create a httr2 request object
+#' Create a httr2 request object.
+#'
+#' Creates a httr2 request object with the base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
 #'
 #' @param endpoint The endpoint to create the request
 #'
 #' @return A httr2 request object.
-#' @export
-#'
-#' @examples
-#' create_request("/api/tags")
 create_request <- function(endpoint) {
     url <- package_config$baseurls[1]
     url <- httr2::url_parse(url)
