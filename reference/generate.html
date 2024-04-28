@@ -21,6 +21,9 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -82,10 +85,9 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># test_connection()$status_code == 200</span></span></span>
 <span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"resp"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"jsonlist"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
