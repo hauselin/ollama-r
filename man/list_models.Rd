@@ -21,11 +21,11 @@ A httr2 response object, json list, raw or data frame. Default is "df".
 Get available local models
 }
 \examples{
-\dontrun{
+\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 list_models()  # returns dataframe/tibble by default
 list_models("df")
 list_models("resp")
 list_models("jsonlist")
 list_models("raw")
-}
+\dontshow{\}) # examplesIf}
 }

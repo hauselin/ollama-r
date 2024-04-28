@@ -20,8 +20,7 @@ A httr2 response object.
 See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine.
 }
 \examples{
-\dontrun{
+\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 pull("llama3")
-pull("llama3", stream = FALSE)
-}
+\dontshow{\}) # examplesIf}
 }

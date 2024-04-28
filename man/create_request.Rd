@@ -13,5 +13,10 @@ create_request(endpoint)
 A httr2 request object.
 }
 \description{
-Creates a httr2 request object with the base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
+Creates a httr2 request object with base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
+}
+\examples{
+create_request("/api/tags")
+create_request("/api/chat")
+create_request("/api/embeddings")
 }

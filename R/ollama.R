@@ -9,11 +9,17 @@ package_config <- list(
 
 #' Create a httr2 request object.
 #'
-#' Creates a httr2 request object with the base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
+#' Creates a httr2 request object with base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
 #'
 #' @param endpoint The endpoint to create the request
 #'
 #' @return A httr2 request object.
+#' @export
+#'
+#' @examples
+#' create_request("/api/tags")
+#' create_request("/api/chat")
+#' create_request("/api/embeddings")
 create_request <- function(endpoint) {
     url <- package_config$baseurls[1]
     url <- httr2::url_parse(url)
@@ -36,14 +42,12 @@ create_request <- function(endpoint) {
 #' @return A httr2 response object, json list, raw or data frame. Default is "df".
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf test_connection()$status_code == 200
 #' list_models()  # returns dataframe/tibble by default
 #' list_models("df")
 #' list_models("resp")
 #' list_models("jsonlist")
 #' list_models("raw")
-#' }
 list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = "/api/tags") {
 
     req <- create_request(endpoint)
@@ -70,8 +74,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = 
 #' @return A httr2 response object, json list, raw or data frame.
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf test_connection()$status_code == 200
 #' # one message
 #' messages <- list(
 #'  list(role = "user", content = "How are you doing?")
@@ -89,7 +92,6 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = 
 #'  list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
-#' }
 chat <- function(model, messages, stream = FALSE, output = c("resp", "jsonlist", "raw", "df"), endpoint = "/api/chat") {
 
     req <- create_request(endpoint)
@@ -186,12 +188,9 @@ chat <- function(model, messages, stream = FALSE, output = c("resp", "jsonlist",
 #' @return A httr2 response object.
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf test_connection()$status_code == 200
 #' pull("llama3")
-#' pull("llama3", stream = FALSE)
-#" pull("all-minilm")
-#' }
+#" pull("all-minilm", stream = FALSE)
 pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
@@ -285,10 +284,8 @@ normalize <- function(x) {
 #' @return A numeric vector of the embedding.
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' get_embeddings("gemma:latest", "The quick brown fox jumps over the lazy dog.")
-#' }
+#' @examplesIf test_connection()$status_code == 200
+#' embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddings") {
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
@@ -327,13 +324,10 @@ embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddi
 #' @return A response in the format specified in the output parameter.
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf test_connection()$status_code == 200
 #' generate("llama3", "The sky is...", stream = FALSE, output = "df")
 #' generate("llama3", "The sky is...", stream = TRUE, output = "df")
-#' generate("llama3", "The sky is...", stream = FALSE, output = "resp")
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
-#' }
 generate <- function(model, prompt, stream = FALSE, output = c("resp", "jsonlist", "raw", "df"), endpoint = "/api/generate") {
 
     req <- create_request(endpoint)

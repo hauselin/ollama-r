@@ -30,10 +30,9 @@ A response in the format specified in the output parameter.
 Generate a response for a given prompt with a provided model.
 }
 \examples{
-\dontrun{
+\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 generate("llama3", "The sky is...", stream = FALSE, output = "df")
 generate("llama3", "The sky is...", stream = TRUE, output = "df")
-generate("llama3", "The sky is...", stream = FALSE, output = "resp")
 generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
-}
+\dontshow{\}) # examplesIf}
 }

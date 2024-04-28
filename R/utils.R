@@ -6,14 +6,12 @@
 #' @return A data frame, json list, raw or httr2 response object.
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf test_connection()$status_code == 200
 #' resp <- list_models("resp")
 #' resp_process(resp, "df")  # parse response to dataframe/tibble
 #' resp_process(resp, "jsonlist")  # parse response to list
 #' resp_process(resp, "raw")  # parse response to raw string
 #' resp_process(resp, "resp")  # return input response object
-#' }
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp")) {
 
     if (is.null(resp) || resp$status_code != 200) {

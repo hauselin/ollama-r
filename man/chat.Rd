@@ -30,7 +30,7 @@ A httr2 response object, json list, raw or data frame.
 Chat with Ollama models
 }
 \examples{
-\dontrun{
+\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # one message
 messages <- list(
  list(role = "user", content = "How are you doing?")
@@ -48,5 +48,5 @@ messages <- list(
  list(role = "user", content = "List all the previous messages.")
 )
 chat("llama3", messages, stream = TRUE)
-}
+\dontshow{\}) # examplesIf}
 }

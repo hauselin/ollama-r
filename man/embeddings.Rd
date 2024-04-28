@@ -22,7 +22,7 @@ A numeric vector of the embedding.
 Get vector embedding for a prompt
 }
 \examples{
-\dontrun{
-get_embeddings("gemma:latest", "The quick brown fox jumps over the lazy dog.")
-}
+\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
+\dontshow{\}) # examplesIf}
 }

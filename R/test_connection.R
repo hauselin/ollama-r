@@ -6,11 +6,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' test_connection()
 #' test_connection("http://localhost:11434")
 #' test_connection("http://127.0.0.1:11434")
-#' }
 test_connection <- function(url = "http://localhost:11434") {
     req <- httr2::request(url)
     req <- httr2::req_method(req, "GET")

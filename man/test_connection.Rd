@@ -16,9 +16,7 @@ A httr2 response object.
 Test connection to Ollama server
 }
 \examples{
-\dontrun{
 test_connection()
 test_connection("http://localhost:11434")
 test_connection("http://127.0.0.1:11434")
-}
 }
