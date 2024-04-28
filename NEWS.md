@@ -2,7 +2,7 @@
 
 * Initial CRAN submission.
 
-## New Features
+## New features
 
 - Integrated R with Ollama to run language models locally on your own machine. 
 - Included `test_connection()` function to test connection to Ollama server.
