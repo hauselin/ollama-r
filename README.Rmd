@@ -150,7 +150,7 @@ e1 <- embeddings("llama3", "Hello, how are you?")
 e2 <- embeddings("llama3", "Hi, how are you?")
 
 # compute cosine similarity
-sum(e1 * e2) # 0.9859769
+sum(e1 * e2)  # 0.9859769
 sum(e1 * e1)  # 1 (identical vectors/embeddings)
 
 # non-normalized embeddings
