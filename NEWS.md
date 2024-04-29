@@ -1,6 +1,6 @@
 # ollamar 1.1.1
 
-* Fixes
+## Bug fixes
 
 - Fixed invalid URLs.
 
