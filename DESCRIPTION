@@ -4,7 +4,9 @@ Version: 1.0.0
 Authors@R: 
     person("Hause", "Lin", , "hauselin@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0003-4590-7039"))
-Description: Provides an interface to easily run local language models with Ollama server.
+Description: An interface to easily run local language models with Ollama server. 
+    Ollama is a tool that allows you to run open-source large language models 
+    like Llama 3 and Mistral 7B locally on your machine.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -17,4 +19,4 @@ Imports:
     httr2,
     jsonlite,
     tibble
-URL: https://hauselin.github.io/ollamar/
+URL: https://hauselin.github.io/ollama-r/
