@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-04-29T03:04Z
+last_built: 2024-04-29T12:42Z
 urls:
   reference: https://hauselin.github.io/ollama-r/reference
   article: https://hauselin.github.io/ollama-r/articles

@@ -116,14 +116,14 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"llama3"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span>
 <span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"mistral-openorca"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span>  <span class="co"># verify you've downloaded the model</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># verify you've pulled/downloaded the model</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="delete-a-model">Delete a model<a class="anchor" aria-label="anchor" href="#delete-a-model"></a>
 </h3>
 <p>Delete a model and its data (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model" class="external-link">API doc</a>). You can see what models you’ve downloaded with <code><a href="reference/list_models.html">list_models()</a></code>. To download a model, specify the name of the model.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span>  <span class="co"># see the models you've pulled/downloaded</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># see the models you've pulled/downloaded</span></span>
 <span><span class="fu"><a href="reference/delete.html">delete</a></span><span class="op">(</span><span class="st">"all-minilm:latest"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span></code></pre></div>
 </div>
 <div class="section level3">
