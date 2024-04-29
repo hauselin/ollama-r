@@ -97,7 +97,7 @@ library](https://ollama.com/library).
 ``` r
 pull("llama3")  # returns a httr2 response object
 pull("mistral-openorca")
-list_models("df")  # verify you've downloaded the model
+list_models()  # verify you've pulled/downloaded the model
 ```
 
 ### Delete a model
@@ -108,7 +108,7 @@ You can see what models you’ve downloaded with `list_models()`. To
 download a model, specify the name of the model.
 
 ``` r
-list_models("df")  # see the models you've pulled/downloaded
+list_models()  # see the models you've pulled/downloaded
 delete("all-minilm:latest")  # returns a httr2 response object
 ```
 

@@ -87,7 +87,7 @@ Download a model from the ollama library (see [API doc](https://github.com/ollam
 ```{r eval=FALSE}
 pull("llama3")  # returns a httr2 response object
 pull("mistral-openorca")
-list_models("df")  # verify you've downloaded the model
+list_models()  # verify you've pulled/downloaded the model
 ```
 
 ### Delete a model
@@ -95,7 +95,7 @@ list_models("df")  # verify you've downloaded the model
 Delete a model and its data (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)). You can see what models you've downloaded with `list_models()`. To download a model, specify the name of the model. 
 
 ```{r eval=FALSE}
-list_models("df")  # see the models you've pulled/downloaded
+list_models()  # see the models you've pulled/downloaded
 delete("all-minilm:latest")  # returns a httr2 response object
 ```
 
