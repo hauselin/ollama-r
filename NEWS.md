@@ -1,3 +1,9 @@
+# ollamar 1.1.1
+
+* Fixes
+
+- Fixed invalid URLs.
+
 # ollamar 1.0.0
 
 * Initial CRAN submission.
