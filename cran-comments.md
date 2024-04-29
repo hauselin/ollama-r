@@ -3,8 +3,7 @@
 This is a resubmission. In this version I have:
 
 * Fixed the invalid URLs.
-
-Note that Ollama is not a misspelling. It is the name of an app or server that runs local language models. See https://ollama.com/.
+* Note that Ollama is not a misspelling. It is the name of an app or server that runs local language models. See https://ollama.com/.
 
 ## R CMD check results
 
