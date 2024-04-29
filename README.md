@@ -11,7 +11,7 @@
 The [Ollama R library](https://hauselin.github.io/ollama-r/) provides
 the easiest way to integrate R with [Ollama](https://ollama.com/), which
 lets you run language models locally on your own machine. Main site:
-<https://github.com/hauselin/ollama-r>
+<https://hauselin.github.io/ollama-r/>
 
 > Note: You should have at least 8 GB of RAM available to run the 7B
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
