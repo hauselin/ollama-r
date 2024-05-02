@@ -1,4 +1,17 @@
 url: https://hauselin.github.io/ollama-r/
 template:
   bootstrap: 5
-
+navbar:
+  structure:
+    left:
+    - intro
+    - reference
+    - news
+    right: github
+  components:
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      text: Changelog
+      href: news/index.html
