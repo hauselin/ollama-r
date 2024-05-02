@@ -51,11 +51,10 @@ test_connection()  # test connection to Ollama server; returns a httr2 response 
 # <httr2_response>
 
 list_models()  # list available models (models you've pulled/downloaded)
-# A tibble: 16 × 4
-   name                     model                    parameter_size quantization_level
-   <chr>                    <chr>                    <chr>          <chr>             
- 1 mixtral:latest           mixtral:latest           47B            Q4_0              
- 2 llama3:latest            llama3:latest            8B             Q4_0              
+   name                     size    parameter_size quantization_level modified           
+   <chr>                    <chr>   <chr>          <chr>              <chr>              
+ 1 llama3:latest            4.7 GB  8B             Q4_0               2024-05-01T21:01:00
+ 2 mistral-openorca:latest  4.1 GB  7B             Q4_0               2024-04-25T16:45:00
 ```
 
 ### Notes
@@ -81,12 +80,18 @@ the Ollama server.
 
 ``` r
 resp <- list_models(output = "resp")  # returns a httr2 response object
+# <httr2_response>
+# GET http://127.0.0.1:11434/api/tags
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (5401 bytes)
 
 # process the httr2 response object with the resp_process() function
 resp_process(resp, "df")
 resp_process(resp, "jsonlist")  # list
 resp_process(resp, "raw")  # raw string
 resp_process(resp, "resp")  # returns the input httr2 response object
+resp_process(resp, "text")  # text vector
 ```
 
 ### Pull/download model
@@ -97,8 +102,8 @@ For the list of models you can pull/download, see [Ollama
 library](https://ollama.com/library).
 
 ``` r
-pull("llama3")  # returns a httr2 response object
-pull("mistral-openorca")
+pull("llama3")  # pull/download llama3 model
+pull("mistral-openorca")  # pull/download mistral-openorca model
 list_models()  # verify you've pulled/downloaded the model
 ```
 
@@ -123,10 +128,12 @@ doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-comp
 messages <- list(
     list(role = "user", content = "Who is the prime minister of the uk?")
 )
-chat("llama3", messages)  # returns httr2 response object
-chat("llama3", messages, output = "df")  # data frame/tibble
-chat("llama3", messages, output = "raw")  # raw string
-chat("llama3", messages, output = "jsonlist")  # list
+resp <- chat("llama3", messages)  # default returns httr2 response object
+resp  # <httr2_response>
+chat("llama3", messages, "df")  # data frame/tibble
+chat("llama3", messages, "raw")  # raw string
+chat("llama3", messages, "jsonlist")  # list
+chat("llama3", messages, "text")  # text vector
 
 messages <- list(
     list(role = "user", content = "Hello!"),
@@ -135,7 +142,7 @@ messages <- list(
     list(role = "assistant", content = "Rishi Sunak"),
     list(role = "user", content = "List all the previous messages.")
 )
-chat("llama3", messages)
+chat("llama3", messages, "text")
 ```
 
 #### Streaming responses
@@ -148,7 +155,10 @@ messages <- list(
     list(role = "assistant", content = "Rishi Sunak"),
     list(role = "user", content = "List all the previous messages.")
 )
-chat("llama3", messages, stream = TRUE)
+
+# use "llama3" model, provide list of messages, return text/vector output, and stream the output
+chat("llama3", messages, "text", TRUE)
+# chat(model = "llama3", messages = messages, output = "text", stream = TRUE)  # same as above
 ```
 
 ### Embeddings
@@ -192,7 +202,8 @@ Generate a response for a given prompt (see [API
 doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)).
 
 ``` r
-generate("llama3", "Tomorrow is a...", stream = TRUE)
-generate("llama3", "Tomorrow is a...", output = "df")
-generate("llama3", "Tomorrow is a...", stream = TRUE, output = "df")
+generate("llama3", "Tomorrow is a...", output = "text")
+generate("llama3", "Tomorrow is a...", stream = TRUE)  # return httr2 response object and stream output
+generate("llama3", "Tomorrow is a...", output = "df", stream = TRUE)
+generate("llama3", "Tomorrow is a...", "text", TRUE)  # return text/vector output and stream output
 ```

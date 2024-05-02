@@ -12,6 +12,7 @@ package_config <- list(
 #' Creates a httr2 request object with base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
 #'
 #' @param endpoint The endpoint to create the request
+#' @param address The base URL to use. Default is NULL, which uses http://127.0.0.1:11434
 #'
 #' @return A httr2 request object.
 #' @export
@@ -20,8 +21,10 @@ package_config <- list(
 #' create_request("/api/tags")
 #' create_request("/api/chat")
 #' create_request("/api/embeddings")
-create_request <- function(endpoint) {
-    url <- package_config$baseurls[1]
+create_request <- function(endpoint, address = NULL) {
+
+    url <- package_config$baseurls[1]  # use default base URL
+    if (!is.null(address)) url <- address  # use custom base URL
     url <- httr2::url_parse(url)
     url$path <- endpoint
     req <- httr2::request(httr2::url_build(url))
@@ -48,8 +51,11 @@ create_request <- function(endpoint) {
 #' list_models("resp")
 #' list_models("jsonlist")
 #' list_models("raw")
-list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = "/api/tags") {
+list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags") {
 
+    if (!output[1] %in% c("df", "resp", "jsonlist", "raw", "text")) {
+        stop("Invalid output format specified. Supported formats are 'df', 'resp', 'jsonlist', 'raw', 'text'.")
+    }
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "GET")
     tryCatch({
@@ -67,8 +73,8 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = 
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param messages A list with list of messages for the model (see examples below).
+#' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
-#' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df".
 #' @param endpoint The endpoint to chat with the model. Default is "/api/chat".
 #'
 #' @return A httr2 response object, json list, raw or data frame.
@@ -79,9 +85,10 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = 
 #' messages <- list(
 #'  list(role = "user", content = "How are you doing?")
 #' )
-#' chat("llama3", messages)
-#' chat("llama3", messages, stream = TRUE)
-#' chat("llama3", messages, stream = TRUE, output = "df")
+#' chat("llama3", messages)  # returns response by default
+#' chat("llama3", messages, "text")  # returns text/vector
+#' chat("llama3", messages, stream = TRUE)  # stream response
+#' chat("llama3", messages, output = "df", stream = TRUE)  # stream and return dataframe
 #'
 #' # multiple messages
 #' messages <- list(
@@ -92,7 +99,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw"), endpoint = 
 #'  list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
-chat <- function(model, messages, stream = FALSE, output = c("resp", "jsonlist", "raw", "df"), endpoint = "/api/chat") {
+chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/chat") {
 
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
@@ -167,6 +174,10 @@ chat <- function(model, messages, stream = FALSE, output = c("resp", "jsonlist",
 
     if (output[1] == "df") {
         return(df_response)
+    }
+
+    if (output[1] == "text") {
+        return(paste0(df_response$content, collapse = ""))
     }
 
     return(resp)
@@ -317,8 +328,8 @@ embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddi
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param prompt A character string of the promp like "The sky is..."
+#' @param output A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
-#' @param output A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df".
 #' @param endpoint The endpoint to generate the completion. Default is "/api/generate".
 #'
 #' @return A response in the format specified in the output parameter.
@@ -328,7 +339,7 @@ embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddi
 #' generate("llama3", "The sky is...", stream = FALSE, output = "df")
 #' generate("llama3", "The sky is...", stream = TRUE, output = "df")
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
-generate <- function(model, prompt, stream = FALSE, output = c("resp", "jsonlist", "raw", "df"), endpoint = "/api/generate") {
+generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/generate") {
 
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
@@ -401,6 +412,10 @@ generate <- function(model, prompt, stream = FALSE, output = c("resp", "jsonlist
 
     if (output[1] == "df") {
         return(df_response)
+    }
+
+    if (output[1] == "text") {
+        return(paste0(df_response$response, collapse = ""))
     }
 
     return(resp)

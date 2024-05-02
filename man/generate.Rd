@@ -7,8 +7,8 @@
 generate(
   model,
   prompt,
+  output = c("resp", "jsonlist", "raw", "df", "text"),
   stream = FALSE,
-  output = c("resp", "jsonlist", "raw", "df"),
   endpoint = "/api/generate"
 )
 }
@@ -17,9 +17,9 @@ generate(
 
 \item{prompt}{A character string of the promp like "The sky is..."}
 
-\item{stream}{Enable response streaming. Default is FALSE.}
+\item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".}
 
-\item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df".}
+\item{stream}{Enable response streaming. Default is FALSE.}
 
 \item{endpoint}{The endpoint to generate the completion. Default is "/api/generate".}
 }

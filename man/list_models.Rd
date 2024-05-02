@@ -5,7 +5,7 @@
 \title{Get available local models}
 \usage{
 list_models(
-  output = c("df", "resp", "jsonlist", "raw"),
+  output = c("df", "resp", "jsonlist", "raw", "text"),
   endpoint = "/api/tags"
 )
 }

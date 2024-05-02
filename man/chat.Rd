@@ -7,8 +7,8 @@
 chat(
   model,
   messages,
+  output = c("resp", "jsonlist", "raw", "df", "text"),
   stream = FALSE,
-  output = c("resp", "jsonlist", "raw", "df"),
   endpoint = "/api/chat"
 )
 }
@@ -17,9 +17,9 @@ chat(
 
 \item{messages}{A list with list of messages for the model (see examples below).}
 
-\item{stream}{Enable response streaming. Default is FALSE.}
+\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".}
 
-\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df".}
+\item{stream}{Enable response streaming. Default is FALSE.}
 
 \item{endpoint}{The endpoint to chat with the model. Default is "/api/chat".}
 }
@@ -35,9 +35,10 @@ Chat with Ollama models
 messages <- list(
  list(role = "user", content = "How are you doing?")
 )
-chat("llama3", messages)
-chat("llama3", messages, stream = TRUE)
-chat("llama3", messages, stream = TRUE, output = "df")
+chat("llama3", messages)  # returns response by default
+chat("llama3", messages, "text")  # returns text/vector
+chat("llama3", messages, stream = TRUE)  # stream response
+chat("llama3", messages, output = "df", stream = TRUE)  # stream and return dataframe
 
 # multiple messages
 messages <- list(
