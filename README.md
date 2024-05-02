@@ -236,9 +236,9 @@ resp_process(resp, "text")  # text vector
 #### Utility/helper functions to format and prepare messages for the `chat()` function
 
 Internally, messages are represented as a `list` of many distinct `list`
-messages. Each list/message object has two elements: `role` (either
-“user” or “assistant” or “system) and `content` (the message text). The
-example below shows how the messages/lists are presented.
+messages. Each list/message object has two elements: `role` (can be
+`"user"` or `"assistant"` or `"system"`) and `content` (the message
+text). The example below shows how the messages/lists are presented.
 
 ``` r
 list(  # main list containing all the messages

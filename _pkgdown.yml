@@ -1,3 +1,32 @@
 url: https://hauselin.github.io/ollama-r/
+
 template:
   bootstrap: 5
+
+reference:
+  - title: API calls
+    desc: Functions to make calls to the Ollama server/API
+    contents:
+      - list_models
+      - pull
+      - delete
+      - generate
+      - chat
+      - embeddings
+      - test_connection
+      - create_request
+
+  - subtitle: Utility or convenience functions
+    desc: Functions that are useful for working with the Ollama API
+    contents:
+      - resp_process
+      - create_message
+      - append_message
+      - prepend_message
+      - delete_message
+      - insert_message
+
+  - subtitle: Miscellaneous functions and variables
+    desc: Functions and variables used internally by the package
+    contents:
+      - package_config
