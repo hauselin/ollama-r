@@ -18,4 +18,5 @@ Imports:
     httr2,
     jsonlite,
     tibble
-URL: https://hauselin.github.io/ollama-r/
+BugReports: https://github.com/hauselin/ollama-r/issues
+URL: https://hauselin.github.io/ollama-r/, https://github.com/hauselin/ollama-r

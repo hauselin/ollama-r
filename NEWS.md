@@ -2,7 +2,8 @@
 
 ## Bug fixes
 
-- Fixed invalid URLs.
+- Fixed invalid URLs. 
+- Updated title and description. 
 
 # ollamar 1.0.0
 
