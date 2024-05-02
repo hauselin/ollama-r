@@ -2,8 +2,10 @@
 
 export(append_message)
 export(chat)
+export(create_message)
 export(create_request)
 export(delete)
+export(delete_message)
 export(embeddings)
 export(generate)
 export(insert_message)

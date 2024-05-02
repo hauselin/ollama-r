@@ -88,6 +88,24 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
 
 
 
+#' Create a message
+#'
+#' @param content The content of the message.
+#' @param role The role of the message. Can be "user", "system", "assistant". Default is "user".
+#'
+#' @return A list of messages.
+#' @export
+#'
+#' @examples
+#' create_message("Hello", "user")
+#' create_message("Always respond nicely", "system")
+#' create_message("I am here to help", "assistant")
+create_message <- function(content, role = "user") {
+    message <- list(list(role = role, content = content))
+    return(message)
+}
+
+
 
 #' Append message to a list
 #'
@@ -147,7 +165,7 @@ prepend_message <- function(content, role = "user", x = NULL) {
 #' @param content The content of the message.
 #' @param role The role of the message. Can be "user", "system", "assistant". Default is "user".
 #' @param x A list of messages. Default is NULL.
-#' @param position The position at which to insert the new message. Must be a positive integer. Default is 1.
+#' @param position The position at which to insert the new message. Default is -1 (end of list).
 #'
 #' @return A list of messages with the new message inserted at the specified position.
 #' @export
@@ -157,22 +175,50 @@ prepend_message <- function(content, role = "user", x = NULL) {
 #'     list(role = "system", content = "Be friendly"),
 #'     list(role = "user", content = "How are you?")
 #'     )
-#' insert_message("INSERT MESSAGE", "user", messages, 1)
-insert_message <- function(content, role = "user", x = NULL, position = 1) {
+#' insert_message("INSERT MESSAGE AT THE END", "user", messages)
+#' insert_message("INSERT MESSAGE AT THE BEGINNING", "user", messages, 2)
+insert_message <- function(content, role = "user", x = NULL, position = -1) {
 
-    if (position > length(x) + 1 || position < 1) {
-        stop("Position out of valid range. Please specify a position between 1 and ", length(x) + 1)
-    }
-
+    if (position == -1) position <- length(x) + 1
     new_message <- list(role = role, content = content)
     if (is.null(x)) {
-        x <- list()
         return(list(new_message))
     }
-
     if (position == 1) return(prepend_message(content, role, x))
     if (position == length(x) + 1) return(append_message(content, role, x))
     x <- c(x[1:(position - 1)], list(new_message), x[position:length(x)])
 
     return(x)
+}
+
+
+
+
+#' Delete a message in a specified position from a list
+#'
+#' Delete a message using positive or negative positions/indices.
+#' Negative positions/indices can be used to refer to
+#' elements/messages from the end of the sequence.
+#'
+#' @param x A list of messages.
+#' @param position The position of the message to delete.
+#'
+#' @return A list of messages with the message at the specified position removed.
+#' @export
+#'
+#' @examples
+#' messages <- list(
+#'     list(role = "system", content = "Be friendly"),
+#'     list(role = "user", content = "How are you?")
+#'     )
+#' delete_message(messages, 1)  # delete first message
+#' delete_message(messages, -2)  # same as above (delete first message)
+#' delete_message(messages, 2)  # delete second message
+#' delete_message(messages, -1)  # same as above (delete second message)
+delete_message <- function(x, position = -1) {
+    if (position == 0 || abs(position) > length(x)) {
+        stop("Position out of valid range.")
+    }
+    if (position < 0) position <- length(x) + position + 1
+    return(x[-position])
 }

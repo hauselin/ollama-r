@@ -4,7 +4,7 @@
 \alias{insert_message}
 \title{Insert message into a list at a specified position}
 \usage{
-insert_message(content, role = "user", x = NULL, position = 1)
+insert_message(content, role = "user", x = NULL, position = -1)
 }
 \arguments{
 \item{content}{The content of the message.}
@@ -13,7 +13,7 @@ insert_message(content, role = "user", x = NULL, position = 1)
 
 \item{x}{A list of messages. Default is NULL.}
 
-\item{position}{The position at which to insert the new message. Must be a positive integer. Default is 1.}
+\item{position}{The position at which to insert the new message. Default is -1 (end of list).}
 }
 \value{
 A list of messages with the new message inserted at the specified position.
@@ -27,5 +27,6 @@ messages <- list(
     list(role = "system", content = "Be friendly"),
     list(role = "user", content = "How are you?")
     )
-insert_message("INSERT MESSAGE", "user", messages, 1)
+insert_message("INSERT MESSAGE AT THE END", "user", messages)
+insert_message("INSERT MESSAGE AT THE BEGINNING", "user", messages, 2)
 }
