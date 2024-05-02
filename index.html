@@ -85,6 +85,7 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
+<p><code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server, so many functions in this library returns an <code>httr2_response</code> object by default. See <a href="#notes">Notes section</a> below for more information.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">test_connection</span>()  <span class="co"># test connection to Ollama server; returns a httr2 response object</span></span>
@@ -92,59 +93,56 @@
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># &lt;httr2_response&gt;</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">list_models</span>()  <span class="co"># list available models (models you've pulled/downloaded)</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># A tibble: 16 × 4</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>   name                     model                    parameter_size quantization_level</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>                    <span class="er">&lt;</span>chr<span class="sc">&gt;</span>                    <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>chr<span class="sc">&gt;</span>             </span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a> <span class="dv">1</span> mixtral<span class="sc">:</span>latest           mixtral<span class="sc">:</span>latest           <span class="dv">47</span>B            Q4_0              </span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a> <span class="dv">2</span> llama3<span class="sc">:</span>latest            llama3<span class="sc">:</span>latest            <span class="dv">8</span>B             Q4_0              </span></code></pre></div>
-<div class="section level3">
-<h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
-</h3>
-<p>Optional/advanced parameters (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md" class="external-link">API docs</a>) such as <code>temperature</code> are not yet implemented as of now but will be implemented in future versions.</p>
-<p>If you don’t have the Ollama app running, you’ll get an error. Make sure to open the Ollama app before using this library.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/test_connection.html">test_connection</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># Ollama local server not running or wrong server.</span></span>
-<span><span class="co"># Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:</span></span></code></pre></div>
-<p>If a function in the library returns an <code>httr2_response</code> object, you can parse the output with <code><a href="reference/resp_process.html">resp_process()</a></code>. <code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"resp"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span>
-<span></span>
-<span><span class="co"># process the httr2 response object with the resp_process() function</span></span>
-<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"df"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
-<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
-<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"resp"</span><span class="op">)</span>  <span class="co"># returns the input httr2 response object</span></span></code></pre></div>
-</div>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>   name                     size    parameter_size quantization_level modified           </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>                    <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>chr<span class="sc">&gt;</span>              <span class="er">&lt;</span>chr<span class="sc">&gt;</span>              </span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a> <span class="dv">1</span> llama3<span class="sc">:</span>latest            <span class="fl">4.7</span> GB  <span class="dv">8</span>B             Q4_0               <span class="dv">2024-05-01</span>T21<span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="dv">00</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a> <span class="dv">2</span> mistral<span class="sc">-</span>openorca<span class="sc">:</span>latest  <span class="fl">4.1</span> GB  <span class="dv">7</span>B             Q4_0               <span class="dv">2024-04-25</span>T16<span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">00</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pulldownload-model">Pull/download model<a class="anchor" aria-label="anchor" href="#pulldownload-model"></a>
 </h3>
 <p>Download a model from the ollama library (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#pull-a-model" class="external-link">API doc</a>). For the list of models you can pull/download, see <a href="https://ollama.com/library" class="external-link">Ollama library</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"llama3"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span>
-<span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"mistral-openorca"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"llama3"</span><span class="op">)</span>  <span class="co"># pull/download llama3 model</span></span>
+<span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"mistral-openorca"</span><span class="op">)</span>  <span class="co"># pull/download mistral-openorca model</span></span>
 <span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># verify you've pulled/downloaded the model</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="delete-a-model">Delete a model<a class="anchor" aria-label="anchor" href="#delete-a-model"></a>
 </h3>
 <p>Delete a model and its data (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model" class="external-link">API doc</a>). You can see what models you’ve downloaded with <code><a href="reference/list_models.html">list_models()</a></code>. To download a model, specify the name of the model.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># see the models you've pulled/downloaded</span></span>
 <span><span class="fu"><a href="reference/delete.html">delete</a></span><span class="op">(</span><span class="st">"all-minilm:latest"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="generate-a-completion">Generate a completion<a class="anchor" aria-label="anchor" href="#generate-a-completion"></a>
+</h3>
+<p>Generate a response for a given prompt (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion" class="external-link">API doc</a>).</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span><span class="op">)</span>  <span class="co"># return httr2 response object by default</span></span>
+<span><span class="va">resp</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># process the response to return text/vector output</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>  <span class="co"># directly return text/vector output</span></span>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># return httr2 response object and stream output</span></span>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"df"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, <span class="st">"text"</span>, <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># return text/vector output and stream output</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="chat">Chat<a class="anchor" aria-label="anchor" href="#chat"></a>
 </h3>
-<p>Generate the next message in a chat (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion" class="external-link">API doc</a>).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Generate the next message in a chat (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion" class="external-link">API doc</a>). See the <a href="#notes">Notes section</a> for utility/helper functions to help you format/prepare the messages for the functions/API calls.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span><span class="op">)</span>  <span class="co"># returns httr2 response object</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span>  <span class="co"># data frame/tibble</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
+<span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span><span class="op">)</span>  <span class="co"># default returns httr2 response object</span></span>
+<span><span class="va">resp</span>  <span class="co"># &lt;httr2_response&gt;</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"df"</span><span class="op">)</span>  <span class="co"># data frame/tibble</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># text vector</span></span>
 <span></span>
 <span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,</span>
@@ -153,11 +151,11 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"text"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="streaming-responses">Streaming responses<a class="anchor" aria-label="anchor" href="#streaming-responses"></a>
 </h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,</span>
@@ -165,7 +163,10 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># use "llama3" model, provide list of messages, return text/vector output, and stream the output</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"text"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># chat(model = "llama3", messages = messages, output = "text", stream = TRUE)  # same as above</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -176,12 +177,12 @@
 <li>cosine similarity can be computed slightly faster using just a dot product</li>
 <li>cosine similarity and Euclidean distance will result in the identical rankings</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># don't normalize embeddings</span></span>
 <span><span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get embeddings for similar prompts</span></span>
 <span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
 <span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span><span class="op">)</span></span>
@@ -197,13 +198,106 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e3</span> <span class="op">*</span> <span class="va">e3</span><span class="op">)</span>  <span class="co"># 24067.32</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="generate-a-completion">Generate a completion<a class="anchor" aria-label="anchor" href="#generate-a-completion"></a>
+<h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h3>
-<p>Generate a response for a given prompt (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion" class="external-link">API doc</a>).</p>
+<div class="section level4">
+<h4 id="optionaladvanced-parameters">Optional/advanced parameters<a class="anchor" aria-label="anchor" href="#optionaladvanced-parameters"></a>
+</h4>
+<p>Optional/advanced parameters (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md" class="external-link">API docs</a>) such as <code>temperature</code> are not yet implemented as of now but will be added in the near future.</p>
+<p>If you don’t have the Ollama app running, you’ll get an error. Make sure to open the Ollama app before using this library.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/test_connection.html">test_connection</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Ollama local server not running or wrong server.</span></span>
+<span><span class="co"># Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="parsing-httr2_response-objects-with-resp_process">Parsing <code>httr2_response</code> objects with <code>resp_process()</code>
+<a class="anchor" aria-label="anchor" href="#parsing-httr2_response-objects-with-resp_process"></a>
+</h4>
+<p><code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server, so many functions in this library returns an <code>httr2_response</code> object by default.</p>
+<p>You can either parse the output with <code><a href="reference/resp_process.html">resp_process()</a></code> or use the <code>output</code> parameter in the function to specify the output format. Generally, the <code>output</code> parameter can be one of <code>"df"</code>, <code>"jsonlist"</code>, <code>"raw"</code>, <code>"resp"</code>, or <code>"text"</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"resp"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span>
+<span><span class="co"># &lt;httr2_response&gt;</span></span>
+<span><span class="co"># GET http://127.0.0.1:11434/api/tags</span></span>
+<span><span class="co"># Status: 200 OK</span></span>
+<span><span class="co"># Content-Type: application/json</span></span>
+<span><span class="co"># Body: In memory (5401 bytes)</span></span>
+<span></span>
+<span><span class="co"># process the httr2 response object with the resp_process() function</span></span>
+<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"df"</span><span class="op">)</span></span>
+<span><span class="co"># or list_models(output = "df")</span></span>
+<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
+<span><span class="co"># or list_models(output = "jsonlist")</span></span>
+<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
+<span><span class="co"># or list_models(output = "raw")</span></span>
+<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"resp"</span><span class="op">)</span>  <span class="co"># returns the input httr2 response object</span></span>
+<span><span class="co"># or list_models() or list_models("resp")</span></span>
+<span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># text vector</span></span>
+<span><span class="co"># or list_models("text")</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="utilityhelper-functions-to-format-and-prepare-messages-for-the-chat-function">Utility/helper functions to format and prepare messages for the <code>chat()</code> function<a class="anchor" aria-label="anchor" href="#utilityhelper-functions-to-format-and-prepare-messages-for-the-chat-function"></a>
+</h4>
+<p>Internally, messages are represented as a <code>list</code> of many distinct <code>list</code> messages. Each list/message object has two elements: <code>role</code> (either “user” or “assistant” or “system) and <code>content</code> (the message text). The example below shows how the messages/lists are presented.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>  <span class="co"># main list containing all the messages</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,  <span class="co"># first message as a list</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,  <span class="co"># second message as a list</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span>,  <span class="co"># third message as a list</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,  <span class="co"># fourth message as a list</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span>  <span class="co"># fifth message as a list</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>To simplify the process of creating and managing messages, <code>ollamar</code> provides utility/helper functions to format and prepare messages for the <code><a href="reference/chat.html">chat()</a></code> function.</p>
+<ul>
+<li>
+<code><a href="reference/create_message.html">create_message()</a></code> creates the first message</li>
+<li>
+<code><a href="reference/append_message.html">append_message()</a></code> adds a new message to the end of the existing messages</li>
+<li>
+<code><a href="reference/prepend_message.html">prepend_message()</a></code> adds a new message to the beginning of the existing messages</li>
+<li>
+<code><a href="reference/insert_message.html">insert_message()</a></code> inserts a new message at a specific index in the existing messages
+<ul>
+<li>by default, it inserts the message at the -1 (final) position</li>
+</ul>
+</li>
+<li>
+<code><a href="reference/delete_message.html">delete_message()</a></code> delete a message at a specific index in the existing messages
+<ul>
+<li>positive and negative indices/positions are supported</li>
+<li>if there are 5 messages, the positions are 1 (-5), 2 (-4), 3 (-3), 4 (-2), 5 (-1)</li>
+</ul>
+</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># create first message</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span>content <span class="op">=</span> <span class="st">"Hi! How are you? (1ST MESSAGE)"</span>, role <span class="op">=</span> <span class="st">"assistant"</span><span class="op">)</span></span>
+<span><span class="co"># or simply, messages &lt;- create_message("Hi! How are you?", "assistant")</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 1st message</span></span>
+<span></span>
+<span><span class="co"># append (add to the end) a new message to the existing messages</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/append_message.html">append_message</a></span><span class="op">(</span><span class="st">"I'm good. How are you? (2ND MESSAGE)"</span>, <span class="st">"user"</span>, <span class="va">messages</span><span class="op">)</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 1st message</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 2nd message (newly added message)</span></span>
+<span></span>
+<span><span class="co"># prepend (add to the beginning) a new message to the existing messages</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepend_message.html">prepend_message</a></span><span class="op">(</span><span class="st">"I'm good. How are you? (0TH MESSAGE)"</span>, <span class="st">"user"</span>, <span class="va">messages</span><span class="op">)</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 0th message (newly added message)</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 1st message</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 2nd message</span></span>
+<span></span>
+<span><span class="co"># insert a new message at a specific index/position (2nd position in the example below)</span></span>
+<span><span class="co"># by default, the message is inserted at the end of the existing messages (position -1 is the end/default)</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/insert_message.html">insert_message</a></span><span class="op">(</span><span class="st">"I'm good. How are you? (BETWEEN 0 and 1 MESSAGE)"</span>, <span class="st">"user"</span>, <span class="va">messages</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 0th message</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get between 0 and 1 message (newly added message)</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 1st message</span></span>
+<span><span class="va">messages</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 2nd message</span></span>
+<span></span>
+<span><span class="co"># delete a message at a specific index/position (2nd position in the example below)</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/delete_message.html">delete_message</a></span><span class="op">(</span><span class="va">messages</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 </div>
 </div>
