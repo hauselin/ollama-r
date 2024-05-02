@@ -39,16 +39,16 @@ create_request <- function(endpoint, address = NULL) {
 
 #' Get available local models
 #'
-#' @param output The output format. Default is "df". Other options are "resp", "jsonlist", "raw".
+#' @param output The output format. Default is "df". Other options are "resp", "jsonlist", "raw", "text".
 #' @param endpoint The endpoint to get the models. Default is "/api/tags".
 #'
-#' @return A httr2 response object, json list, raw or data frame. Default is "df".
+#' @return A response in the format specified in the output parameter.
 #' @export
 #'
 #' @examplesIf test_connection()$status_code == 200
 #' list_models()  # returns dataframe/tibble by default
 #' list_models("df")
-#' list_models("resp")
+#' list_models("resp")  # httr2 response object
 #' list_models("jsonlist")
 #' list_models("raw")
 list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags") {
@@ -77,7 +77,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' @param stream Enable response streaming. Default is FALSE.
 #' @param endpoint The endpoint to chat with the model. Default is "/api/chat".
 #'
-#' @return A httr2 response object, json list, raw or data frame.
+#' @return A response in the format specified in the output parameter.
 #' @export
 #'
 #' @examplesIf test_connection()$status_code == 200

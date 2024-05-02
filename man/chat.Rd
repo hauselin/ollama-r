@@ -24,7 +24,7 @@ chat(
 \item{endpoint}{The endpoint to chat with the model. Default is "/api/chat".}
 }
 \value{
-A httr2 response object, json list, raw or data frame.
+A response in the format specified in the output parameter.
 }
 \description{
 Chat with Ollama models

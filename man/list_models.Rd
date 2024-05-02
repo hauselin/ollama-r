@@ -10,12 +10,12 @@ list_models(
 )
 }
 \arguments{
-\item{output}{The output format. Default is "df". Other options are "resp", "jsonlist", "raw".}
+\item{output}{The output format. Default is "df". Other options are "resp", "jsonlist", "raw", "text".}
 
 \item{endpoint}{The endpoint to get the models. Default is "/api/tags".}
 }
 \value{
-A httr2 response object, json list, raw or data frame. Default is "df".
+A response in the format specified in the output parameter.
 }
 \description{
 Get available local models
@@ -24,7 +24,7 @@ Get available local models
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 list_models()  # returns dataframe/tibble by default
 list_models("df")
-list_models("resp")
+list_models("resp")  # httr2 response object
 list_models("jsonlist")
 list_models("raw")
 \dontshow{\}) # examplesIf}
