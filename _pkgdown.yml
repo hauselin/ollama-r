@@ -16,6 +16,14 @@ reference:
       - test_connection
       - create_request
 
+  - subtitle: Options available for the models
+    desc: Functions to get information about the options available
+    contents:
+      - check_option_valid
+      - check_options
+      - search_options
+      - validate_options
+
   - subtitle: Utility or convenience functions
     desc: Functions that are useful for working with the Ollama API
     contents:
@@ -30,3 +38,4 @@ reference:
     desc: Functions and variables used internally by the package
     contents:
       - package_config
+      - model_options
