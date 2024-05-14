@@ -7,6 +7,7 @@ package_config <- list(
 )
 
 
+
 #' Create a httr2 request object.
 #'
 #' Creates a httr2 request object with base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.

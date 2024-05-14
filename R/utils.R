@@ -222,3 +222,8 @@ delete_message <- function(x, position = -1) {
     if (position < 0) position <- length(x) + position + 1
     return(x[-position])
 }
+
+
+
+
+
