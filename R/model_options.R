@@ -127,7 +127,3 @@ validate_options <- function(...) {
     return(TRUE)
 }
 
-
-validate_options(mirostat = 1, mirostat_eta = 0.2, num_ctx = 1024)
-xx <- validate_options(mirostat = 1, mirostat_eta = 0.2, abc = 1024)
-
