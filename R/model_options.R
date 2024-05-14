@@ -156,6 +156,9 @@ search_options <- function(query) {
 #' validate_options(mirostat = 1, mirostat_eta = 0.2, invalid_opt = 1024)
 validate_options <- function(...) {
     opts <- list(...)
+    if (length(opts) == 0) {
+        return(TRUE)
+    }
     opts_validity <- check_options(names(opts))
     if (length(opts_validity$invalid_options > 0)) {
         invalid <- opts_validity$invalid_options

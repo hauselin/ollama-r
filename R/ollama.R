@@ -291,18 +291,31 @@ normalize <- function(x) {
 #' @param model A character string of the model name such as "llama3".
 #' @param prompt A character string of the prompt that you want to get the vector embedding for.
 #' @param normalize Normalize the vector to length 1. Default is TRUE.
+#' @param keep_alive The time to keep the connection alive. Default is "5m" (5 minutes).
 #' @param endpoint The endpoint to get the vector embedding. Default is "/api/embeddings".
+#' @param ... Additional options to pass to the model.
 #'
 #' @return A numeric vector of the embedding.
 #' @export
 #'
 #' @examplesIf test_connection()$status_code == 200
 #' embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
-embeddings <- function(model, prompt, normalize = TRUE, endpoint = "/api/embeddings") {
+embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", ...) {
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
 
-    body_json <- list(model = model, prompt = prompt)
+    opts <- list(...)
+    if (length(opts) == 0) {
+        body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive)
+    } else {
+        if (validate_options(...)) {
+            body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive, options = opts)
+        } else {
+            stop("Invalid model options passed to ... argument. Please check the model options and try again.")
+        }
+    }
+
+    # body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive)
     req <- httr2::req_body_json(req, body_json)
 
     tryCatch({
