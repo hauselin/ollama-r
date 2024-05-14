@@ -35,5 +35,7 @@ Get vector embedding for a prompt
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
+# pass model options to the model
+embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
 \dontshow{\}) # examplesIf}
 }

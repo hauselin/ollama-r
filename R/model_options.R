@@ -1,7 +1,7 @@
 #' Model options
 model_options <- list(
     mirostat = list(
-        description = "Enable Mirostat sampling for controlling perplexity.",
+        description = "Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)",
         default_value = 0
     ),
     mirostat_eta = list(
@@ -17,7 +17,7 @@ model_options <- list(
         default_value = 2048
     ),
     repeat_last_n = list(
-        description = "Sets how far back for the model to look back to prevent repetition.",
+        description = "Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)",
         default_value = 64
     ),
     repeat_penalty = list(

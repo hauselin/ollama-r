@@ -300,6 +300,8 @@ normalize <- function(x) {
 #'
 #' @examplesIf test_connection()$status_code == 200
 #' embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
+#' # pass model options to the model
+#' embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
 embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", ...) {
     req <- create_request(endpoint)
     req <- httr2::req_method(req, "POST")
