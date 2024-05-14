@@ -1,4 +1,4 @@
-# https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
+#' Model options
 model_options <- list(
     mirostat = list(
         description = "Enable Mirostat sampling for controlling perplexity.",
@@ -54,12 +54,35 @@ model_options <- list(
     )
 )
 
+
+
+
+#' Check if an option is valid.
+#'
+#' @param opt An option (character) to check.
+#'
+#' @return Returns TRUE if the option is valid, FALSE otherwise.
+#' @export
+#'
+#' @examples
+#' check_option_valid("mirostat")
+#' check_option_valid("invalid_option")
 check_option_valid <- function(opt) {
     return(opt %in% names(model_options))
 }
 
 
 
+#' Check if a vector of options are valid.
+#'
+#' @param opts A vector of options to check.
+#'
+#' @return Returns a list with two elements: valid_options and invalid_options.
+#' @export
+#'
+#' @examples
+#' check_options(c("mirostat", "invalid_option"))
+#' check_options(c("mirostat", "num_predict"))
 check_options <- function(opts = NULL) {
     if (is.null(opts)) {
         return(names(model_options))
@@ -77,6 +100,20 @@ check_options <- function(opts = NULL) {
 }
 
 
+#' Search for options based on a query.
+#'
+#' @param query A query (character) to search for in the options.
+#'
+#' @importFrom crayon green
+#' @importFrom crayon red
+#'
+#' @return Returns a list of matching options.
+#' @export
+#'
+#' @examples
+#' search_options("learning rate")
+#' search_options("tokens")
+#' search_options("invalid query")
 search_options <- function(query) {
     matching_options <- list()
     option_names <- names(model_options)
@@ -92,9 +129,9 @@ search_options <- function(query) {
         }
     }
     if (length(matching_options) == 0) {
-        message("No matching options found")
+        cat(crayon::red("No matching options found\n"))
     } else {
-        message(paste0("Matching options: ", paste(names(matching_options), collapse = ", ")))
+        cat(crayon::green(paste0("Matching options: ", paste(names(matching_options), collapse = ", "))), "\n")
     }
     return(matching_options)
 }
@@ -108,7 +145,12 @@ search_options <- function(query) {
 #'
 #' @param ... Additional options or parameters provided to the API call
 #'
+#' @importFrom crayon green
+#' @importFrom crayon red
+#'
 #' @return TRUE if all additional options are valid, FALSE otherwise
+#' @export
+#'
 #' @examples
 #' validate_options(mirostat = 1, mirostat_eta = 0.2, num_ctx = 1024)
 #' validate_options(mirostat = 1, mirostat_eta = 0.2, invalid_opt = 1024)
