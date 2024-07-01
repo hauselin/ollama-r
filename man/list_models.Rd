@@ -6,13 +6,16 @@
 \usage{
 list_models(
   output = c("df", "resp", "jsonlist", "raw", "text"),
-  endpoint = "/api/tags"
+  endpoint = "/api/tags",
+  host = NULL
 )
 }
 \arguments{
 \item{output}{The output format. Default is "df". Other options are "resp", "jsonlist", "raw", "text".}
 
 \item{endpoint}{The endpoint to get the models. Default is "/api/tags".}
+
+\item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
 }
 \value{
 A response in the format specified in the output parameter.

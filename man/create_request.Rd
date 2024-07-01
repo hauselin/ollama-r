@@ -4,12 +4,12 @@
 \alias{create_request}
 \title{Create a httr2 request object.}
 \usage{
-create_request(endpoint, address = NULL)
+create_request(endpoint, host = NULL)
 }
 \arguments{
 \item{endpoint}{The endpoint to create the request}
 
-\item{address}{The base URL to use. Default is NULL, which uses http://127.0.0.1:11434}
+\item{host}{The base URL to use. Default is NULL, which uses http://127.0.0.1:11434}
 }
 \value{
 A httr2 request object.

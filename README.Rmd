@@ -47,7 +47,7 @@ If it doesn't work or you don't have `devtools` installed, please run `install.p
 library(ollamar)
 
 test_connection()  # test connection to Ollama server; returns a httr2 response object
-# Ollama local server running
+# Ollama local server running successfully
 # <httr2_response>
 
 list_models()  # list available models (models you've pulled/downloaded)
@@ -102,10 +102,10 @@ messages <- list(
 )
 resp <- chat("llama3", messages)  # default returns httr2 response object
 resp  # <httr2_response>
-chat("llama3", messages, "df")  # data frame/tibble
-chat("llama3", messages, "raw")  # raw string
-chat("llama3", messages, "jsonlist")  # list
-chat("llama3", messages, "text")  # text vector
+chat("llama3", messages, output = "df")  # data frame/tibble
+chat("llama3", messages, output = "raw")  # raw string
+chat("llama3", messages, output = "jsonlist")  # list
+chat("llama3", messages, output = "text", stream = FALSE)  # text vector
 
 messages <- list(
     list(role = "user", content = "Hello!"),
@@ -114,7 +114,7 @@ messages <- list(
     list(role = "assistant", content = "Rishi Sunak"),
     list(role = "user", content = "List all the previous messages.")
 )
-chat("llama3", messages, "text")
+chat("llama3", messages, output = "df")
 ```
 
 #### Streaming responses
@@ -129,7 +129,7 @@ messages <- list(
 )
 
 # use "llama3" model, provide list of messages, return text/vector output, and stream the output
-chat("llama3", messages, "text", TRUE)
+chat("llama3", messages, output = "text", stream = TRUE)
 # chat(model = "llama3", messages = messages, output = "text", stream = TRUE)  # same as above
 ```
 

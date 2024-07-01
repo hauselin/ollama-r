@@ -8,12 +8,28 @@ package_config <- list(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #' Create a httr2 request object.
 #'
 #' Creates a httr2 request object with base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
 #'
 #' @param endpoint The endpoint to create the request
-#' @param address The base URL to use. Default is NULL, which uses http://127.0.0.1:11434
+#' @param host The base URL to use. Default is NULL, which uses http://127.0.0.1:11434
 #'
 #' @return A httr2 request object.
 #' @export
@@ -22,10 +38,13 @@ package_config <- list(
 #' create_request("/api/tags")
 #' create_request("/api/chat")
 #' create_request("/api/embeddings")
-create_request <- function(endpoint, address = NULL) {
+create_request <- function(endpoint, host = NULL) {
 
-    url <- package_config$baseurls[1]  # use default base URL
-    if (!is.null(address)) url <- address  # use custom base URL
+    if (is.null(host)) {
+        url <- package_config$baseurls[1]  # use default base URL
+    } else {
+        url <- host  # use custom base URL
+    }
     url <- httr2::url_parse(url)
     url$path <- endpoint
     req <- httr2::request(httr2::url_build(url))
@@ -42,6 +61,7 @@ create_request <- function(endpoint, address = NULL) {
 #'
 #' @param output The output format. Default is "df". Other options are "resp", "jsonlist", "raw", "text".
 #' @param endpoint The endpoint to get the models. Default is "/api/tags".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A response in the format specified in the output parameter.
 #' @export
@@ -52,12 +72,12 @@ create_request <- function(endpoint, address = NULL) {
 #' list_models("resp")  # httr2 response object
 #' list_models("jsonlist")
 #' list_models("raw")
-list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags") {
+list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags", host = NULL) {
 
     if (!output[1] %in% c("df", "resp", "jsonlist", "raw", "text")) {
         stop("Invalid output format specified. Supported formats are 'df', 'resp', 'jsonlist', 'raw', 'text'.")
     }
-    req <- create_request(endpoint)
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "GET")
     tryCatch({
         resp <- httr2::req_perform(req)
