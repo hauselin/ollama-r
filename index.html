@@ -89,7 +89,7 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">test_connection</span>()  <span class="co"># test connection to Ollama server; returns a httr2 response object</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># Ollama local server running</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># Ollama local server running successfully</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># &lt;httr2_response&gt;</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">list_models</span>()  <span class="co"># list available models (models you've pulled/downloaded)</span></span>
@@ -139,10 +139,10 @@
 <span><span class="op">)</span></span>
 <span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span><span class="op">)</span>  <span class="co"># default returns httr2 response object</span></span>
 <span><span class="va">resp</span>  <span class="co"># &lt;httr2_response&gt;</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"df"</span><span class="op">)</span>  <span class="co"># data frame/tibble</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># text vector</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span>  <span class="co"># data frame/tibble</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span>, stream <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="co"># text vector</span></span>
 <span></span>
 <span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,</span>
@@ -151,7 +151,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"text"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="streaming-responses">Streaming responses<a class="anchor" aria-label="anchor" href="#streaming-responses"></a>
 </h4>
@@ -165,7 +165,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># use "llama3" model, provide list of messages, return text/vector output, and stream the output</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, <span class="st">"text"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># chat(model = "llama3", messages = messages, output = "text", stream = TRUE)  # same as above</span></span></code></pre></div>
 </div>
 </div>
