@@ -316,6 +316,7 @@ normalize <- function(x) {
 #' @param normalize Normalize the vector to length 1. Default is TRUE.
 #' @param keep_alive The time to keep the connection alive. Default is "5m" (5 minutes).
 #' @param endpoint The endpoint to get the vector embedding. Default is "/api/embeddings".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #' @param ... Additional options to pass to the model.
 #'
 #' @return A numeric vector of the embedding.
@@ -325,8 +326,8 @@ normalize <- function(x) {
 #' embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 #' # pass model options to the model
 #' embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
-embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", ...) {
-    req <- create_request(endpoint)
+embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", host = NULL, ...) {
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     opts <- list(...)
