@@ -277,6 +277,7 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull", host = NULL) {
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param endpoint The endpoint to delete the model. Default is "/api/delete".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A httr2 response object.
 #' @export
@@ -285,8 +286,8 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull", host = NULL) {
 #' \dontrun{
 #' delete("llama3")
 #' }
-delete <- function(model, endpoint = "/api/delete") {
-    req <- create_request(endpoint)
+delete <- function(model, endpoint = "/api/delete", host = NULL) {
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "DELETE")
     body_json <- list(model = model)
     req <- httr2::req_body_json(req, body_json)

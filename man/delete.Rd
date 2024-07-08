@@ -4,12 +4,14 @@
 \alias{delete}
 \title{Delete a model}
 \usage{
-delete(model, endpoint = "/api/delete")
+delete(model, endpoint = "/api/delete", host = NULL)
 }
 \arguments{
 \item{model}{A character string of the model name such as "llama3".}
 
 \item{endpoint}{The endpoint to delete the model. Default is "/api/delete".}
+
+\item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
 }
 \value{
 A httr2 response object.
