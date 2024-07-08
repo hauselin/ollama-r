@@ -131,9 +131,6 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
                       messages = messages)
     req <- httr2::req_body_json(req, body_json)
 
-    # Debugging output
-    print(req)
-
     content <- ""
     if (!stream) {
         tryCatch({
@@ -220,6 +217,7 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #' @param model A character string of the model name such as "llama3".
 #' @param stream Enable response streaming. Default is TRUE.
 #' @param endpoint The endpoint to pull the model. Default is "/api/pull".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A httr2 response object.
 #' @export
@@ -227,8 +225,8 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #' @examplesIf test_connection()$status_code == 200
 #' pull("llama3")
 #" pull("all-minilm", stream = FALSE)
-pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
-    req <- create_request(endpoint)
+pull <- function(model, stream = TRUE, endpoint = "/api/pull", host = NULL) {
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model, stream = stream)
