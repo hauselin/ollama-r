@@ -97,6 +97,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
 #' @param endpoint The endpoint to chat with the model. Default is "/api/chat".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A response in the format specified in the output parameter.
 #' @export
@@ -120,15 +121,18 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #'  list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
-chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/chat") {
+chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/chat", host = NULL) {
 
-    req <- create_request(endpoint)
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model,
                       stream = stream,
                       messages = messages)
     req <- httr2::req_body_json(req, body_json)
+
+    # Debugging output
+    print(req)
 
     content <- ""
     if (!stream) {
