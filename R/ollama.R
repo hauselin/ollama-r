@@ -371,6 +371,8 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' @param output A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
 #' @param endpoint The endpoint to generate the completion. Default is "/api/generate".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
 #'
 #' @return A response in the format specified in the output parameter.
 #' @export
@@ -379,9 +381,9 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' generate("llama3", "The sky is...", stream = FALSE, output = "df")
 #' generate("llama3", "The sky is...", stream = TRUE, output = "df")
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
-generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/generate") {
+generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/generate", host = NULL) {
 
-    req <- create_request(endpoint)
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model,
