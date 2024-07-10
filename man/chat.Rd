@@ -9,7 +9,8 @@ chat(
   messages,
   output = c("resp", "jsonlist", "raw", "df", "text"),
   stream = FALSE,
-  endpoint = "/api/chat"
+  endpoint = "/api/chat",
+  host = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ chat(
 \item{stream}{Enable response streaming. Default is FALSE.}
 
 \item{endpoint}{The endpoint to chat with the model. Default is "/api/chat".}
+
+\item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
 }
 \value{
 A response in the format specified in the output parameter.

@@ -9,7 +9,8 @@ generate(
   prompt,
   output = c("resp", "jsonlist", "raw", "df", "text"),
   stream = FALSE,
-  endpoint = "/api/generate"
+  endpoint = "/api/generate",
+  host = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ generate(
 \item{stream}{Enable response streaming. Default is FALSE.}
 
 \item{endpoint}{The endpoint to generate the completion. Default is "/api/generate".}
+
+\item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
 }
 \value{
 A response in the format specified in the output parameter.

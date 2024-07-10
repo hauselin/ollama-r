@@ -10,6 +10,7 @@ embeddings(
   normalize = TRUE,
   keep_alive = "5m",
   endpoint = "/api/embeddings",
+  host = NULL,
   ...
 )
 }
@@ -23,6 +24,8 @@ embeddings(
 \item{keep_alive}{The time to keep the connection alive. Default is "5m" (5 minutes).}
 
 \item{endpoint}{The endpoint to get the vector embedding. Default is "/api/embeddings".}
+
+\item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
 
 \item{...}{Additional options to pass to the model.}
 }

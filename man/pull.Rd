@@ -4,7 +4,7 @@
 \alias{pull}
 \title{Pull/download a model}
 \usage{
-pull(model, stream = TRUE, endpoint = "/api/pull")
+pull(model, stream = TRUE, endpoint = "/api/pull", host = NULL)
 }
 \arguments{
 \item{model}{A character string of the model name such as "llama3".}
@@ -12,6 +12,8 @@ pull(model, stream = TRUE, endpoint = "/api/pull")
 \item{stream}{Enable response streaming. Default is TRUE.}
 
 \item{endpoint}{The endpoint to pull the model. Default is "/api/pull".}
+
+\item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
 }
 \value{
 A httr2 response object.

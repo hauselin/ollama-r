@@ -97,6 +97,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
 #' @param endpoint The endpoint to chat with the model. Default is "/api/chat".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A response in the format specified in the output parameter.
 #' @export
@@ -120,9 +121,9 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #'  list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
-chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/chat") {
+chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/chat", host = NULL) {
 
-    req <- create_request(endpoint)
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model,
@@ -216,6 +217,7 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #' @param model A character string of the model name such as "llama3".
 #' @param stream Enable response streaming. Default is TRUE.
 #' @param endpoint The endpoint to pull the model. Default is "/api/pull".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A httr2 response object.
 #' @export
@@ -223,8 +225,8 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #' @examplesIf test_connection()$status_code == 200
 #' pull("llama3")
 #" pull("all-minilm", stream = FALSE)
-pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
-    req <- create_request(endpoint)
+pull <- function(model, stream = TRUE, endpoint = "/api/pull", host = NULL) {
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model, stream = stream)
@@ -275,6 +277,7 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param endpoint The endpoint to delete the model. Default is "/api/delete".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
 #' @return A httr2 response object.
 #' @export
@@ -283,8 +286,8 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull") {
 #' \dontrun{
 #' delete("llama3")
 #' }
-delete <- function(model, endpoint = "/api/delete") {
-    req <- create_request(endpoint)
+delete <- function(model, endpoint = "/api/delete", host = NULL) {
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "DELETE")
     body_json <- list(model = model)
     req <- httr2::req_body_json(req, body_json)
@@ -313,6 +316,7 @@ normalize <- function(x) {
 #' @param normalize Normalize the vector to length 1. Default is TRUE.
 #' @param keep_alive The time to keep the connection alive. Default is "5m" (5 minutes).
 #' @param endpoint The endpoint to get the vector embedding. Default is "/api/embeddings".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #' @param ... Additional options to pass to the model.
 #'
 #' @return A numeric vector of the embedding.
@@ -322,8 +326,8 @@ normalize <- function(x) {
 #' embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 #' # pass model options to the model
 #' embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
-embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", ...) {
-    req <- create_request(endpoint)
+embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", host = NULL, ...) {
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     opts <- list(...)
@@ -367,6 +371,8 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' @param output A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
 #' @param endpoint The endpoint to generate the completion. Default is "/api/generate".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
 #'
 #' @return A response in the format specified in the output parameter.
 #' @export
@@ -375,9 +381,9 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' generate("llama3", "The sky is...", stream = FALSE, output = "df")
 #' generate("llama3", "The sky is...", stream = TRUE, output = "df")
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
-generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/generate") {
+generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/generate", host = NULL) {
 
-    req <- create_request(endpoint)
+    req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model,
