@@ -1,84 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/404.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/index.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/append_message.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/chat.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/check_option_valid.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/check_options.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/create_message.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/create_request.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/delete.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/delete_message.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/embeddings.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/generate.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/insert_message.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/list_models.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/model_options.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/package_config.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/prepend_message.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/pull.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/resp_process.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/search_options.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/test_connection.html</loc>
-  </url>
-  <url>
-    <loc>https://hauselin.github.io/ollama-r/reference/validate_options.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://hauselin.github.io/ollama-r/404.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/LICENSE-text.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/LICENSE.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/authors.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/index.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/news/index.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/append_message.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/chat.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/check_option_valid.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/check_options.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/create_message.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/create_request.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/delete.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/delete_message.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/embeddings.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/generate.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/index.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/insert_message.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/list_models.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/model_options.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/package_config.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/prepend_message.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/pull.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/resp_process.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/search_options.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/test_connection.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/validate_options.html</loc></url>
 </urlset>
+
