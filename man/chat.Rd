@@ -42,20 +42,20 @@ Chat with Ollama models
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # one message
 messages <- list(
- list(role = "user", content = "How are you doing?")
+    list(role = "user", content = "How are you doing?")
 )
-chat("llama3", messages)  # returns response by default
-chat("llama3", messages, "text")  # returns text/vector
-chat("llama3", messages, stream = TRUE)  # stream response
-chat("llama3", messages, output = "df", stream = TRUE)  # stream and return dataframe
+chat("llama3", messages) # returns response by default
+chat("llama3", messages, "text") # returns text/vector
+chat("llama3", messages, stream = TRUE) # stream response
+chat("llama3", messages, output = "df", stream = TRUE) # stream and return dataframe
 
 # multiple messages
 messages <- list(
- list(role = "user", content = "Hello!"),
- list(role = "assistant", content = "Hi! How are you?"),
- list(role = "user", content = "Who is the prime minister of the uk?"),
- list(role = "assistant", content = "Rishi Sunak"),
- list(role = "user", content = "List all the previous messages.")
+    list(role = "user", content = "Hello!"),
+    list(role = "assistant", content = "Hi! How are you?"),
+    list(role = "user", content = "Who is the prime minister of the uk?"),
+    list(role = "assistant", content = "Rishi Sunak"),
+    list(role = "user", content = "List all the previous messages.")
 )
 chat("llama3", messages, stream = TRUE)
 \dontshow{\}) # examplesIf}

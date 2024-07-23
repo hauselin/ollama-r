@@ -12,6 +12,7 @@ reference:
       - delete
       - generate
       - chat
+      - embed
       - embeddings
       - test_connection
       - create_request

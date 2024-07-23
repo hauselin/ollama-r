@@ -39,18 +39,19 @@ package_config <- list(
 #' create_request("/api/chat")
 #' create_request("/api/embeddings")
 create_request <- function(endpoint, host = NULL) {
-
     if (is.null(host)) {
-        url <- package_config$baseurls[1]  # use default base URL
+        url <- package_config$baseurls[1] # use default base URL
     } else {
-        url <- host  # use custom base URL
+        url <- host # use custom base URL
     }
     url <- httr2::url_parse(url)
     url$path <- endpoint
     req <- httr2::request(httr2::url_build(url))
-    headers <- list(content_type = "application/json",
-                    accept = "application/json",
-                    user_agent = package_config$user_agent)
+    headers <- list(
+        content_type = "application/json",
+        accept = "application/json",
+        user_agent = package_config$user_agent
+    )
     req <- httr2::req_headers(req, !!!headers)
     return(req)
 }
@@ -67,25 +68,27 @@ create_request <- function(endpoint, host = NULL) {
 #' @export
 #'
 #' @examplesIf test_connection()$status_code == 200
-#' list_models()  # returns dataframe/tibble by default
+#' list_models() # returns dataframe/tibble by default
 #' list_models("df")
-#' list_models("resp")  # httr2 response object
+#' list_models("resp") # httr2 response object
 #' list_models("jsonlist")
 #' list_models("raw")
 list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags", host = NULL) {
-
     if (!output[1] %in% c("df", "resp", "jsonlist", "raw", "text")) {
         stop("Invalid output format specified. Supported formats are 'df', 'resp', 'jsonlist', 'raw', 'text'.")
     }
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "GET")
-    tryCatch({
-        resp <- httr2::req_perform(req)
-        print(resp)
-        return(resp_process(resp = resp, output = output[1]))
-    }, error = function(e) {
-        stop(e)
-    })
+    tryCatch(
+        {
+            resp <- httr2::req_perform(req)
+            print(resp)
+            return(resp_process(resp = resp, output = output[1]))
+        },
+        error = function(e) {
+            stop(e)
+        }
+    )
 }
 
 
@@ -107,32 +110,32 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' @examplesIf test_connection()$status_code == 200
 #' # one message
 #' messages <- list(
-#'  list(role = "user", content = "How are you doing?")
+#'     list(role = "user", content = "How are you doing?")
 #' )
-#' chat("llama3", messages)  # returns response by default
-#' chat("llama3", messages, "text")  # returns text/vector
-#' chat("llama3", messages, stream = TRUE)  # stream response
-#' chat("llama3", messages, output = "df", stream = TRUE)  # stream and return dataframe
+#' chat("llama3", messages) # returns response by default
+#' chat("llama3", messages, "text") # returns text/vector
+#' chat("llama3", messages, stream = TRUE) # stream response
+#' chat("llama3", messages, output = "df", stream = TRUE) # stream and return dataframe
 #'
 #' # multiple messages
 #' messages <- list(
-#'  list(role = "user", content = "Hello!"),
-#'  list(role = "assistant", content = "Hi! How are you?"),
-#'  list(role = "user", content = "Who is the prime minister of the uk?"),
-#'  list(role = "assistant", content = "Rishi Sunak"),
-#'  list(role = "user", content = "List all the previous messages.")
+#'     list(role = "user", content = "Hello!"),
+#'     list(role = "assistant", content = "Hi! How are you?"),
+#'     list(role = "user", content = "Who is the prime minister of the uk?"),
+#'     list(role = "assistant", content = "Rishi Sunak"),
+#'     list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
 chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, keep_alive = "5m", endpoint = "/api/chat", host = NULL, ...) {
-
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
-    body_json <- list(model = model,
-                      messages = messages,
-                      stream = stream,
-                      keep_alive = keep_alive
-                      )
+    body_json <- list(
+        model = model,
+        messages = messages,
+        stream = stream,
+        keep_alive = keep_alive
+    )
     opts <- list(...)
     if (length(opts) > 0) {
         if (validate_options(...)) {
@@ -146,13 +149,16 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 
     content <- ""
     if (!stream) {
-        tryCatch({
-            resp <- httr2::req_perform(req)
-            print(resp)
-            return(resp_process(resp = resp, output = output[1]))
-        }, error = function(e) {
-            stop(e)
-        })
+        tryCatch(
+            {
+                resp <- httr2::req_perform(req)
+                print(resp)
+                return(resp_process(resp = resp, output = output[1]))
+            },
+            error = function(e) {
+                stop(e)
+            }
+        )
     }
 
     # streaming
@@ -162,19 +168,22 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
     stream_handler <- function(x) {
         s <- rawToChar(x)
         accumulated_data <<- append(accumulated_data, x)
-        json_strings <- strsplit(s, '\n')[[1]]
+        json_strings <- strsplit(s, "\n")[[1]]
 
         for (i in seq_along(json_strings)) {
-            tryCatch({
-                json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
-                stream_content <- jsonlite::fromJSON(json_string)$message$content
-                content <<- c(content, stream_content)
-                buffer <<- ""
-                # stream/print stream
-                cat(stream_content)
-            }, error = function(e) {
-                buffer <<- paste0(buffer, json_strings[i])
-            })
+            tryCatch(
+                {
+                    json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
+                    stream_content <- jsonlite::fromJSON(json_string)$message$content
+                    content <<- c(content, stream_content)
+                    buffer <<- ""
+                    # stream/print stream
+                    cat(stream_content)
+                },
+                error = function(e) {
+                    buffer <<- paste0(buffer, json_strings[i])
+                }
+            )
         }
         return(TRUE)
     }
@@ -227,8 +236,9 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #'
 #' See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine.
 #'
-#' @param model A character string of the model name such as "llama3".
+#' @param model A character string of the model name to download/pull, such as "llama3".
 #' @param stream Enable response streaming. Default is TRUE.
+#' @param insecure Allow insecure connections Only use this if you are pulling from your own library during development. Default is FALSE.
 #' @param endpoint The endpoint to pull the model. Default is "/api/pull".
 #' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
@@ -237,23 +247,26 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #'
 #' @examplesIf test_connection()$status_code == 200
 #' pull("llama3")
-#" pull("all-minilm", stream = FALSE)
-pull <- function(model, stream = TRUE, endpoint = "/api/pull", host = NULL) {
+# " pull("all-minilm", stream = FALSE)
+pull <- function(model, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
-    body_json <- list(model = model, stream = stream)
+    body_json <- list(model = model, stream = stream, insecure = insecure)
     req <- httr2::req_body_json(req, body_json)
 
     content <- ""
     if (!stream) {
-        tryCatch({
-            resp <- httr2::req_perform(req)
-            print(resp)
-            return(resp)
-        }, error = function(e) {
-            stop(e)
-        })
+        tryCatch(
+            {
+                resp <- httr2::req_perform(req)
+                print(resp)
+                return(resp)
+            },
+            error = function(e) {
+                stop(e)
+            }
+        )
     }
 
     # streaming
@@ -263,18 +276,21 @@ pull <- function(model, stream = TRUE, endpoint = "/api/pull", host = NULL) {
     stream_handler <- function(x) {
         s <- rawToChar(x)
         accumulated_data <<- append(accumulated_data, x)
-        json_strings <- strsplit(s, '\n')[[1]]
+        json_strings <- strsplit(s, "\n")[[1]]
         for (i in seq_along(json_strings)) {
-            tryCatch({
-                json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
-                stream_content <- jsonlite::fromJSON(json_string)$status
-                content <<- c(content, stream_content)
-                buffer <<- ""
-                # stream/print stream
-                cat(stream_content, "\n")
-            }, error = function(e) {
-                buffer <<- paste0(buffer, json_strings[i])
-            })
+            tryCatch(
+                {
+                    json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
+                    stream_content <- jsonlite::fromJSON(json_string)$status
+                    content <<- c(content, stream_content)
+                    buffer <<- ""
+                    # stream/print stream
+                    cat(stream_content, "\n")
+                },
+                error = function(e) {
+                    buffer <<- paste0(buffer, json_strings[i])
+                }
+            )
         }
         return(TRUE)
     }
@@ -305,13 +321,16 @@ delete <- function(model, endpoint = "/api/delete", host = NULL) {
     body_json <- list(model = model)
     req <- httr2::req_body_json(req, body_json)
 
-    tryCatch({
-        resp <- httr2::req_perform(req)
-        print(resp)
-        return(resp)
-    }, error = function(e) {
-        message("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
-    })
+    tryCatch(
+        {
+            resp <- httr2::req_perform(req)
+            print(resp)
+            return(resp)
+        },
+        error = function(e) {
+            message("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
+        }
+    )
 }
 
 
@@ -322,7 +341,10 @@ normalize <- function(x) {
 }
 
 
-#' Get vector embedding for a prompt
+
+
+
+#' Get vector embedding for a single prompt
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param prompt A character string of the prompt that you want to get the vector embedding for.
@@ -342,33 +364,112 @@ normalize <- function(x) {
 embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embeddings", host = NULL, ...) {
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
+    body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive)
 
     opts <- list(...)
-    if (length(opts) == 0) {
-        body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive)
-    } else {
+    if (length(opts) > 0) {
         if (validate_options(...)) {
-            body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive, options = opts)
+            body_json$options <- opts
         } else {
             stop("Invalid model options passed to ... argument. Please check the model options and try again.")
         }
     }
 
-    # body_json <- list(model = model, prompt = prompt, keep_alive = keep_alive)
     req <- httr2::req_body_json(req, body_json)
 
-    tryCatch({
-        resp <- httr2::req_perform(req)
-        print(resp)
-        v <- unlist(resp_process(resp, "jsonlist")$embedding)
-        if (normalize) {
-            v <- normalize(v)
+    tryCatch(
+        {
+            resp <- httr2::req_perform(req)
+            print(resp)
+            v <- unlist(resp_process(resp, "jsonlist")$embedding)
+            if (normalize) {
+                v <- normalize(v)
+            }
+            return(v)
+        },
+        error = function(e) {
+            stop(e)
         }
-        return(v)
-    }, error = function(e) {
-        stop(e)
-    })
+    )
 }
+
+
+
+
+
+
+
+
+
+#' Get embedding for inputs
+#'
+#' Supercedes the `embeddings()` function.
+#'
+#' @param model A character string of the model name such as "llama3".
+#' @param input A vector of characters that you want to get the embeddings for.
+#' @param truncate Truncates the end of each input to fit within context length. Returns error if FALSE and context length is exceeded. Defaults to TRUE.
+#' @param normalize Normalize the vector to length 1. Default is TRUE.
+#' @param keep_alive The time to keep the connection alive. Default is "5m" (5 minutes).
+#' @param endpoint The endpoint to get the vector embedding. Default is "/api/embeddings".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#' @param ... Additional options to pass to the model.
+#'
+#' @return A numeric matrix of the embedding. Each column is the embedding for one input.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' embed("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
+#' # pass multiple inputs
+#' embed("nomic-embed-text:latest", c("Good bye", "Bye", "See you."))
+#' # pass model options to the model
+#' embed("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
+embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embed", host = NULL, ...) {
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "POST")
+    body_json <- list(model = model, input = input, keep_alive = keep_alive)
+
+    opts <- list(...)
+    if (length(opts) > 0) {
+        if (validate_options(...)) {
+            body_json$options <- opts
+        } else {
+            stop("Invalid model options passed to ... argument. Please check the model options and try again.")
+        }
+    }
+
+    req <- httr2::req_body_json(req, body_json)
+
+    tryCatch(
+        {
+            resp <- httr2::req_perform(req)
+            print(resp)
+            json_body <- httr2::resp_body_json(resp)$embeddings
+            m <- do.call(cbind, lapply(json_body, function(x) {
+                v <- unlist(x)
+                if (normalize) {
+                    v <- normalize(v)
+                }
+                return(v)
+            }))
+            return(m)
+        },
+        error = function(e) {
+            stop(e)
+        }
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -395,24 +496,28 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' generate("llama3", "The sky is...", stream = TRUE, output = "df")
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
 generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/generate", host = NULL) {
-
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
-    body_json <- list(model = model,
-                      stream = stream,
-                      prompt = prompt)
+    body_json <- list(
+        model = model,
+        stream = stream,
+        prompt = prompt
+    )
     req <- httr2::req_body_json(req, body_json)
 
     content <- ""
     if (!stream) {
-        tryCatch({
-            resp <- httr2::req_perform(req)
-            print(resp)
-            return(resp_process(resp = resp, output = output[1]))
-        }, error = function(e) {
-            stop(e)
-        })
+        tryCatch(
+            {
+                resp <- httr2::req_perform(req)
+                print(resp)
+                return(resp_process(resp = resp, output = output[1]))
+            },
+            error = function(e) {
+                stop(e)
+            }
+        )
     }
 
     # streaming
@@ -422,19 +527,22 @@ generate <- function(model, prompt, output = c("resp", "jsonlist", "raw", "df", 
     stream_handler <- function(x) {
         s <- rawToChar(x)
         accumulated_data <<- append(accumulated_data, x)
-        json_strings <- strsplit(s, '\n')[[1]]
+        json_strings <- strsplit(s, "\n")[[1]]
 
         for (i in seq_along(json_strings)) {
-            tryCatch({
-                json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
-                stream_content <- jsonlite::fromJSON(json_string)$response
-                content <<- c(content, stream_content)
-                buffer <<- ""
-                # stream/print stream
-                cat(stream_content)
-            }, error = function(e) {
-                buffer <<- paste0(buffer, json_strings[i])
-            })
+            tryCatch(
+                {
+                    json_string <- paste0(buffer, json_strings[i], "\n", collapse = "")
+                    stream_content <- jsonlite::fromJSON(json_string)$response
+                    content <<- c(content, stream_content)
+                    buffer <<- ""
+                    # stream/print stream
+                    cat(stream_content)
+                },
+                error = function(e) {
+                    buffer <<- paste0(buffer, json_strings[i])
+                }
+            )
         }
         return(TRUE)
     }

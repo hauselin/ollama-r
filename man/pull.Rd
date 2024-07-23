@@ -4,12 +4,20 @@
 \alias{pull}
 \title{Pull/download a model}
 \usage{
-pull(model, stream = TRUE, endpoint = "/api/pull", host = NULL)
+pull(
+  model,
+  stream = TRUE,
+  insecure = FALSE,
+  endpoint = "/api/pull",
+  host = NULL
+)
 }
 \arguments{
-\item{model}{A character string of the model name such as "llama3".}
+\item{model}{A character string of the model name to download/pull, such as "llama3".}
 
 \item{stream}{Enable response streaming. Default is TRUE.}
+
+\item{insecure}{Allow insecure connections Only use this if you are pulling from your own library during development. Default is FALSE.}
 
 \item{endpoint}{The endpoint to pull the model. Default is "/api/pull".}
 

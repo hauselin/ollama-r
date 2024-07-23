@@ -25,9 +25,9 @@ Get available local models
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-list_models()  # returns dataframe/tibble by default
+list_models() # returns dataframe/tibble by default
 list_models("df")
-list_models("resp")  # httr2 response object
+list_models("resp") # httr2 response object
 list_models("jsonlist")
 list_models("raw")
 \dontshow{\}) # examplesIf}
