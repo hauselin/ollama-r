@@ -167,22 +167,22 @@
 <li>cosine similarity and Euclidean distance will result in the identical rankings</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># don't normalize embeddings</span></span>
-<span><span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get embeddings for similar prompts</span></span>
-<span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
-<span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span><span class="op">)</span></span>
+<span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
+<span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># compute cosine similarity</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e1</span> <span class="op">*</span> <span class="va">e2</span><span class="op">)</span>  <span class="co"># 0.9859769</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e1</span> <span class="op">*</span> <span class="va">e2</span><span class="op">)</span>  <span class="co"># not equals to 1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e1</span> <span class="op">*</span> <span class="va">e1</span><span class="op">)</span>  <span class="co"># 1 (identical vectors/embeddings)</span></span>
 <span></span>
 <span><span class="co"># non-normalized embeddings</span></span>
-<span><span class="va">e3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">e4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embeddings.html">embeddings</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">e3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">e4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e3</span> <span class="op">*</span> <span class="va">e4</span><span class="op">)</span>  <span class="co"># 23695.96</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e3</span> <span class="op">*</span> <span class="va">e3</span><span class="op">)</span>  <span class="co"># 24067.32</span></span></code></pre></div>
 </div>
