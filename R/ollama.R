@@ -96,8 +96,10 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' @param messages A list with list of messages for the model (see examples below).
 #' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".
 #' @param stream Enable response streaming. Default is FALSE.
+#' @param keep_alive The duration to keep the connection alive. Default is "5m".
 #' @param endpoint The endpoint to chat with the model. Default is "/api/chat".
 #' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#' @param ... Additional options to pass to the model.
 #'
 #' @return A response in the format specified in the output parameter.
 #' @export
@@ -121,14 +123,25 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #'  list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
-chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, endpoint = "/api/chat", host = NULL) {
+chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, keep_alive = "5m", endpoint = "/api/chat", host = NULL, ...) {
 
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
     body_json <- list(model = model,
+                      messages = messages,
                       stream = stream,
-                      messages = messages)
+                      keep_alive = keep_alive
+                      )
+    opts <- list(...)
+    if (length(opts) > 0) {
+        if (validate_options(...)) {
+            body_json$options <- opts
+        } else {
+            stop("Invalid model options passed to ... argument. Please check the model options and try again.")
+        }
+    }
+
     req <- httr2::req_body_json(req, body_json)
 
     content <- ""

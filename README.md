@@ -117,10 +117,13 @@ messages <- list(
 )
 resp <- chat("llama3", messages)  # default returns httr2 response object
 resp  # <httr2_response>
+resp_process(resp, "text")  # process the response to return text/vector output
+
+# specify output type when calling the function
 chat("llama3", messages, output = "df")  # data frame/tibble
 chat("llama3", messages, output = "raw")  # raw string
 chat("llama3", messages, output = "jsonlist")  # list
-chat("llama3", messages, output = "text", stream = FALSE)  # text vector
+chat("llama3", messages, output = "text")  # text vector
 
 messages <- list(
     list(role = "user", content = "Hello!"),
@@ -129,7 +132,7 @@ messages <- list(
     list(role = "assistant", content = "Rishi Sunak"),
     list(role = "user", content = "List all the previous messages.")
 )
-chat("llama3", messages, output = "df")
+cat(chat("llama3", messages, output = "text"))  # print the formatted output
 ```
 
 #### Streaming responses
