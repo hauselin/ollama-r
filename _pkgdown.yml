@@ -35,8 +35,9 @@ reference:
       - delete_message
       - insert_message
 
-  - subtitle: Miscellaneous functions and variables
+  - subtitle: Internal functions and variables
     desc: Functions and variables used internally by the package
     contents:
       - package_config
       - model_options
+      - stream_handler

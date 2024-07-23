@@ -46,7 +46,7 @@ messages <- list(
 )
 chat("llama3", messages) # returns response by default
 chat("llama3", messages, "text") # returns text/vector
-chat("llama3", messages, "hello!", temperature = 2.8)  # additional options
+chat("llama3", messages, "hello!", temperature = 2.8) # additional options
 chat("llama3", messages, stream = TRUE) # stream response
 chat("llama3", messages, output = "df", stream = TRUE) # stream and return dataframe
 

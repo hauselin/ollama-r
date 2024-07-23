@@ -1,3 +1,46 @@
+#' Stream handler helper function
+#'
+#' Function to handle streaming.
+#'
+#' @keywords internal
+stream_handler <- function(x, env, endpoint) {
+    s <- rawToChar(x)
+    env$accumulated_data <- append(env$accumulated_data, x)
+    json_strings <- strsplit(s, "\n")[[1]]
+    for (i in seq_along(json_strings)) {
+        tryCatch(
+            {
+                json_string <- paste0(env$buffer, json_strings[i], "\n", collapse = "")
+
+                if (endpoint == "/api/generate") {
+                    stream_content <- jsonlite::fromJSON(json_string)$response
+                    env$content <- c(env$content, stream_content)
+                    env$buffer <- ""
+                    cat(stream_content) # stream/print stream
+                } else if (endpoint == "/api/chat") {
+                    stream_content <- jsonlite::fromJSON(json_string)$message$content
+                    env$content <- c(env$content, stream_content)
+                    env$buffer <- ""
+                    cat(stream_content)
+                } else if (endpoint == "/api/pull") {
+                    json_string <- paste0(env$buffer, json_strings[i], "\n", collapse = "")
+                    stream_content <- jsonlite::fromJSON(json_string)$status
+                    env$content <<- c(env$content, stream_content)
+                    env$buffer <<- ""
+                    cat(stream_content, "\n")
+                }
+            },
+            error = function(e) {
+                env$buffer <- paste0(env$buffer, json_strings[i])
+            }
+        )
+    }
+    return(TRUE)
+}
+
+
+
+
 #' Process httr2 response object.
 #'
 #' @param resp A httr2 response object.

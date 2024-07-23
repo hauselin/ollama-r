@@ -32,5 +32,6 @@ See https://ollama.com/library for a list of available models. Use the list_mode
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 pull("llama3")
+pull("all-minilm", stream = FALSE)
 \dontshow{\}) # examplesIf}
 }
