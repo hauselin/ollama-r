@@ -7,10 +7,15 @@
 generate(
   model,
   prompt,
+  system = "",
+  template = "",
+  raw = FALSE,
   output = c("resp", "jsonlist", "raw", "df", "text"),
   stream = FALSE,
+  keep_alive = "5m",
   endpoint = "/api/generate",
-  host = NULL
+  host = NULL,
+  ...
 )
 }
 \arguments{
@@ -18,13 +23,23 @@ generate(
 
 \item{prompt}{A character string of the promp like "The sky is..."}
 
+\item{system}{A character string of the system prompt (overrides what is defined in the Modelfile). Default is "".}
+
+\item{template}{A character string of the prompt template (overrides what is defined in the Modelfile). Default is "".}
+
+\item{raw}{If TRUE, no formatting will be applied to the prompt. You may choose to use the raw parameter if you are specifying a full templated prompt in your request to the API. Default is FALSE.}
+
 \item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".}
 
 \item{stream}{Enable response streaming. Default is FALSE.}
 
+\item{keep_alive}{The time to keep the connection alive. Default is "5m" (5 minutes).}
+
 \item{endpoint}{The endpoint to generate the completion. Default is "/api/generate".}
 
 \item{host}{The base URL to use. Default is NULL, which uses Ollama's default base URL.}
+
+\item{...}{Additional options to pass to the model.}
 }
 \value{
 A response in the format specified in the output parameter.
@@ -35,7 +50,8 @@ Generate a response for a given prompt with a provided model.
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 generate("llama3", "The sky is...", stream = FALSE, output = "df")
-generate("llama3", "The sky is...", stream = TRUE, output = "df")
+generate("llama3", "The sky is...", stream = TRUE, output = "text")
+generate("llama3", "The sky is...", stream = TRUE, output = "text", temperature = 2.0)
 generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
 \dontshow{\}) # examplesIf}
 }
