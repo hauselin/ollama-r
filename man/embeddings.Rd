@@ -33,7 +33,7 @@ embeddings(
 A numeric vector of the embedding.
 }
 \description{
-Get vector embedding for a single prompt
+This function will be deprecated over time and has been superceded by \code{embed()}. See \code{embed()} for more details.
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

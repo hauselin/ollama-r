@@ -11,24 +11,18 @@ stream_handler <- function(x, env, endpoint) {
         tryCatch(
             {
                 json_string <- paste0(env$buffer, json_strings[i], "\n", collapse = "")
-
                 if (endpoint == "/api/generate") {
                     stream_content <- jsonlite::fromJSON(json_string)$response
-                    env$content <- c(env$content, stream_content)
-                    env$buffer <- ""
-                    cat(stream_content) # stream/print stream
                 } else if (endpoint == "/api/chat") {
                     stream_content <- jsonlite::fromJSON(json_string)$message$content
-                    env$content <- c(env$content, stream_content)
-                    env$buffer <- ""
-                    cat(stream_content)
                 } else if (endpoint == "/api/pull") {
-                    json_string <- paste0(env$buffer, json_strings[i], "\n", collapse = "")
                     stream_content <- jsonlite::fromJSON(json_string)$status
-                    env$content <<- c(env$content, stream_content)
-                    env$buffer <<- ""
-                    cat(stream_content, "\n")
+                    stream_content <- paste0(stream_content, "\n")
                 }
+                # concatenate the content
+                env$content <- c(env$content, stream_content)
+                env$buffer <- ""
+                cat(stream_content) # stream/print stream
             },
             error = function(e) {
                 env$buffer <- paste0(env$buffer, json_strings[i])

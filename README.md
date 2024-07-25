@@ -101,7 +101,6 @@ resp_process(resp, "text")  # process the response to return text/vector output
 generate("llama3", "Tomorrow is a...", output = "text")  # directly return text/vector output
 generate("llama3", "Tomorrow is a...", stream = TRUE)  # return httr2 response object and stream output
 generate("llama3", "Tomorrow is a...", output = "df", stream = TRUE)
-generate("llama3", "Tomorrow is a...", "text", TRUE)  # return text/vector output and stream output
 ```
 
 ### Chat
@@ -120,11 +119,13 @@ resp  # <httr2_response>
 resp_process(resp, "text")  # process the response to return text/vector output
 
 # specify output type when calling the function
-chat("llama3", messages, output = "df")  # data frame/tibble
-chat("llama3", messages, output = "raw")  # raw string
-chat("llama3", messages, output = "jsonlist")  # list
 chat("llama3", messages, output = "text")  # text vector
+chat("llama3", messages, output = "df")  # data frame/tibble
+chat("llama3", messages, output = "jsonlist")  # list
+chat("llama3", messages, output = "raw")  # raw string
+chat("llama3", messages, stream = TRUE)  # stream output and return httr2 response object
 
+# list of messages
 messages <- list(
     list(role = "user", content = "Hello!"),
     list(role = "assistant", content = "Hi! How are you?"),
@@ -182,18 +183,9 @@ sum(e1 * e1)  # 1 (identical vectors/embeddings)
 # non-normalized embeddings
 e3 <- embed("llama3", "Hello, how are you?", normalize = FALSE)
 e4 <- embed("llama3", "Hi, how are you?", normalize = FALSE)
-sum(e3 * e4)  # 23695.96
-sum(e3 * e3)  # 24067.32
 ```
 
 ### Notes
-
-#### Optional/advanced parameters
-
-Optional/advanced parameters (see [API
-docs](https://github.com/ollama/ollama/blob/main/docs/api.md)) such as
-`temperature` are not yet implemented as of now but will be added in the
-near future.
 
 If you don’t have the Ollama app running, you’ll get an error. Make sure
 to open the Ollama app before using this library.
