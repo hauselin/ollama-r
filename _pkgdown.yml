@@ -4,7 +4,7 @@ template:
   bootstrap: 5
 
 reference:
-  - title: API calls
+  - title: Official Ollama API calls
     desc: Functions to make calls to the Ollama server/API
     contents:
       - generate
@@ -15,28 +15,32 @@ reference:
       - embed
       - embeddings
 
-  - subtitle: Options available for the models
+  - subtitle: Utility functions
+    desc: Functions to work with the Ollama API
+    contents:
+      - resp_process
+      - ohelp
+      - model_avail
+      - image_encode_base64
+      - test_connection
+      - create_request
+
+  - subtitle: Manipulate chat/conversation history
+    desc: Functions to manipulate messages and chat history for `chat()` function
+    contents:
+      - create_message
+      - append_message
+      - prepend_message
+      - delete_message
+      - insert_message
+
+  - subtitle: Model options
     desc: Functions to get information about the options available
     contents:
       - check_option_valid
       - check_options
       - search_options
       - validate_options
-
-  - subtitle: Utility or convenience functions
-    desc: Functions that are useful for working with the Ollama API
-    contents:
-      - resp_process
-      - ohelp
-      - model_avail
-      - test_connection
-      - create_request
-      - image_encode_base64
-      - create_message
-      - append_message
-      - prepend_message
-      - delete_message
-      - insert_message
 
   - subtitle: Internal functions and variables
     desc: Functions and variables used internally by the package
