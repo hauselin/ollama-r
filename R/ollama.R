@@ -582,6 +582,10 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' # regular usage: ohelp()
 ohelp <- function(model = "codegemma:7b", ...) {
 
+    if (!model_avail(model)) {
+        return(invisible())
+    }
+
     cat("Say something or type /q to quit or end the conversation.\n\n")
 
     n_messages <- 0
@@ -609,4 +613,38 @@ ohelp <- function(model = "codegemma:7b", ...) {
 
     cat("Goodbye!\n")
 
+}
+
+
+
+
+
+
+
+#' Check if model is available locally.
+#'
+#' @param model A character string of the model name such as "llama3".
+#'
+#' @return A logical value indicating if the model exists.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' model_avail("codegemma:7b")
+#' model_avail("abc")
+#' model_avail("llama3")
+model_avail <- function(model) {
+    model <- tolower(model)
+    models <- sort(list_models("text"))
+    exist <- FALSE
+    for (m in models) {
+        mm <- tolower(strsplit(m, ":")[[1]][1])
+        if (mm == model | m == model) {
+            exist <- TRUE
+            break
+        }
+    }
+    if (!exist) {
+        cat(paste("Model", model, "does not exist. Please check available models with list_models() or download the model with pull().\n"))
+    }
+    return(exist)
 }

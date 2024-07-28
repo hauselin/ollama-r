@@ -14,9 +14,6 @@ reference:
       - pull
       - embed
       - embeddings
-      - ohelp
-      - test_connection
-      - create_request
 
   - subtitle: Options available for the models
     desc: Functions to get information about the options available
@@ -30,6 +27,10 @@ reference:
     desc: Functions that are useful for working with the Ollama API
     contents:
       - resp_process
+      - ohelp
+      - model_avail
+      - test_connection
+      - create_request
       - image_encode_base64
       - create_message
       - append_message
