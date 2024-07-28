@@ -4,6 +4,9 @@ library(ollamar)
 test_that("generate function works with different outputs and resp_process", {
     skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
 
+    # incorrect output type
+    expect_error(generate("llama3", "The sky is...", output = "abc"))
+
     # not streaming
     expect_s3_class(generate("llama3", "The sky is..."), "httr2_response")
     expect_s3_class(generate("llama3", "The sky is...", output = "resp"), "httr2_response")

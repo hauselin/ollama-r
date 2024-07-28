@@ -84,6 +84,11 @@ create_request <- function(endpoint, host = NULL) {
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
 generate <- function(model, prompt, suffix = "", images = "", system = "", template = "", context = list(), stream = FALSE, raw = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text"), endpoint = "/api/generate", host = NULL, ...) {
 
+    output <- output[1]
+    if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
+        stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
+    }
+
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
@@ -120,7 +125,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
         tryCatch(
             {
                 resp <- httr2::req_perform(req)
-                return(resp_process(resp = resp, output = output[1]))
+                return(resp_process(resp = resp, output = output))
             },
             error = function(e) {
                 stop(e)
@@ -138,7 +143,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
     cat("\n\n")
     resp$body <- env$accumulated_data
 
-    return(resp_process(resp = resp, output = output[1]))
+    return(resp_process(resp = resp, output = output))
 }
 
 
@@ -171,8 +176,8 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #'     list(role = "user", content = "How are you doing?")
 #' )
 #' chat("llama3", messages) # returns response by default
-#' chat("llama3", messages, "text") # returns text/vector
-#' chat("llama3", messages, "hello!", temperature = 2.8) # additional options
+#' chat("llama3", messages, output = "text") # returns text/vector
+#' chat("llama3", messages, temperature = 2.8) # additional options
 #' chat("llama3", messages, stream = TRUE) # stream response
 #' chat("llama3", messages, output = "df", stream = TRUE) # stream and return dataframe
 #'
@@ -186,6 +191,12 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #' )
 #' chat("llama3", messages, stream = TRUE)
 chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "text"), stream = FALSE, keep_alive = "5m", endpoint = "/api/chat", host = NULL, ...) {
+
+    output <- output[1]
+    if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
+        stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
+    }
+
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
@@ -211,7 +222,7 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
         tryCatch(
             {
                 resp <- httr2::req_perform(req)
-                return(resp_process(resp = resp, output = output[1]))
+                return(resp_process(resp = resp, output = output))
             },
             error = function(e) {
                 stop(e)
@@ -229,8 +240,7 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
     cat("\n\n")
     resp$body <- env$accumulated_data
 
-    return(resp_process(resp = resp, output = output[1]))
-
+    return(resp_process(resp = resp, output = output))
 }
 
 
@@ -264,16 +274,15 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #' @export
 #'
 #' @examplesIf test_connection()$status_code == 200
-#' list_models() # returns dataframe/tibble by default
-#' list_models("df")
+#' list_models() # returns dataframe
+#' list_models("df") # returns dataframe
 #' list_models("resp") # httr2 response object
 #' list_models("jsonlist")
 #' list_models("raw")
 list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags", host = NULL) {
-
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
-        stop("Invalid output format specified. Supported formats are 'df', 'resp', 'jsonlist', 'raw', 'text'.")
+        stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
     }
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "GET")
@@ -349,7 +358,6 @@ delete <- function(model, endpoint = "/api/delete", host = NULL) {
 #' pull("llama3")
 #' pull("all-minilm", stream = FALSE)
 pull <- function(model, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
-
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
@@ -549,7 +557,6 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' ohelp(first_prompt = "quit")
 #' # regular usage: ohelp()
 ohelp <- function(model = "codegemma:7b", ...) {
-
     if (!model_avail(model)) {
         return(invisible())
     }
@@ -568,19 +575,18 @@ ohelp <- function(model = "codegemma:7b", ...) {
 
     while (prompt != "/q") {
         if (n_messages == 0) {
-            messages <- create_message(prompt, role = 'user')
+            messages <- create_message(prompt, role = "user")
         } else {
-            messages <- append(messages, create_message(prompt, role = 'user'))
+            messages <- append(messages, create_message(prompt, role = "user"))
         }
         n_messages <- n_messages + 1
-        response <- chat(model, messages = messages, output = 'text', stream = TRUE)
+        response <- chat(model, messages = messages, output = "text", stream = TRUE)
         messages <- append_message(response, "assistant", messages)
         n_messages <- n_messages + 1
         prompt <- readline()
     }
 
     cat("Goodbye!\n")
-
 }
 
 

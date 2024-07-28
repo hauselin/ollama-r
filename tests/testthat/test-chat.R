@@ -8,6 +8,9 @@ test_that("chat function works with basic input", {
         list(role = "user", content = "Tell me a 5-word story.")
     )
 
+    # incorrect output type
+    expect_error(chat("llama3", messages, output = "abc"))
+
     # not streaming
     expect_s3_class(chat("llama3", messages), "httr2_response")
     expect_s3_class(chat("llama3", messages, output = "resp"), "httr2_response")
@@ -58,9 +61,9 @@ test_that("chat function handles streaming correctly", {
     )
 
     result <- chat("llama3", messages, stream = TRUE, output = "text")
-    expect_type(result, "character")  # BUG fail test
-    expect_true(nchar(result) > 0)  # BUG
-    expect_match(result, "1.*2.*3.*4.*5", all = FALSE)  # BUG
+    expect_type(result, "character")
+    expect_true(nchar(result) > 0)
+    expect_match(result, "1.*2.*3.*4.*5", all = FALSE)
 })
 
 
