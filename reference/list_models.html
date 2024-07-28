@@ -66,12 +66,16 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A response in the format specified in the output parameter.</p>
     </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p><a href="https://github.com/ollama/ollama/blob/main/docs/api.md#list-local-models" class="external-link">API documentation</a></p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># test_connection()$status_code == 200</span></span></span>
-<span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="op">)</span> <span class="co"># returns dataframe/tibble by default</span></span></span>
-<span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="op">)</span> <span class="co"># returns dataframe</span></span></span>
+<span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span> <span class="co"># returns dataframe</span></span></span>
 <span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="st">"resp"</span><span class="op">)</span> <span class="co"># httr2 response object</span></span></span>
 <span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="st">"jsonlist"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">list_models</span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span></span></span>
