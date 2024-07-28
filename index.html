@@ -62,9 +62,14 @@
 <ol style="list-style-type: decimal">
 <li><p>You should have the Ollama app installed on your computer. Download it from <a href="https://ollama.com/" class="external-link">Ollama</a>.</p></li>
 <li><p>Open/launch the Ollama app to start the local server. You can then run your language models locally, on your own machine/computer.</p></li>
-<li><p>Install the development version of <code>ollamar</code> R library like so:</p></li>
+<li><p>Install the <strong>stable</strong> version like so:</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ollamar"</span><span class="op">)</span></span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>ALternatively, for the <strong>latest/development</strong> version with more/latest features, you can install it like so:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"hauselin/ollamar"</span><span class="op">)</span></span></code></pre></div>
 <p>If it doesn’t work or you don’t have <code>devtools</code> installed, please run <code>install.packages("devtools")</code> in R or RStudio first.</p>
 </div>
@@ -72,22 +77,22 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p><code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server, so many functions in this library returns an <code>httr2_response</code> object by default. See <a href="#notes">Notes section</a> below for more information.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">test_connection</span>()  <span class="co"># test connection to Ollama server; returns a httr2 response object</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># Ollama local server running successfully</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># &lt;httr2_response&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">list_models</span>()  <span class="co"># list available models (models you've pulled/downloaded)</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>   name                     size    parameter_size quantization_level modified           </span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>                    <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>chr<span class="sc">&gt;</span>              <span class="er">&lt;</span>chr<span class="sc">&gt;</span>              </span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a> <span class="dv">1</span> llama3<span class="sc">:</span>latest            <span class="fl">4.7</span> GB  <span class="dv">8</span>B             Q4_0               <span class="dv">2024-05-01</span>T21<span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="dv">00</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a> <span class="dv">2</span> mistral<span class="sc">-</span>openorca<span class="sc">:</span>latest  <span class="fl">4.1</span> GB  <span class="dv">7</span>B             Q4_0               <span class="dv">2024-04-25</span>T16<span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">00</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">test_connection</span>()  <span class="co"># test connection to Ollama server; returns a httr2 response object</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Ollama local server running successfully</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># &lt;httr2_response&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">list_models</span>()  <span class="co"># list available models (models you've pulled/downloaded)</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>   name                     size    parameter_size quantization_level modified</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>                    <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>chr<span class="sc">&gt;</span>              <span class="er">&lt;</span>chr<span class="sc">&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a> <span class="dv">1</span> llama3<span class="sc">:</span>latest            <span class="fl">4.7</span> GB  <span class="dv">8</span>B             Q4_0               <span class="dv">2024-05-01</span>T21<span class="sc">:</span><span class="dv">01</span><span class="sc">:</span><span class="dv">00</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a> <span class="dv">2</span> mistral<span class="sc">-</span>openorca<span class="sc">:</span>latest  <span class="fl">4.1</span> GB  <span class="dv">7</span>B             Q4_0               <span class="dv">2024-04-25</span>T16<span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">00</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pulldownload-model">Pull/download model<a class="anchor" aria-label="anchor" href="#pulldownload-model"></a>
 </h3>
 <p>Download a model from the ollama library (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#pull-a-model" class="external-link">API doc</a>). For the list of models you can pull/download, see <a href="https://ollama.com/library" class="external-link">Ollama library</a>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"llama3"</span><span class="op">)</span>  <span class="co"># pull/download llama3 model</span></span>
 <span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"mistral-openorca"</span><span class="op">)</span>  <span class="co"># pull/download mistral-openorca model</span></span>
 <span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># verify you've pulled/downloaded the model</span></span></code></pre></div>
@@ -96,7 +101,7 @@
 <h3 id="delete-a-model">Delete a model<a class="anchor" aria-label="anchor" href="#delete-a-model"></a>
 </h3>
 <p>Delete a model and its data (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model" class="external-link">API doc</a>). You can see what models you’ve downloaded with <code><a href="reference/list_models.html">list_models()</a></code>. To download a model, specify the name of the model.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># see the models you've pulled/downloaded</span></span>
 <span><span class="fu"><a href="reference/delete.html">delete</a></span><span class="op">(</span><span class="st">"all-minilm:latest"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span></code></pre></div>
 </div>
@@ -104,7 +109,7 @@
 <h3 id="generate-a-completion">Generate a completion<a class="anchor" aria-label="anchor" href="#generate-a-completion"></a>
 </h3>
 <p>Generate a response for a given prompt (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion" class="external-link">API doc</a>).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span><span class="op">)</span>  <span class="co"># return httr2 response object by default</span></span>
 <span><span class="va">resp</span></span>
 <span></span>
@@ -118,7 +123,7 @@
 <h3 id="chat">Chat<a class="anchor" aria-label="anchor" href="#chat"></a>
 </h3>
 <p>Generate the next message in a chat (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion" class="external-link">API doc</a>). See the <a href="#notes">Notes section</a> for utility/helper functions to help you format/prepare the messages for the functions/API calls.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -145,7 +150,7 @@
 <div class="section level4">
 <h4 id="streaming-responses">Streaming responses<a class="anchor" aria-label="anchor" href="#streaming-responses"></a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,</span>
@@ -167,12 +172,12 @@
 <li>cosine similarity can be computed slightly faster using just a dot product</li>
 <li>cosine similarity and Euclidean distance will result in the identical rankings</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># don't normalize embeddings</span></span>
 <span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get embeddings for similar prompts</span></span>
 <span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
 <span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span><span class="op">)</span></span>
@@ -189,7 +194,7 @@
 <h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h3>
 <p>If you don’t have the Ollama app running, you’ll get an error. Make sure to open the Ollama app before using this library.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/test_connection.html">test_connection</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Ollama local server not running or wrong server.</span></span>
 <span><span class="co"># Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:</span></span></code></pre></div>
@@ -199,7 +204,7 @@
 </h4>
 <p><code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server, so many functions in this library returns an <code>httr2_response</code> object by default.</p>
 <p>You can either parse the output with <code><a href="reference/resp_process.html">resp_process()</a></code> or use the <code>output</code> parameter in the function to specify the output format. Generally, the <code>output</code> parameter can be one of <code>"df"</code>, <code>"jsonlist"</code>, <code>"raw"</code>, <code>"resp"</code>, or <code>"text"</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"resp"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span>
 <span><span class="co"># &lt;httr2_response&gt;</span></span>
 <span><span class="co"># GET http://127.0.0.1:11434/api/tags</span></span>
@@ -223,7 +228,7 @@
 <h4 id="utilityhelper-functions-to-format-and-prepare-messages-for-the-chat-function">Utility/helper functions to format and prepare messages for the <code>chat()</code> function<a class="anchor" aria-label="anchor" href="#utilityhelper-functions-to-format-and-prepare-messages-for-the-chat-function"></a>
 </h4>
 <p>Internally, messages are represented as a <code>list</code> of many distinct <code>list</code> messages. Each list/message object has two elements: <code>role</code> (can be <code>"user"</code> or <code>"assistant"</code> or <code>"system"</code>) and <code>content</code> (the message text). The example below shows how the messages/lists are presented.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>  <span class="co"># main list containing all the messages</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,  <span class="co"># first message as a list</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,  <span class="co"># second message as a list</span></span>
@@ -253,7 +258,7 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create first message</span></span>
 <span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span>content <span class="op">=</span> <span class="st">"Hi! How are you? (1ST MESSAGE)"</span>, role <span class="op">=</span> <span class="st">"assistant"</span><span class="op">)</span></span>
 <span><span class="co"># or simply, messages &lt;- create_message("Hi! How are you?", "assistant")</span></span>
