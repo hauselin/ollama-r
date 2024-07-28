@@ -16,6 +16,7 @@
 <url><loc>https://hauselin.github.io/ollama-r/reference/embed.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/embeddings.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/generate.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/image_encode_base64.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/index.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/insert_message.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/list_models.html</loc></url>
@@ -24,6 +25,7 @@
 <url><loc>https://hauselin.github.io/ollama-r/reference/prepend_message.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/pull.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/resp_process.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/resp_process_stream.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/search_options.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/stream_handler.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/test_connection.html</loc></url>
