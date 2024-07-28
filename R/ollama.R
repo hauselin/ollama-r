@@ -82,10 +82,14 @@ create_request <- function(endpoint, host = NULL) {
 #' generate("llama3", "The sky is...", stream = TRUE, output = "text")
 #' generate("llama3", "The sky is...", stream = TRUE, output = "text", temperature = 2.0)
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
-generate <- function(model, prompt, suffix = "", images = list(), system = "", template = "", context = list(), stream = FALSE, raw = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text"), endpoint = "/api/generate", host = NULL, ...) {
+generate <- function(model, prompt, suffix = "", images = "", system = "", template = "", context = list(), stream = FALSE, raw = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text"), endpoint = "/api/generate", host = NULL, ...) {
 
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
+
+    images_list <- list()
+    if (images != "") images_list <- list(image_encode_base64(images))
+
     body_json <- list(
         model = model,
         prompt = prompt,
@@ -95,7 +99,7 @@ generate <- function(model, prompt, suffix = "", images = list(), system = "", t
         context = context,
         stream = stream,
         raw = raw,
-        images = images,
+        images = images_list,
         stream = stream,
         keep_alive = keep_alive
     )
