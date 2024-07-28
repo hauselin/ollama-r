@@ -377,7 +377,7 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 delete <- function(name, endpoint = "/api/delete", host = NULL) {
     if (!model_avail(name)) {
         message("Available models listed below.")
-        print(list_models(output = 'text', host = host))
+        print(list_models(output = "text", host = host))
         return(invisible())
     }
 
@@ -424,7 +424,7 @@ pull <- function(name, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", 
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
-    body_json <- list(name = name, stream = stream, insecure = insecure)
+    body_json <- list(name = name, insecure = insecure)
     req <- httr2::req_body_json(req, body_json, stream = stream)
 
     if (!stream) {

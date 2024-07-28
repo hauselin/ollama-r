@@ -86,15 +86,15 @@ stream_handler <- function(x, env, endpoint) {
 #' resp_process(resp, "resp") # return input response object
 #' resp_process(resp, "text") # return text/character vector
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text")) {
-
     if (is.null(resp) || resp$status_code != 200) {
         warning("Cannot process response")
         return(NULL)
     }
 
-    endpoints_to_skip <- c("api/pull")
+    endpoints_to_skip <- c("api/delete")
     for (endpoint in endpoints_to_skip) {
         if (grepl(endpoint, resp$url)) {
+            message("Returning response object because resp_process not supported for this endpoint.")
             return(resp)
         }
     }
@@ -105,7 +105,7 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
     }
 
     # endpoints that should never be processed with resp_process_stream
-    endpoints_without_stream <- c("api/tags", "api/delete", "api/show", "api/pull")
+    endpoints_without_stream <- c("api/tags", "api/delete", "api/show")
 
     # process stream resp separately
     stream <- FALSE
@@ -248,8 +248,27 @@ resp_process_stream <- function(resp, output) {
         if (output[1] == "text") {
             return(paste0(df_response$content, collapse = ""))
         }
-    } else if (grepl("api/tags", resp$url)) { # process tags endpoint
-        return(NULL) # TODO fill in
+    } else if (grepl("api/pull", resp$url)) {
+        json_lines <- strsplit(rawToChar(resp$body), "\n")[[1]]
+        json_lines_output <- vector("list", length = length(json_lines))
+        df_response <- tibble::tibble(
+            status = character(length(json_lines_output)),
+        )
+
+        for (i in seq_along(json_lines)) {
+            json_lines_output[[i]] <- jsonlite::fromJSON(json_lines[[i]])
+            df_response$status[i] <- json_lines_output[[i]]$status
+        }
+
+        if (output[1] == "jsonlist") {
+            return(json_lines_output)
+        }
+        if (output[1] == "df") {
+            return(df_response)
+        }
+        if (output[1] == "text") {
+            return(paste0(df_response$status, collapse = ""))
+        }
     }
 }
 
