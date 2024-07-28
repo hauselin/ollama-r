@@ -568,3 +568,44 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 
 
 
+#' Chat with a model in real-time in R console.
+#'
+#' @param model A character string of the model name such as "llama3". Defaults to "codegemma:7b" which is a decent coding model as of 2024-07-27.
+#' @param ... Additional options. No options are currently available at this time.
+#'
+#' @return Does not return anything. It prints the conversation in the console.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' ohelp(first_prompt = "quit")
+#' # regular usage: ohelp()
+ohelp <- function(model = "codegemma:7b", ...) {
+
+    cat("Say something or type /q to quit or end the conversation.\n\n")
+
+    n_messages <- 0
+    opts <- list(...)
+    if (length(opts) > 0) {
+        if (opts$first_prompt == "quit") {
+            prompt <- "/q"
+        }
+    } else {
+        prompt <- readline()
+    }
+
+    while (prompt != "/q") {
+        if (n_messages == 0) {
+            messages <- create_message(prompt, role = 'user')
+        } else {
+            messages <- append(messages, create_message(prompt, role = 'user'))
+        }
+        n_messages <- n_messages + 1
+        response <- chat(model, messages = messages, output = 'text', stream = TRUE)
+        messages <- append_message(response, "assistant", messages)
+        n_messages <- n_messages + 1
+        prompt <- readline()
+    }
+
+    cat("Goodbye!\n")
+
+}

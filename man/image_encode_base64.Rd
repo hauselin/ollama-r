@@ -16,6 +16,6 @@ A base64 encoded string.
 Read image file and encode it to base64.
 }
 \examples{
-image_path <- file.path(system.file('extdata', package = "ollamar"), "image1.png")
+image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
 image_encode_base64(image_path)
 }

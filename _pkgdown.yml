@@ -14,6 +14,7 @@ reference:
       - pull
       - embed
       - embeddings
+      - ohelp
       - test_connection
       - create_request
 
