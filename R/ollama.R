@@ -303,7 +303,8 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
 #' list_models("raw")
 list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/tags", host = NULL) {
 
-    if (!output[1] %in% c("df", "resp", "jsonlist", "raw", "text")) {
+    output <- output[1]
+    if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
         stop("Invalid output format specified. Supported formats are 'df', 'resp', 'jsonlist', 'raw', 'text'.")
     }
     req <- create_request(endpoint, host)
@@ -311,7 +312,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
     tryCatch(
         {
             resp <- httr2::req_perform(req)
-            return(resp_process(resp = resp, output = output[1]))
+            return(resp_process(resp = resp, output = output))
         },
         error = function(e) {
             stop(e)

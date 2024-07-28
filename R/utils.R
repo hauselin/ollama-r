@@ -61,11 +61,19 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         return(resp)
     }
 
+    endpoints_without_stream <- c("api/tags", "api/delete") # endpoints that do not stream
+
     # process stream resp separately
     stream <- FALSE
     headers <- httr2::resp_headers(resp)
     transfer_encoding <- headers$`Transfer-Encoding` # if response is chunked, then it was a streamed output
     if (!is.null(transfer_encoding)) stream <- grepl("chunked", transfer_encoding)
+    for (endpoint in endpoints_without_stream) {
+        if (grepl(endpoint, resp$url)) {
+            stream <- FALSE
+            break
+        }
+    }
     if (stream) {
         return(resp_process_stream(resp, output))
     }
