@@ -5,7 +5,7 @@
 \title{Pull/download a model}
 \usage{
 pull(
-  model,
+  name,
   stream = TRUE,
   insecure = FALSE,
   endpoint = "/api/pull",
@@ -13,7 +13,7 @@ pull(
 )
 }
 \arguments{
-\item{model}{A character string of the model name to download/pull, such as "llama3".}
+\item{name}{A character string of the model name to download/pull, such as "llama3".}
 
 \item{stream}{Enable response streaming. Default is TRUE.}
 

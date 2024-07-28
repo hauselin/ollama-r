@@ -37,7 +37,7 @@ See [Ollama's Github page](https://github.com/ollama/ollama) for more informatio
 install.packages("ollamar")
 ```
 
-4. ALternatively, for the **latest/development** version with more/latest features, you can install it like so:
+4. Alternatively, for the **latest/development** version with more/latest features, you can install it like so:
 
 ``` r
 devtools::install_github("hauselin/ollamar")

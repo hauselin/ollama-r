@@ -405,7 +405,7 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
 #'
 #' See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine.
 #'
-#' @param model A character string of the model name to download/pull, such as "llama3".
+#' @param name A character string of the model name to download/pull, such as "llama3".
 #' @param stream Enable response streaming. Default is TRUE.
 #' @param insecure Allow insecure connections Only use this if you are pulling from your own library during development. Default is FALSE.
 #' @param endpoint The endpoint to pull the model. Default is "/api/pull".
@@ -420,12 +420,12 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
 #' @examplesIf test_connection()$status_code == 200
 #' pull("llama3")
 #' pull("all-minilm", stream = FALSE)
-pull <- function(model, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
+pull <- function(name, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
-    body_json <- list(model = model, stream = stream, insecure = insecure)
-    req <- httr2::req_body_json(req, body_json)
+    body_json <- list(name = name, stream = stream, insecure = insecure)
+    req <- httr2::req_body_json(req, body_json, stream = stream)
 
     if (!stream) {
         tryCatch(
@@ -446,6 +446,7 @@ pull <- function(model, stream = TRUE, insecure = FALSE, endpoint = "/api/pull",
     env$accumulated_data <- raw()
     wrapped_handler <- function(x) stream_handler(x, env, endpoint)
     resp <- httr2::req_perform_stream(req, wrapped_handler, buffer_kb = 1)
+    resp$body <- env$accumulated_data
     return(resp)
 }
 

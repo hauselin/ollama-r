@@ -86,9 +86,17 @@ stream_handler <- function(x, env, endpoint) {
 #' resp_process(resp, "resp") # return input response object
 #' resp_process(resp, "text") # return text/character vector
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text")) {
+
     if (is.null(resp) || resp$status_code != 200) {
         warning("Cannot process response")
         return(NULL)
+    }
+
+    endpoints_to_skip <- c("api/pull")
+    for (endpoint in endpoints_to_skip) {
+        if (grepl(endpoint, resp$url)) {
+            return(resp)
+        }
     }
 
     output <- output[1]
@@ -96,8 +104,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         return(resp)
     }
 
-    # endpoints that do not stream
-    endpoints_without_stream <- c("api/tags", "api/delete", "api/show")
+    # endpoints that should never be processed with resp_process_stream
+    endpoints_without_stream <- c("api/tags", "api/delete", "api/show", "api/pull")
 
     # process stream resp separately
     stream <- FALSE

@@ -38,7 +38,7 @@ use this library.
 install.packages("ollamar")
 ```
 
-4.  ALternatively, for the **latest/development** version with
+4.  Alternatively, for the **latest/development** version with
     more/latest features, you can install it like so:
 
 ``` r
