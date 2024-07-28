@@ -23,21 +23,27 @@ The [Ollama R library](https://hauselin.github.io/ollama-r/) provides the easies
 
 > Note: You should have at least 8 GB of RAM available to run the 7B models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
-See [Ollama's Github page](https://github.com/ollama/ollama) for more information. See also the [Ollama API documentation and endpoints](https://github.com/ollama/ollama/blob/main/docs/api.md). For Ollama Python, see [ollama-python](https://github.com/ollama/ollama-python). You'll need to have the [Ollama](https://ollama.com/) app installed on your computer to use this library. 
+See [Ollama's Github page](https://github.com/ollama/ollama) for more information. See also the [Ollama API documentation and endpoints](https://github.com/ollama/ollama/blob/main/docs/api.md). For Ollama Python, see [ollama-python](https://github.com/ollama/ollama-python). You'll need to have the [Ollama](https://ollama.com/) app installed on your computer to use this library.
 
 ## Installation
 
 1. You should have the Ollama app installed on your computer. Download it from [Ollama](https://ollama.com/).
 
-2. Open/launch the Ollama app to start the local server. You can then run your language models locally, on your own machine/computer. 
+2. Open/launch the Ollama app to start the local server. You can then run your language models locally, on your own machine/computer.
 
-3. Install the development version of `ollamar` R library like so:
+3. Install the **stable** version like so:
+
+```r
+install.packages("ollamar")
+```
+
+4. ALternatively, for the **latest/development** version with more/latest features, you can install it like so:
 
 ``` r
 devtools::install_github("hauselin/ollamar")
 ```
 
-If it doesn't work or you don't have `devtools` installed, please run `install.packages("devtools")` in R or RStudio first. 
+If it doesn't work or you don't have `devtools` installed, please run `install.packages("devtools")` in R or RStudio first.
 
 ## Usage
 
@@ -51,8 +57,8 @@ test_connection()  # test connection to Ollama server; returns a httr2 response 
 # <httr2_response>
 
 list_models()  # list available models (models you've pulled/downloaded)
-   name                     size    parameter_size quantization_level modified           
-   <chr>                    <chr>   <chr>          <chr>              <chr>              
+   name                     size    parameter_size quantization_level modified
+   <chr>                    <chr>   <chr>          <chr>              <chr>
  1 llama3:latest            4.7 GB  8B             Q4_0               2024-05-01T21:01:00
  2 mistral-openorca:latest  4.1 GB  7B             Q4_0               2024-04-25T16:45:00
 ```
@@ -69,7 +75,7 @@ list_models()  # verify you've pulled/downloaded the model
 
 ### Delete a model
 
-Delete a model and its data (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)). You can see what models you've downloaded with `list_models()`. To download a model, specify the name of the model. 
+Delete a model and its data (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)). You can see what models you've downloaded with `list_models()`. To download a model, specify the name of the model.
 
 ```{r eval=FALSE}
 list_models()  # see the models you've pulled/downloaded
@@ -177,7 +183,7 @@ test_connection()
 
 #### Parsing `httr2_response` objects with `resp_process()`
 
-`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default. 
+`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default.
 
 You can either parse the output with `resp_process()` or use the `output` parameter in the function to specify the output format. Generally, the `output` parameter can be one of `"df"`, `"jsonlist"`, `"raw"`, `"resp"`, or `"text"`.
 
@@ -204,7 +210,7 @@ resp_process(resp, "text")  # text vector
 
 #### Utility/helper functions to format and prepare messages for the `chat()` function
 
-Internally, messages are represented as a `list` of many distinct `list` messages. Each list/message object has two elements: `role` (can be `"user"` or `"assistant"` or `"system"`) and `content` (the message text). The example below shows how the messages/lists are presented. 
+Internally, messages are represented as a `list` of many distinct `list` messages. Each list/message object has two elements: `role` (can be `"user"` or `"assistant"` or `"system"`) and `content` (the message text). The example below shows how the messages/lists are presented.
 
 ```{r eval=FALSE}
 list(  # main list containing all the messages

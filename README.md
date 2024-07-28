@@ -32,7 +32,14 @@ use this library.
 2.  Open/launch the Ollama app to start the local server. You can then
     run your language models locally, on your own machine/computer.
 
-3.  Install the development version of `ollamar` R library like so:
+3.  Install the **stable** version like so:
+
+``` r
+install.packages("ollamar")
+```
+
+4.  ALternatively, for the **latest/development** version with
+    more/latest features, you can install it like so:
 
 ``` r
 devtools::install_github("hauselin/ollamar")
@@ -56,8 +63,8 @@ test_connection()  # test connection to Ollama server; returns a httr2 response 
 # <httr2_response>
 
 list_models()  # list available models (models you've pulled/downloaded)
-   name                     size    parameter_size quantization_level modified           
-   <chr>                    <chr>   <chr>          <chr>              <chr>              
+   name                     size    parameter_size quantization_level modified
+   <chr>                    <chr>   <chr>          <chr>              <chr>
  1 llama3:latest            4.7 GB  8B             Q4_0               2024-05-01T21:01:00
  2 mistral-openorca:latest  4.1 GB  7B             Q4_0               2024-04-25T16:45:00
 ```

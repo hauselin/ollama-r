@@ -83,7 +83,6 @@ create_request <- function(endpoint, host = NULL) {
 #' generate("llama3", "The sky is...", stream = TRUE, output = "text", temperature = 2.0)
 #' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
 generate <- function(model, prompt, suffix = "", images = "", system = "", template = "", context = list(), stream = FALSE, raw = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text"), endpoint = "/api/generate", host = NULL, ...) {
-
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
         stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
@@ -195,7 +194,6 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #' )
 #' chat("llama3", messages, stream = TRUE)
 chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text"), endpoint = "/api/chat", host = NULL, ...) {
-
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
         stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
@@ -328,7 +326,6 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' # show("llama3") # returns jsonlist
 #' show("llama3", output = "resp") # returns response object
 show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), endpoint = "/api/show", host = NULL) {
-
     output <- output[1]
     if (!output %in% c("resp", "jsonlist", "raw")) {
         stop("Invalid output format specified. Supported formats: 'resp', 'jsonlist', 'raw'")
@@ -350,7 +347,6 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
             stop(e)
         }
     )
-
 }
 
 
@@ -365,7 +361,7 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 #'
 #' Delete a model from your local machine that you downlaoded using the pull() function. To see which models are available, use the list_models() function.
 #'
-#' @param model A character string of the model name such as "llama3".
+#' @param name A character string of the model name such as "llama3".
 #' @param endpoint The endpoint to delete the model. Default is "/api/delete".
 #' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
@@ -378,10 +374,16 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 #' \dontrun{
 #' delete("llama3")
 #' }
-delete <- function(model, endpoint = "/api/delete", host = NULL) {
+delete <- function(name, endpoint = "/api/delete", host = NULL) {
+    if (!model_avail(name)) {
+        message("Available models listed below.")
+        print(list_models(output = 'text', host = host))
+        return(invisible())
+    }
+
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "DELETE")
-    body_json <- list(model = model)
+    body_json <- list(name = name)
     req <- httr2::req_body_json(req, body_json)
 
     tryCatch(
@@ -390,7 +392,7 @@ delete <- function(model, endpoint = "/api/delete", host = NULL) {
             return(resp)
         },
         error = function(e) {
-            message("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
+            stop("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
         }
     )
 }
@@ -685,7 +687,7 @@ model_avail <- function(model) {
         }
     }
     if (!exist) {
-        cat(paste("Model", model, "does not exist. Please check available models with list_models() or download the model with pull().\n"))
+        message(paste("Model", model, "does not exist.\nPlease check available models with list_models() or download the model with pull()."))
     }
     return(exist)
 }
