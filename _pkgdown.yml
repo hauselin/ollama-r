@@ -29,6 +29,7 @@ reference:
     desc: Functions that are useful for working with the Ollama API
     contents:
       - resp_process
+      - image_encode_base64
       - create_message
       - append_message
       - prepend_message

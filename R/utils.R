@@ -180,6 +180,28 @@ resp_process_stream <- function(resp, output) {
 
 
 
+#' Read image file and encode it to base64.
+#'
+#' @param image_path The path to the image file.
+#'
+#' @return A base64 encoded string.
+#' @export
+#'
+#' @examples
+#' image_path <- file.path(system.file('extdata', package = "ollamar"), "image1.png")
+#' image_encode_base64(image_path)
+image_encode_base64 <- function(image_path) {
+    img_raw <- readBin(image_path, "raw", file.info(image_path)$size)
+    return(base64enc::base64encode(img_raw))
+}
+
+
+
+
+
+
+
+
 
 
 
