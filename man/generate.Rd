@@ -8,7 +8,7 @@ generate(
   model,
   prompt,
   suffix = "",
-  images = list(),
+  images = "",
   system = "",
   template = "",
   context = list(),
