@@ -20,7 +20,7 @@ test_that("generate function works with different outputs and resp_process", {
     expect_type(generate("llama3", "The sky is...", stream = TRUE, output = "text"), "character")
     expect_type(generate("llama3", "The sky is...", stream = TRUE, output = "raw"), "character")
 
-    ## resp_process
+    # resp_process
     # not streaming
     result <- generate("llama3", "The sky is...")
     expect_s3_class(result, "httr2_response")
