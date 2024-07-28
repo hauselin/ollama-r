@@ -24,3 +24,6 @@ Delete a model from your local machine that you downlaoded using the pull() func
 delete("llama3")
 }
 }
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model}{API documentation}
+}

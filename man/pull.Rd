@@ -35,3 +35,6 @@ pull("llama3")
 pull("all-minilm", stream = FALSE)
 \dontshow{\}) # examplesIf}
 }
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#pull-a-model}{API documentation}
+}

@@ -7,9 +7,10 @@
 chat(
   model,
   messages,
-  output = c("resp", "jsonlist", "raw", "df", "text"),
+  tools = list(),
   stream = FALSE,
   keep_alive = "5m",
+  output = c("resp", "jsonlist", "raw", "df", "text"),
   endpoint = "/api/chat",
   host = NULL,
   ...
@@ -20,11 +21,13 @@ chat(
 
 \item{messages}{A list with list of messages for the model (see examples below).}
 
-\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".}
+\item{tools}{Tools for the model to use if supported. Requires stream = FALSE. Default is an empty list.}
 
 \item{stream}{Enable response streaming. Default is FALSE.}
 
 \item{keep_alive}{The duration to keep the connection alive. Default is "5m".}
+
+\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".}
 
 \item{endpoint}{The endpoint to chat with the model. Default is "/api/chat".}
 
@@ -60,4 +63,7 @@ messages <- list(
 )
 chat("llama3", messages, stream = TRUE)
 \dontshow{\}) # examplesIf}
+}
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion}{API documentation}
 }

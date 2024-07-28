@@ -32,3 +32,6 @@ list_models("jsonlist")
 list_models("raw")
 \dontshow{\}) # examplesIf}
 }
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#list-local-models}{API documentation}
+}

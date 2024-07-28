@@ -42,3 +42,6 @@ embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy d
 embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
 \dontshow{\}) # examplesIf}
 }
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embedding}{API documentation}
+}

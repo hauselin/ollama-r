@@ -47,3 +47,6 @@ embed("nomic-embed-text:latest", c("Good bye", "Bye", "See you."))
 embed("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
 \dontshow{\}) # examplesIf}
 }
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings}{API documentation}
+}

@@ -17,6 +17,6 @@ Test connection to Ollama server
 }
 \examples{
 test_connection()
-test_connection("http://localhost:11434")
+test_connection("http://localhost:11434") # default url
 test_connection("http://127.0.0.1:11434")
 }
