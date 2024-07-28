@@ -196,7 +196,7 @@ resp_process_stream <- function(resp, output) {
 #'
 #' @examples
 #' image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
-#' image_encode_base64(image_path)
+#' substr(image_encode_base64(image_path), 1, 5)  # truncate output
 image_encode_base64 <- function(image_path) {
     if (!file.exists(image_path)) {
         stop("Image file does not exist.")
