@@ -61,7 +61,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         return(resp)
     }
 
-    endpoints_without_stream <- c("api/tags", "api/delete") # endpoints that do not stream
+    # endpoints that do not stream
+    endpoints_without_stream <- c("api/tags", "api/delete")
 
     # process stream resp separately
     stream <- FALSE
@@ -176,8 +177,33 @@ resp_process_stream <- function(resp, output) {
             return(paste0(df_response$response, collapse = ""))
         }
     } else if (grepl("api/chat", resp$url)) { # process chat endpoint
-        return(NULL) # TODO fill in
-    } else if (grepl("api/tags", resp$url)) { # process tags endpoint {
+        json_lines <- strsplit(rawToChar(resp$body), "\n")[[1]]
+        json_lines_output <- vector("list", length = length(json_lines))
+        df_response <- tibble::tibble(
+            model = character(length(json_lines_output)),
+            role = character(length(json_lines_output)),
+            content = character(length(json_lines_output)),
+            created_at = character(length(json_lines_output))
+        )
+
+        for (i in seq_along(json_lines)) {
+            json_lines_output[[i]] <- jsonlite::fromJSON(json_lines[[i]])
+            df_response$model[i] <- json_lines_output[[i]]$model
+            df_response$role[i] <- json_lines_output[[i]]$message$role
+            df_response$content[i] <- json_lines_output[[i]]$message$content
+            df_response$created_at[i] <- json_lines_output[[i]]$created_at
+        }
+
+        if (output[1] == "jsonlist") {
+            return(json_lines_output)
+        }
+        if (output[1] == "df") {
+            return(df_response)
+        }
+        if (output[1] == "text") {
+            return(paste0(df_response$content, collapse = ""))
+        }
+    } else if (grepl("api/tags", resp$url)) { # process tags endpoint
         return(NULL) # TODO fill in
     }
 }
@@ -196,7 +222,7 @@ resp_process_stream <- function(resp, output) {
 #'
 #' @examples
 #' image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
-#' substr(image_encode_base64(image_path), 1, 5)  # truncate output
+#' substr(image_encode_base64(image_path), 1, 5) # truncate output
 image_encode_base64 <- function(image_path) {
     if (!file.exists(image_path)) {
         stop("Image file does not exist.")

@@ -205,7 +205,7 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
         }
     }
 
-    req <- httr2::req_body_json(req, body_json)
+    req <- httr2::req_body_json(req, body_json, stream = stream)
 
     if (!stream) {
         tryCatch(
@@ -227,42 +227,10 @@ chat <- function(model, messages, output = c("resp", "jsonlist", "raw", "df", "t
     wrapped_handler <- function(x) stream_handler(x, env, endpoint)
     resp <- httr2::req_perform_stream(req, wrapped_handler, buffer_kb = 1)
     cat("\n\n")
+    resp$body <- env$accumulated_data
 
-    # process streaming output
-    json_lines <- strsplit(rawToChar(env$accumulated_data), "\n")[[1]]
-    json_lines_output <- vector("list", length = length(json_lines))
-    df_response <- tibble::tibble(
-        model = character(length(json_lines_output)),
-        role = character(length(json_lines_output)),
-        content = character(length(json_lines_output)),
-        created_at = character(length(json_lines_output))
-    )
+    return(resp_process(resp = resp, output = output[1]))
 
-    if (output[1] == "raw") {
-        return(rawToChar(env$accumulated_data))
-    }
-
-    for (i in seq_along(json_lines)) {
-        json_lines_output[[i]] <- jsonlite::fromJSON(json_lines[[i]])
-        df_response$model[i] <- json_lines_output[[i]]$model
-        df_response$role[i] <- json_lines_output[[i]]$message$role
-        df_response$content[i] <- json_lines_output[[i]]$message$content
-        df_response$created_at[i] <- json_lines_output[[i]]$created_at
-    }
-
-    if (output[1] == "jsonlist") {
-        return(json_lines_output)
-    }
-
-    if (output[1] == "df") {
-        return(df_response)
-    }
-
-    if (output[1] == "text") {
-        return(paste0(df_response$content, collapse = ""))
-    }
-
-    return(resp)
 }
 
 

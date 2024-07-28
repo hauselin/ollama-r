@@ -38,10 +38,10 @@ test_that("chat function works with basic input", {
     result <- chat("llama3", messages, stream = TRUE)
     expect_s3_class(result, "httr2_response")
     expect_s3_class(resp_process(result, "resp"), "httr2_response")
-    # expect_s3_class(resp_process(result, "df"), "data.frame")  # BUG: fail test
-    # expect_type(resp_process(result, "jsonlist"), "list")  # BUG fail test
-    # expect_type(resp_process(result, "text"), "character")  # BUG fail test
-    # expect_type(resp_process(result, "raw"), "character")  # BUG fail test
+    expect_s3_class(resp_process(result, "df"), "data.frame")
+    expect_type(resp_process(result, "jsonlist"), "list")
+    expect_type(resp_process(result, "text"), "character")
+    expect_type(resp_process(result, "raw"), "character")
 
     result <- chat("llama3", messages, output = "df")
     expect_s3_class(result, "data.frame")
@@ -58,9 +58,9 @@ test_that("chat function handles streaming correctly", {
     )
 
     result <- chat("llama3", messages, stream = TRUE, output = "text")
-    expect_type(result, "character")
-    expect_true(nchar(result) > 0)
-    expect_match(result, "1.*2.*3.*4.*5", all = FALSE)
+    expect_type(result, "character")  # BUG fail test
+    expect_true(nchar(result) > 0)  # BUG
+    expect_match(result, "1.*2.*3.*4.*5", all = FALSE)  # BUG
 })
 
 
