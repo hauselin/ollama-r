@@ -97,7 +97,7 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
     }
 
     # endpoints that do not stream
-    endpoints_without_stream <- c("api/tags", "api/delete")
+    endpoints_without_stream <- c("api/tags", "api/delete", "api/show")
 
     # process stream resp separately
     stream <- FALSE
@@ -172,6 +172,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         } else if (output == "text") {
             return(df_response$name)
         }
+    } else if (grepl("api/show", resp$url)) {
+        if (output %in% c("df", "text")) stop("Output format not supported for this endpoint: Only 'jsonlist' and 'raw' are supported.")
     }
 }
 

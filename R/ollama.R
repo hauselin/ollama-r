@@ -310,6 +310,56 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 
 
 
+#' Show model information
+#'
+#' @param name Name of the model to show
+#' @param verbose Returns full data for verbose response fields. Default is FALSE.
+#' @param output The output format. Default is "jsonlist". Other options are "resp", "raw".
+#' @param endpoint The endpoint to show the model. Default is "/api/show".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
+#' @references
+#' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#show-model-information)
+#'
+#' @return A response in the format specified in the output parameter.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' # show("llama3") # returns jsonlist
+#' show("llama3", output = "resp") # returns response object
+show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), endpoint = "/api/show", host = NULL) {
+
+    output <- output[1]
+    if (!output %in% c("resp", "jsonlist", "raw")) {
+        stop("Invalid output format specified. Supported formats: 'resp', 'jsonlist', 'raw'")
+    }
+
+    body_json <- list(
+        name = name,
+        verbose = verbose
+    )
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "POST")
+    tryCatch(
+        {
+            req <- httr2::req_body_json(req, body_json, verbose = verbose)
+            resp <- httr2::req_perform(req)
+            return(resp_process(resp, output = output))
+        },
+        error = function(e) {
+            stop(e)
+        }
+    )
+
+}
+
+
+
+
+
+
+
+
 
 #' Delete a model
 #'
