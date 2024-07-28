@@ -23,9 +23,9 @@ elements/messages from the end of the sequence.
 messages <- list(
     list(role = "system", content = "Be friendly"),
     list(role = "user", content = "How are you?")
-    )
-delete_message(messages, 1)  # delete first message
-delete_message(messages, -2)  # same as above (delete first message)
-delete_message(messages, 2)  # delete second message
-delete_message(messages, -1)  # same as above (delete second message)
+)
+delete_message(messages, 1) # delete first message
+delete_message(messages, -2) # same as above (delete first message)
+delete_message(messages, 2) # delete second message
+delete_message(messages, -1) # same as above (delete second message)
 }

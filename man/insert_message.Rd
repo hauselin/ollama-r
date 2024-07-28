@@ -26,7 +26,7 @@ The role and content are converted to a list and inserted into the input list at
 messages <- list(
     list(role = "system", content = "Be friendly"),
     list(role = "user", content = "How are you?")
-    )
+)
 insert_message("INSERT MESSAGE AT THE END", "user", messages)
 insert_message("INSERT MESSAGE AT THE BEGINNING", "user", messages, 2)
 }

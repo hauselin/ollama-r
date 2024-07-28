@@ -7,11 +7,11 @@ reference:
   - title: API calls
     desc: Functions to make calls to the Ollama server/API
     contents:
-      - list_models
-      - pull
-      - delete
       - generate
       - chat
+      - list_models
+      - delete
+      - pull
       - embed
       - embeddings
       - test_connection
@@ -41,3 +41,4 @@ reference:
       - package_config
       - model_options
       - stream_handler
+      - resp_process_stream

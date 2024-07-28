@@ -7,12 +7,15 @@
 generate(
   model,
   prompt,
+  suffix = "",
+  images = list(),
   system = "",
   template = "",
-  raw = FALSE,
-  output = c("resp", "jsonlist", "raw", "df", "text"),
+  context = list(),
   stream = FALSE,
+  raw = FALSE,
   keep_alive = "5m",
+  output = c("resp", "jsonlist", "raw", "df", "text"),
   endpoint = "/api/generate",
   host = NULL,
   ...
@@ -23,17 +26,23 @@ generate(
 
 \item{prompt}{A character string of the promp like "The sky is..."}
 
+\item{suffix}{A character string after the model response. Default is "".}
+
+\item{images}{A path to an image file to include in the prompt. Default is "".}
+
 \item{system}{A character string of the system prompt (overrides what is defined in the Modelfile). Default is "".}
 
 \item{template}{A character string of the prompt template (overrides what is defined in the Modelfile). Default is "".}
 
-\item{raw}{If TRUE, no formatting will be applied to the prompt. You may choose to use the raw parameter if you are specifying a full templated prompt in your request to the API. Default is FALSE.}
-
-\item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".}
+\item{context}{A list of context from a previous response to include previous conversation in the prompt. Default is an empty list.}
 
 \item{stream}{Enable response streaming. Default is FALSE.}
 
+\item{raw}{If TRUE, no formatting will be applied to the prompt. You may choose to use the raw parameter if you are specifying a full templated prompt in your request to the API. Default is FALSE.}
+
 \item{keep_alive}{The time to keep the connection alive. Default is "5m" (5 minutes).}
+
+\item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".}
 
 \item{endpoint}{The endpoint to generate the completion. Default is "/api/generate".}
 
@@ -54,4 +63,7 @@ generate("llama3", "The sky is...", stream = TRUE, output = "text")
 generate("llama3", "The sky is...", stream = TRUE, output = "text", temperature = 2.0)
 generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
 \dontshow{\}) # examplesIf}
+}
+\references{
+\href{https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion}{API documentation}
 }

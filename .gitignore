@@ -5,3 +5,5 @@
 .DS_Store
 .quarto
 docs
+
+R/scratch.R
