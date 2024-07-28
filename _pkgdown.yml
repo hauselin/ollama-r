@@ -7,15 +7,13 @@ reference:
   - title: API calls
     desc: Functions to make calls to the Ollama server/API
     contents:
-      - list_models
-      - pull
-      - delete
       - generate
       - chat
+      - list_models
+      - delete
+      - pull
       - embed
       - embeddings
-      - test_connection
-      - create_request
 
   - subtitle: Options available for the models
     desc: Functions to get information about the options available
@@ -29,6 +27,11 @@ reference:
     desc: Functions that are useful for working with the Ollama API
     contents:
       - resp_process
+      - ohelp
+      - model_avail
+      - test_connection
+      - create_request
+      - image_encode_base64
       - create_message
       - append_message
       - prepend_message
@@ -41,3 +44,4 @@ reference:
       - package_config
       - model_options
       - stream_handler
+      - resp_process_stream
