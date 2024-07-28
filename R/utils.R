@@ -72,7 +72,7 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
 
     # process non-stream response below
     if (output == "raw") {
-        return(httr2::resp_raw(resp))
+        return(rawToChar(resp$body))
     } else if (output == "jsonlist") {
         return(httr2::resp_body_json(resp))
     }
@@ -167,12 +167,11 @@ resp_process_stream <- function(resp, output) {
         if (output == "text") {
             return(paste0(df_response$response, collapse = ""))
         }
-    }  else if (grepl("api/chat", resp$url)) { # process chat endpoint
-        return(NULL)  # TODO fill in
+    } else if (grepl("api/chat", resp$url)) { # process chat endpoint
+        return(NULL) # TODO fill in
     } else if (grepl("api/tags", resp$url)) { # process tags endpoint {
-        return(NULL)  # TODO fill in
+        return(NULL) # TODO fill in
     }
-
 }
 
 
@@ -188,7 +187,7 @@ resp_process_stream <- function(resp, output) {
 #' @export
 #'
 #' @examples
-#' image_path <- file.path(system.file('extdata', package = "ollamar"), "image1.png")
+#' image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
 #' image_encode_base64(image_path)
 image_encode_base64 <- function(image_path) {
     if (!file.exists(image_path)) {
