@@ -451,18 +451,16 @@ pull <- function(name, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", 
 }
 
 
-
-
-normalize <- function(x) {
-    norm <- sqrt(sum(x^2))
-    normalized_vector <- x / norm
-    return(normalized_vector)
+vector_norm <- function(x) {
+    return(sqrt(sum(x^2)))
 }
 
 
-
-
-
+normalize <- function(x) {
+    norm <- vector_norm(x)
+    normalized_vector <- x / norm
+    return(normalized_vector)
+}
 
 
 
