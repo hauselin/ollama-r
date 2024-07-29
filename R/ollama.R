@@ -516,6 +516,7 @@ embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = 
         {
             resp <- httr2::req_perform(req)
             json_body <- httr2::resp_body_json(resp)$embeddings
+            # matrix
             m <- do.call(cbind, lapply(json_body, function(x) {
                 v <- unlist(x)
                 if (normalize) {
@@ -584,7 +585,8 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
     tryCatch(
         {
             resp <- httr2::req_perform(req)
-            v <- unlist(resp_process(resp, "jsonlist")$embedding)
+            # vector
+            v <- unlist(httr2::resp_body_json(resp)$embedding)
             if (normalize) {
                 v <- normalize(v)
             }
