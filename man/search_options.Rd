@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_options.R
 \name{search_options}
 \alias{search_options}
-\title{Search for options based on a query.}
+\title{Search for options based on a query}
 \usage{
 search_options(query)
 }
@@ -13,7 +13,7 @@ search_options(query)
 Returns a list of matching options.
 }
 \description{
-Search for options based on a query.
+Search for options based on a query
 }
 \examples{
 search_options("learning rate")

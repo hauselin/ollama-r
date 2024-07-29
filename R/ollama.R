@@ -10,7 +10,7 @@ package_config <- list(
 
 
 
-#' Create a httr2 request object.
+#' Create a httr2 request object
 #'
 #' Creates a httr2 request object with base URL, headers and endpoint. Used by other functions in the package and not intended to be used directly.
 #'
@@ -52,7 +52,7 @@ create_request <- function(endpoint, host = NULL) {
 
 
 
-#' Generate a completion.
+#' Generate a completion
 #'
 #' Generate a response for a given prompt with a provided model.
 #'
@@ -653,7 +653,7 @@ ps <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "
 
 
 
-#' Chat with a model in real-time in R console.
+#' Chat with a model in real-time in R console
 #'
 #' @param model A character string of the model name such as "llama3". Defaults to "codegemma:7b" which is a decent coding model as of 2024-07-27.
 #' @param ... Additional options. No options are currently available at this time.
@@ -703,7 +703,7 @@ ohelp <- function(model = "codegemma:7b", ...) {
 
 
 
-#' Check if model is available locally.
+#' Check if model is available locally
 #'
 #' @param model A character string of the model name such as "llama3".
 #'

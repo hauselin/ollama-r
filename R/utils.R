@@ -70,7 +70,7 @@ stream_handler <- function(x, env, endpoint) {
 
 
 
-#' Process httr2 response object.
+#' Process httr2 response object
 #'
 #' @param resp A httr2 response object.
 #' @param output The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text"
@@ -214,7 +214,7 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
 
 
 
-#' Process httr2 response object for streaming.
+#' Process httr2 response object for streaming
 #'
 #' @keywords internal
 resp_process_stream <- function(resp, output) {
@@ -303,7 +303,7 @@ resp_process_stream <- function(resp, output) {
 
 
 
-#' Read image file and encode it to base64.
+#' Read image file and encode it to base64
 #'
 #' @param image_path The path to the image file.
 #'

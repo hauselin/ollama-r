@@ -57,7 +57,7 @@ model_options <- list(
 
 
 
-#' Check if an option is valid.
+#' Check if an option is valid
 #'
 #' @param opt An option (character) to check.
 #'
@@ -73,7 +73,7 @@ check_option_valid <- function(opt) {
 
 
 
-#' Check if a vector of options are valid.
+#' Check if a vector of options are valid
 #'
 #' @param opts A vector of options to check.
 #'
@@ -100,7 +100,7 @@ check_options <- function(opts = NULL) {
 }
 
 
-#' Search for options based on a query.
+#' Search for options based on a query
 #'
 #' @param query A query (character) to search for in the options.
 #'

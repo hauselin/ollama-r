@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{create_request}
 \alias{create_request}
-\title{Create a httr2 request object.}
+\title{Create a httr2 request object}
 \usage{
 create_request(endpoint, host = NULL)
 }

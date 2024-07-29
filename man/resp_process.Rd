@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{resp_process}
 \alias{resp_process}
-\title{Process httr2 response object.}
+\title{Process httr2 response object}
 \usage{
 resp_process(resp, output = c("df", "jsonlist", "raw", "resp", "text"))
 }
@@ -15,7 +15,7 @@ resp_process(resp, output = c("df", "jsonlist", "raw", "resp", "text"))
 A data frame, json list, raw or httr2 response object.
 }
 \description{
-Process httr2 response object.
+Process httr2 response object
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

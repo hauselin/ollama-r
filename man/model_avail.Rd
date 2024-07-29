@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{model_avail}
 \alias{model_avail}
-\title{Check if model is available locally.}
+\title{Check if model is available locally}
 \usage{
 model_avail(model)
 }
@@ -13,7 +13,7 @@ model_avail(model)
 A logical value indicating if the model exists.
 }
 \description{
-Check if model is available locally.
+Check if model is available locally
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

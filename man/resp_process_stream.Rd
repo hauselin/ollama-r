@@ -2,11 +2,11 @@
 % Please edit documentation in R/utils.R
 \name{resp_process_stream}
 \alias{resp_process_stream}
-\title{Process httr2 response object for streaming.}
+\title{Process httr2 response object for streaming}
 \usage{
 resp_process_stream(resp, output)
 }
 \description{
-Process httr2 response object for streaming.
+Process httr2 response object for streaming
 }
 \keyword{internal}

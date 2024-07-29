@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_options.R
 \name{check_option_valid}
 \alias{check_option_valid}
-\title{Check if an option is valid.}
+\title{Check if an option is valid}
 \usage{
 check_option_valid(opt)
 }
@@ -13,7 +13,7 @@ check_option_valid(opt)
 Returns TRUE if the option is valid, FALSE otherwise.
 }
 \description{
-Check if an option is valid.
+Check if an option is valid
 }
 \examples{
 check_option_valid("mirostat")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{image_encode_base64}
 \alias{image_encode_base64}
-\title{Read image file and encode it to base64.}
+\title{Read image file and encode it to base64}
 \usage{
 image_encode_base64(image_path)
 }
@@ -13,7 +13,7 @@ image_encode_base64(image_path)
 A base64 encoded string.
 }
 \description{
-Read image file and encode it to base64.
+Read image file and encode it to base64
 }
 \examples{
 image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")

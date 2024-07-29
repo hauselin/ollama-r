@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_options.R
 \name{check_options}
 \alias{check_options}
-\title{Check if a vector of options are valid.}
+\title{Check if a vector of options are valid}
 \usage{
 check_options(opts = NULL)
 }
@@ -13,7 +13,7 @@ check_options(opts = NULL)
 Returns a list with two elements: valid_options and invalid_options.
 }
 \description{
-Check if a vector of options are valid.
+Check if a vector of options are valid
 }
 \examples{
 check_options(c("mirostat", "invalid_option"))

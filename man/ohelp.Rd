@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{ohelp}
 \alias{ohelp}
-\title{Chat with a model in real-time in R console.}
+\title{Chat with a model in real-time in R console}
 \usage{
 ohelp(model = "codegemma:7b", ...)
 }
@@ -15,7 +15,7 @@ ohelp(model = "codegemma:7b", ...)
 Does not return anything. It prints the conversation in the console.
 }
 \description{
-Chat with a model in real-time in R console.
+Chat with a model in real-time in R console
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

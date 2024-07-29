@@ -5,7 +5,7 @@ template:
 
 reference:
   - title: Official Ollama API calls
-    desc: Functions to make calls to the Ollama server/API
+    desc: Functions to make calls to the Ollama server/API.
     contents:
       - generate
       - chat
@@ -18,7 +18,7 @@ reference:
       - ps
 
   - subtitle: Utility functions
-    desc: Functions to work with the Ollama API
+    desc: Functions to work with the Ollama API.
     contents:
       - resp_process
       - ohelp
@@ -28,7 +28,7 @@ reference:
       - create_request
 
   - subtitle: Manipulate chat/conversation history
-    desc: Functions to manipulate messages and chat history for `chat()` function
+    desc: Functions to manipulate messages and chat history for `chat()` function.
     contents:
       - create_message
       - append_message
@@ -37,7 +37,7 @@ reference:
       - insert_message
 
   - subtitle: Model options
-    desc: Functions to get information about the options available
+    desc: Functions to get information about the options available.
     contents:
       - check_option_valid
       - check_options
@@ -45,7 +45,7 @@ reference:
       - validate_options
 
   - subtitle: Internal functions and variables
-    desc: Functions and variables used internally by the package
+    desc: Functions and variables used internally by the package.
     contents:
       - package_config
       - model_options

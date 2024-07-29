@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{generate}
 \alias{generate}
-\title{Generate a completion.}
+\title{Generate a completion}
 \usage{
 generate(
   model,
