@@ -91,7 +91,7 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         return(NULL)
     }
 
-    endpoints_to_skip <- c("api/delete")
+    endpoints_to_skip <- c("api/delete", "api/embed", "api/embeddings")
     for (endpoint in endpoints_to_skip) {
         if (grepl(endpoint, resp$url)) {
             message("Returning response object because resp_process not supported for this endpoint.")

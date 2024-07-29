@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{embeddings}
 \alias{embeddings}
-\title{Get vector embedding for a single prompt}
+\title{Get vector embedding for a single prompt - deprecated in favor of \code{embed()}}
 \usage{
 embeddings(
   model,

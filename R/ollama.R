@@ -545,7 +545,7 @@ embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = 
 
 
 
-#' Get vector embedding for a single prompt
+#' Get vector embedding for a single prompt - deprecated in favor of `embed()`
 #'
 #' This function will be deprecated over time and has been superceded by `embed()`. See `embed()` for more details.
 #'
