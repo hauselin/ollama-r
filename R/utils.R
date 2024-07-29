@@ -105,7 +105,7 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
     }
 
     # endpoints that should never be processed with resp_process_stream
-    endpoints_without_stream <- c("api/tags", "api/delete", "api/show")
+    endpoints_without_stream <- c("api/tags", "api/delete", "api/show", "api/ps")
 
     # process stream resp separately
     stream <- FALSE
@@ -182,6 +182,32 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         }
     } else if (grepl("api/show", resp$url)) {
         if (output %in% c("df", "text")) stop("Output format not supported for this endpoint: Only 'jsonlist' and 'raw' are supported.")
+    } else if (grepl("api/ps", resp$url)) {
+        json_body <- httr2::resp_body_json(resp)$models
+        df_response <- tibble::tibble(
+            name = character(length(json_body)),
+            size = character(length(json_body)),
+            parameter_size = character(length(json_body)),
+            quantization_level = character(length(json_body)),
+            digest = character(length(json_body)),
+            expires_at = character(length(json_body)),
+        )
+
+        for (i in seq_along(json_body)) {
+            df_response[i, "name"] <- json_body[[i]]$name
+            size <- json_body[[i]]$size / 10^9
+            df_response[i, "size"] <- ifelse(size > 1, paste0(round(size, 1), " GB"), paste0(round(size * 1000), " MB"))
+            df_response[i, "parameter_size"] <- json_body[[i]]$details$parameter_size
+            df_response[i, "quantization_level"] <- json_body[[i]]$details$quantization_level
+            df_response[i, "digest"] <- json_body[[i]]$details$parameter_size
+            df_response[i, "expires_at"] <- json_body[[i]]$expires_at
+        }
+
+        if (output == "df") {
+            return(data.frame(df_response))
+        } else if (output == "text") {
+            return(df_response$name)
+        }
     }
 }
 

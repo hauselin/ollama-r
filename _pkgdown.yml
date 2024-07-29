@@ -15,6 +15,7 @@ reference:
       - pull
       - embed
       - embeddings
+      - ps
 
   - subtitle: Utility functions
     desc: Functions to work with the Ollama API

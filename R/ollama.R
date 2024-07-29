@@ -603,6 +603,44 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 
 
 
+#' List running models
+#'
+#' @param output The output format. Default is "df". Supported formats are "df", "resp", "jsonlist", "raw", and "text".
+#' @param endpoint The endpoint to list the running models. Default is "/api/ps".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
+#' @references
+#' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#list-running-models)
+#'
+#' @return A response in the format specified in the output parameter.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' ps("text")
+ps <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/ps", host = NULL) {
+    output <- output[1]
+    if (!output %in% c("df", "resp", "jsonlist", "raw", "text")) {
+        stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
+    }
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "GET")
+    tryCatch(
+        {
+            resp <- httr2::req_perform(req)
+            return(resp_process(resp = resp, output = output))
+        },
+        error = function(e) {
+            stop(e)
+        }
+    )
+}
+
+
+
+
+
+
+
 
 
 
