@@ -16,13 +16,20 @@ lets you run language models locally on your own machine. Main site:
 > Note: You should have at least 8 GB of RAM available to run the 7B
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
+You’ll need to have the [Ollama](https://ollama.com/) app installed on
+your computer to use this library.
+
 See [Ollama’s Github page](https://github.com/ollama/ollama) for more
 information. See also the [Ollama API documentation and
-endpoints](https://github.com/ollama/ollama/blob/main/docs/api.md). For
-Ollama Python, see
-[ollama-python](https://github.com/ollama/ollama-python). You’ll need to
-have the [Ollama](https://ollama.com/) app installed on your computer to
-use this library.
+endpoints](https://github.com/ollama/ollama/blob/main/docs/api.md).
+
+## Ollama R versus Ollama Python
+
+This library has been inspired by the [Ollama Python
+library](https://github.com/ollama/ollama-python), so if you’re coming
+from Python, you should feel right at home. Alternatively, if you plan
+to use Ollama with Python, using this R library will help you understand
+the Python library as well.
 
 ## Installation
 

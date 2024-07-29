@@ -4,7 +4,7 @@ template:
   bootstrap: 5
 
 reference:
-  - title: Official Ollama API calls
+  - title: Official Ollama API endpoints
     desc: Functions to make calls to the Ollama server/API.
     contents:
       - generate
