@@ -175,6 +175,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
             df_response[i, "modified"] <- strsplit(json_body[[i]]$modified_at, ".", fixed = TRUE)[[1]][1]
         }
 
+        df_response <- df_response[order(df_response$name, df_response$size), ]
+
         if (output == "df") {
             return(data.frame(df_response))
         } else if (output == "text") {
