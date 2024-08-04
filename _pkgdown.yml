@@ -11,6 +11,7 @@ reference:
     contents:
       - generate
       - chat
+      - create
       - list_models
       - show
       - copy

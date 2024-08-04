@@ -255,6 +255,83 @@ chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "
 
 
 
+#' Create a model
+#'
+#' It is recommended to set `modelfile` to the content of the Modelfile rather than just set path.
+#'
+#' @param name Name of the model to create.
+#' @param modelfile Contents of the Modelfile as character string. Default is NULL.
+#' @param stream Enable response streaming. Default is FALSE.
+#' @param path The path to the Modelfile. Default is NULL.
+#' @param endpoint The endpoint to create the model. Default is "/api/create".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
+#' @references
+#' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#create-a-model)
+#'
+#' @return A response in the format specified in the output parameter.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' create("mario", "FROM llama3\nSYSTEM You are mario from Super Mario Bros.")
+#' generate("mario", "who are you?", output = "text")  # model should say it's Mario
+#' delete("mario")  # delete the model created above
+create <- function(name, modelfile = NULL, stream = FALSE, path = NULL, endpoint = "/api/create", host = NULL) {
+
+    if (is.null(modelfile) && is.null(path)) {
+        stop("Either modelfile or path must be provided. Using modelfile is recommended.")
+    }
+
+    if (!is.null(modelfile) && !is.null(path)) {
+        stop("Only one of modelfile or path should be provided.")
+    }
+
+    if (!is.null(path)) {
+        if (file.exists(path)) {
+            modelfile <- paste0(readLines("inst/extdata/example_modefile.txt", warn = FALSE), collapse = "\n")
+            cat(paste0("Modefile\n", modelfile, "\n"))
+        } else {
+            stop("The path provided does not exist.")
+        }
+    }
+
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "POST")
+
+    body_json <- list(
+        name = name,
+        modelfile = modelfile,
+        stream = stream
+    )
+
+    req <- httr2::req_body_json(req, body_json, stream = stream)
+
+    if (!stream) {
+        tryCatch(
+            {
+                resp <- httr2::req_perform(req)
+                return(resp)
+            },
+            error = function(e) {
+                stop(e)
+            }
+        )
+    }
+
+    # streaming
+    env <- new.env()
+    env$buffer <- ""
+    env$content <- ""
+    env$accumulated_data <- raw()
+    wrapped_handler <- function(x) stream_handler(x, env, endpoint)
+    resp <- httr2::req_perform_stream(req, wrapped_handler, buffer_kb = 1)
+    resp$body <- env$accumulated_data
+    return(resp)
+
+}
+
+
+
 
 
 
