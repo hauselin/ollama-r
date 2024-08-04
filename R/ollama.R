@@ -354,6 +354,50 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 
 
 
+#' Copy a model
+#'
+#' @param source The name of the model to copy.
+#' @param destination The name for the new model.
+#' @param endpoint The endpoint to copy the model. Default is "/api/copy".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
+#' @references
+#' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#copy-a-model)
+#'
+#' @return A httr2 response object.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' copy("llama3", "llama3_copy")
+#' delete("llama3_copy")  # delete the model was just got copied
+copy <- function(source, destination, endpoint = "/api/copy", host = NULL) {
+
+    if (!model_avail(source)) {
+        return(invisible())
+    }
+
+    body_json <- list(
+        source = source,
+        destination = destination
+    )
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "POST")
+    tryCatch(
+        {
+            req <- httr2::req_body_json(req, body_json)
+            resp <- httr2::req_perform(req)
+            return(resp)
+        },
+        error = function(e) {
+            stop(e)
+        }
+    )
+}
+
+
+
+
+
 
 
 

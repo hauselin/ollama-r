@@ -11,6 +11,7 @@ reference:
       - chat
       - list_models
       - show
+      - copy
       - delete
       - pull
       - embed

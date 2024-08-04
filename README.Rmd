@@ -53,20 +53,38 @@ If it doesn't work or you don't have `devtools` installed, please run `install.p
 
 ## Usage
 
-`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default. See [Notes section](#notes) below for more information.
+`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default. If the response object says `Status: 200 OK`, then the request was successful. See [Notes section](#notes) below for more information.
 
 ```{r eval=FALSE}
 library(ollamar)
 
-test_connection()  # test connection to Ollama server; returns a httr2 response object
-# Ollama local server running successfully
-# <httr2_response>
+test_connection()  # test connection to Ollama server
+# if you see Ollama local server running, it's working
 
-list_models()  # list available models (models you've pulled/downloaded)
-   name                     size    parameter_size quantization_level modified
-   <chr>                    <chr>   <chr>          <chr>              <chr>
- 1 llama3:latest            4.7 GB  8B             Q4_0               2024-05-01T21:01:00
- 2 mistral-openorca:latest  4.1 GB  7B             Q4_0               2024-04-25T16:45:00
+# generate a response/text based on a prompt; returns an httr2 response by default
+resp <- generate("llama3", "tell me a 5-word story") 
+resp
+
+#' interpret httr2 response object
+#' <httr2_response>
+#' POST http://127.0.0.1:11434/api/generate  # endpoint
+#' Status: 200 OK  # if successful, status code should be 200 OK
+#' Content-Type: application/json
+#' Body: In memory (414 bytes)
+
+# get just the text from the response object
+resp_process(resp, "text") 
+# get the text as a tibble dataframe
+resp_process(resp, "df") 
+
+# alternatively, specify the output type when calling the function initially
+txt <- generate("llama3", "tell me a 5-word story", output = "text")
+
+# list available models (models you've pulled/downloaded)
+list_models()  
+                        name    size parameter_size quantization_level            modified
+1               codegemma:7b    5 GB             9B               Q4_0 2024-07-27T23:44:10
+2            llama3.1:latest  4.7 GB           8.0B               Q4_0 2024-07-31T07:44:33
 ```
 
 ### Pull/download model
