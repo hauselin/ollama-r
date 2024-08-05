@@ -328,11 +328,27 @@ messages <- delete_message(messages, 2)
 
 ### Parallel requests
 
-For the `generate()` and `chat()` endpoints/functions, you can make
+For the `generate()` and `chat()` endpoints/functions, you can specify
+`output = 'req'` in the function so the functions return `httr2_request`
+objects instead of `httr2_response` objects.
+
+``` r
+prompt <- "Tell me a 10-word story"
+req <- generate("llama3.1", prompt, output = "req")  # returns a httr2_request object
+# <httr2_request>
+# POST http://127.0.0.1:11434/api/generate
+# Headers:
+# • content_type: 'application/json'
+# • accept: 'application/json'
+# • user_agent: 'ollama-r/1.1.1 (aarch64-apple-darwin20) R/4.4.0'
+# Body: json encoded data
+```
+
+When you have multiple `httr2_request` objects in a list, you can make
 parallel requests with the `req_perform_parallel` function from the
-`httr2` library. You need to specify `output = 'req'` in the function so
-the functions return `httr2_request` objects instead of `httr2_response`
-objects.
+`httr2` library. See [`httr2`
+documentation](https://httr2.r-lib.org/reference/req_perform_parallel.html)
+for details.
 
 ``` r
 library(httr2)

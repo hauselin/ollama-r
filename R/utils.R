@@ -86,9 +86,13 @@ stream_handler <- function(x, env, endpoint) {
 #' resp_process(resp, "resp") # return input response object
 #' resp_process(resp, "text") # return text/character vector
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text")) {
+
+    if (!inherits(resp, "httr2_response")) {
+        stop("Input must be a httr2 response object")
+    }
+
     if (is.null(resp) || resp$status_code != 200) {
-        warning("Cannot process response")
-        return(NULL)
+        stop("Cannot process response")
     }
 
     endpoints_to_skip <- c("api/delete", "api/embed", "api/embeddings", "api/create")
