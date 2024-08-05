@@ -892,10 +892,10 @@ ohelp <- function(model = "codegemma:7b", ...) {
     if (!model_avail(model)) {
         return(invisible())
     }
-
+    messages <- list()
+    n_messages <- 0
     cat("Say something or type /q to quit or end the conversation.\n\n")
 
-    n_messages <- 0
     opts <- list(...)
     if (length(opts) > 0) {
         if (opts$first_prompt == "quit") {
@@ -909,7 +909,7 @@ ohelp <- function(model = "codegemma:7b", ...) {
         if (n_messages == 0) {
             messages <- create_message(prompt, role = "user")
         } else {
-            messages <- append(messages, create_message(prompt, role = "user"))
+            messages <- append_message(prompt, "user", messages)
         }
         n_messages <- n_messages + 1
         response <- chat(model, messages = messages, output = "text", stream = TRUE)
