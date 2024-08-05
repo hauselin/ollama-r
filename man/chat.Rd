@@ -10,7 +10,7 @@ chat(
   tools = list(),
   stream = FALSE,
   keep_alive = "5m",
-  output = c("resp", "jsonlist", "raw", "df", "text"),
+  output = c("resp", "jsonlist", "raw", "df", "text", "req"),
   endpoint = "/api/chat",
   host = NULL,
   ...
@@ -27,7 +27,7 @@ chat(
 
 \item{keep_alive}{The duration to keep the connection alive. Default is "5m".}
 
-\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text".}
+\item{output}{The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text", "req" (httr2_request object).}
 
 \item{endpoint}{The endpoint to chat with the model. Default is "/api/chat".}
 

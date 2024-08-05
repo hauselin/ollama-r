@@ -7,6 +7,8 @@ test_that("generate function works with different outputs and resp_process", {
     # incorrect output type
     expect_error(generate("llama3", "The sky is...", output = "abc"))
 
+    expect_s3_class(generate("llama3.1", "tell me a 5-word story", output = "req"), "httr2_request")
+
     # not streaming
     expect_s3_class(generate("llama3", "The sky is..."), "httr2_response")
     expect_s3_class(generate("llama3", "The sky is...", output = "resp"), "httr2_response")

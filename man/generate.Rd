@@ -15,7 +15,7 @@ generate(
   stream = FALSE,
   raw = FALSE,
   keep_alive = "5m",
-  output = c("resp", "jsonlist", "raw", "df", "text"),
+  output = c("resp", "jsonlist", "raw", "df", "text", "req"),
   endpoint = "/api/generate",
   host = NULL,
   ...
@@ -42,7 +42,7 @@ generate(
 
 \item{keep_alive}{The time to keep the connection alive. Default is "5m" (5 minutes).}
 
-\item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text".}
+\item{output}{A character vector of the output format. Default is "resp". Options are "resp", "jsonlist", "raw", "df", "text", "req" (httr2_request object).}
 
 \item{endpoint}{The endpoint to generate the completion. Default is "/api/generate".}
 

@@ -284,3 +284,87 @@ messages[[4]]  # get 2nd message
 # delete a message at a specific index/position (2nd position in the example below)
 messages <- delete_message(messages, 2)
 ```
+
+## Advanced usage
+
+### Parallel requests
+
+For the `generate()` and `chat()` endpoints/functions, you can make parallel requests with the `req_perform_parallel` function from the `httr2` library. You need to specify `output = 'req'` in the function so the functions return `httr2_request` objects instead of `httr2_response` objects.
+
+```{r eval=FALSE}
+library(httr2)
+
+prompt <- "Tell me a 5-word story"
+
+# create 5 httr2_request objects that generate a response to the same prompt
+reqs <- lapply(1:5, function(r) generate("llama3.1", prompt, output = "req"))
+
+# make parallel requests and get response
+resps <- req_perform_parallel(reqs)  # list of httr2_request objects
+
+# process the responses
+sapply(resps, resp_process, "text")  # get responses as text
+# [1] "She found him in Paris."         "She found the key upstairs."    
+# [3] "She found her long-lost sister." "She found love on Mars."        
+# [5] "She found the diamond ring."    
+
+```
+
+Example sentiment analysis with parallel requests with `generate()` function
+
+```{r eval=FALSE}
+library(httr2)
+library(glue)
+library(dplyr)
+
+# text to classify
+texts <- c('I love this product', 'I hate this product', 'I am neutral about this product')
+
+# create httr2_request objects for each text, using the same system prompt
+reqs <- lapply(texts, function(text) {
+  prompt <- glue("Your only task/role is to evaluate the sentiment of product reviews, and your response should be one of the following:'positive', 'negative', or 'other'. Product review: {text}")
+  generate("llama3.1", prompt, output = "req")
+})
+
+# make parallel requests and get response
+resps <- req_perform_parallel(reqs)  # list of httr2_request objects
+
+# process the responses
+sapply(resps, resp_process, "text")  # get responses as text
+# [1] "Positive"                            "Negative."                          
+# [3] "'neutral' translates to... 'other'."
+
+
+```
+
+Example sentiment analysis with parallel requests with `chat()` function
+
+```{r eval=FALSE}
+library(httr2)
+library(dplyr)
+
+# text to classify
+texts <- c('I love this product', 'I hate this product', 'I am neutral about this product')
+
+# create system prompt
+chat_history <- create_message("Your only task/role is to evaluate the sentiment of product reviews provided by the user. Your response should simply be 'positive', 'negative', or 'other'.", "system")
+
+# create httr2_request objects for each text, using the same system prompt
+reqs <- lapply(texts, function(text) {
+  messages <- append_message(text, "user", chat_history)
+  chat("llama3.1", messages, output = "req")
+})
+
+# make parallel requests and get response
+resps <- req_perform_parallel(reqs)  # list of httr2_request objects
+
+# process the responses
+bind_rows(lapply(resps, resp_process, "df"))  # get responses as dataframes
+# # A tibble: 3 × 4
+#   model    role      content  created_at                 
+#   <chr>    <chr>     <chr>    <chr>                      
+# 1 llama3.1 assistant Positive 2024-08-05T17:54:27.758618Z
+# 2 llama3.1 assistant negative 2024-08-05T17:54:27.657525Z
+# 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z
+
+```

@@ -11,6 +11,8 @@ test_that("chat function works with basic input", {
     # incorrect output type
     expect_error(chat("llama3", messages, output = "abc"))
 
+    expect_s3_class(chat("llama3.1", messages, output = "req"), "httr2_request")
+
     # not streaming
     expect_s3_class(chat("llama3", messages), "httr2_response")
     expect_s3_class(chat("llama3", messages, output = "resp"), "httr2_response")
