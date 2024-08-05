@@ -89,7 +89,7 @@
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># if you see Ollama local server running, it's working</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># generate a response/text based on a prompt; returns an httr2 response by default</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3"</span>, <span class="st">"tell me a 5-word story"</span>) </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>) </span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>resp</span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#' interpret httr2 response object</span></span>
@@ -105,7 +105,7 @@
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"df"</span>) </span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co"># alternatively, specify the output type when calling the function initially</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3"</span>, <span class="st">"tell me a 5-word story"</span>, <span class="at">output =</span> <span class="st">"text"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>, <span class="at">output =</span> <span class="st">"text"</span>)</span>
 <span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a></span>
 <span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co"># list available models (models you've pulled/downloaded)</span></span>
 <span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="fu">list_models</span>()  </span>
@@ -117,8 +117,7 @@
 </h3>
 <p>Download a model from the ollama library (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#pull-a-model" class="external-link">API doc</a>). For the list of models you can pull/download, see <a href="https://ollama.com/library" class="external-link">Ollama library</a>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"llama3"</span><span class="op">)</span>  <span class="co"># pull/download llama3 model</span></span>
-<span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"mistral-openorca"</span><span class="op">)</span>  <span class="co"># pull/download mistral-openorca model</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"llama3.1"</span><span class="op">)</span>  <span class="co"># download a model (the equivalent bash code: ollama run llama3.1)</span></span>
 <span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># verify you've pulled/downloaded the model</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -134,14 +133,14 @@
 </h3>
 <p>Generate a response for a given prompt (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion" class="external-link">API doc</a>).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span><span class="op">)</span>  <span class="co"># return httr2 response object by default</span></span>
+<code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Tomorrow is a..."</span><span class="op">)</span>  <span class="co"># return httr2 response object by default</span></span>
 <span><span class="va">resp</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># process the response to return text/vector output</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>  <span class="co"># directly return text/vector output</span></span>
-<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># return httr2 response object and stream output</span></span>
-<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"df"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>  <span class="co"># directly return text/vector output</span></span>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Tomorrow is a..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># return httr2 response object and stream output</span></span>
+<span><span class="fu"><a href="reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Tomorrow is a..."</span>, output <span class="op">=</span> <span class="st">"df"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="chat">Chat<a class="anchor" aria-label="anchor" href="#chat"></a>
@@ -151,16 +150,16 @@
 <code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span><span class="op">)</span>  <span class="co"># default returns httr2 response object</span></span>
+<span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span><span class="op">)</span>  <span class="co"># default returns httr2 response object</span></span>
 <span><span class="va">resp</span>  <span class="co"># &lt;httr2_response&gt;</span></span>
 <span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># process the response to return text/vector output</span></span>
 <span></span>
 <span><span class="co"># specify output type when calling the function</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>  <span class="co"># text vector</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span>  <span class="co"># data frame/tibble</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># stream output and return httr2 response object</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>  <span class="co"># text vector</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span>  <span class="co"># data frame/tibble</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"jsonlist"</span><span class="op">)</span>  <span class="co"># list</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># stream output and return httr2 response object</span></span>
 <span></span>
 <span><span class="co"># list of messages</span></span>
 <span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -170,7 +169,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>  <span class="co"># print the formatted output</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>  <span class="co"># print the formatted output</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="streaming-responses">Streaming responses<a class="anchor" aria-label="anchor" href="#streaming-responses"></a>
 </h4>
@@ -183,9 +182,9 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># use "llama3" model, provide list of messages, return text/vector output, and stream the output</span></span>
-<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co"># chat(model = "llama3", messages = messages, output = "text", stream = TRUE)  # same as above</span></span></code></pre></div>
+<span><span class="co"># use "llama3.1" model, provide list of messages, return text/vector output, and stream the output</span></span>
+<span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># chat(model = "llama3.1", messages = messages, output = "text", stream = TRUE)  # same as above</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -197,22 +196,22 @@
 <li>cosine similarity and Euclidean distance will result in the identical rankings</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># don't normalize embeddings</span></span>
-<span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get embeddings for similar prompts</span></span>
-<span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
-<span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span><span class="op">)</span></span>
+<span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hello, how are you?"</span><span class="op">)</span></span>
+<span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hi, how are you?"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># compute cosine similarity</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e1</span> <span class="op">*</span> <span class="va">e2</span><span class="op">)</span>  <span class="co"># not equals to 1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e1</span> <span class="op">*</span> <span class="va">e1</span><span class="op">)</span>  <span class="co"># 1 (identical vectors/embeddings)</span></span>
 <span></span>
 <span><span class="co"># non-normalized embeddings</span></span>
-<span><span class="va">e3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">e4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"Hi, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">e3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hello, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">e4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hi, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
