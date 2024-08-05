@@ -33,6 +33,18 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="ollamar-120">ollamar 1.2.0<a class="anchor" aria-label="anchor" href="#ollamar-120"></a></h2>
+<ul><li>All functions calling API endpoints have <code>endpoint</code> parameter.</li>
+<li>All functions calling API endpoints have <code>...</code> parameter to pass additional model options to the API.</li>
+<li>All functions calling API endpoints have <code>host</code> parameter to specify the host URL. Default is <code>NULL</code>, which uses the default Ollama URL.</li>
+<li>Add <code>req</code> as an output format for <code><a href="../reference/generate.html">generate()</a></code> and <code><a href="../reference/chat.html">chat()</a></code>.</li>
+<li>Add new functions for calling APIs: <code><a href="../reference/create.html">create()</a></code>, <code><a href="../reference/show.html">show()</a></code>, <code><a href="../reference/copy.html">copy()</a></code>, <code><a href="../reference/delete.html">delete()</a></code>, <code><a href="../reference/push.html">push()</a></code>, <code><a href="../reference/embed.html">embed()</a></code> (supercedes <code><a href="../reference/embeddings.html">embeddings()</a></code>), <code><a href="../reference/ps.html">ps()</a></code>.</li>
+<li>Add helper functions to manipulate chat/conversation history for <code><a href="../reference/chat.html">chat()</a></code> function (or other APIs like OpenAI): <code><a href="../reference/create_message.html">create_message()</a></code>, <code><a href="../reference/append_message.html">append_message()</a></code>, <code><a href="../reference/prepend_message.html">prepend_message()</a></code>, <code><a href="../reference/delete_message.html">delete_message()</a></code>, <code><a href="../reference/insert_message.html">insert_message()</a></code>.</li>
+<li>Add <code><a href="../reference/ohelp.html">ohelp()</a></code> function to chat with models in real-time.</li>
+<li>Add helper functions: <code><a href="../reference/model_avail.html">model_avail()</a></code>, <code><a href="../reference/image_encode_base64.html">image_encode_base64()</a></code>, <code><a href="../reference/check_option_valid.html">check_option_valid()</a></code>, <code><a href="../reference/check_options.html">check_options()</a></code>, <code><a href="../reference/search_options.html">search_options()</a></code>, <code><a href="../reference/validate_options.html">validate_options()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="ollamar-111">ollamar 1.1.1<a class="anchor" aria-label="anchor" href="#ollamar-111"></a></h2><p class="text-muted">CRAN release: 2024-05-02</p>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-1"></a></h3>
@@ -45,15 +57,15 @@
 <ul><li>Initial CRAN submission.</li>
 </ul><div class="section level3">
 <h3 id="new-features-1-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0"></a></h3>
-<ul><li>Integrated R with Ollama to run language models locally on your own machine.</li>
-<li>Included <code><a href="../reference/test_connection.html">test_connection()</a></code> function to test connection to Ollama server.</li>
-<li>Included <code><a href="../reference/list_models.html">list_models()</a></code> function to list available models.</li>
-<li>Included <code><a href="../reference/pull.html">pull()</a></code> function to pull a model from Ollama server.</li>
-<li>Included <code><a href="../reference/delete.html">delete()</a></code> function to delete a model from Ollama server.</li>
-<li>Included <code><a href="../reference/chat.html">chat()</a></code> function to chat with a model.</li>
-<li>Included <code><a href="../reference/generate.html">generate()</a></code> function to generate text from a model.</li>
-<li>Included <code><a href="../reference/embeddings.html">embeddings()</a></code> function to get embeddings from a model.</li>
-<li>Included <code><a href="../reference/resp_process.html">resp_process()</a></code> function to process <code>httr2_response</code> objects.</li>
+<ul><li>Integrate R with Ollama to run language models locally on your own machine.</li>
+<li>Include <code><a href="../reference/test_connection.html">test_connection()</a></code> function to test connection to Ollama server.</li>
+<li>Include <code><a href="../reference/list_models.html">list_models()</a></code> function to list available models.</li>
+<li>Include <code><a href="../reference/pull.html">pull()</a></code> function to pull a model from Ollama server.</li>
+<li>Include <code><a href="../reference/delete.html">delete()</a></code> function to delete a model from Ollama server.</li>
+<li>Include <code><a href="../reference/chat.html">chat()</a></code> function to chat with a model.</li>
+<li>Include <code><a href="../reference/generate.html">generate()</a></code> function to generate text from a model.</li>
+<li>Include <code><a href="../reference/embeddings.html">embeddings()</a></code> function to get embeddings from a model.</li>
+<li>Include <code><a href="../reference/resp_process.html">resp_process()</a></code> function to process <code>httr2_response</code> objects.</li>
 </ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
