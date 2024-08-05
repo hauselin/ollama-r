@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{delete}
 \alias{delete}
-\title{Delete a model}
+\title{Delete a model and its data}
 \usage{
 delete(name, endpoint = "/api/delete", host = NULL)
 }
@@ -17,7 +17,7 @@ delete(name, endpoint = "/api/delete", host = NULL)
 A httr2 response object.
 }
 \description{
-Delete a model from your local machine that you downlaoded using the pull() function. To see which models are available, use the list_models() function.
+Delete a model from your local machine that you downloaded using the pull() function. To see which models are available, use the list_models() function.
 }
 \examples{
 \dontrun{

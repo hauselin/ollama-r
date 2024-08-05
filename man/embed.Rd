@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{embed}
 \alias{embed}
-\title{Get embedding for inputs}
+\title{Generate embedding for inputs}
 \usage{
 embed(
   model,

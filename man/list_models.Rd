@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{list_models}
 \alias{list_models}
-\title{Get available local models}
+\title{List models that are available locally}
 \usage{
 list_models(
   output = c("df", "resp", "jsonlist", "raw", "text"),
@@ -21,7 +21,7 @@ list_models(
 A response in the format specified in the output parameter.
 }
 \description{
-Get available local models
+List models that are available locally
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

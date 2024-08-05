@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{ps}
 \alias{ps}
-\title{List running models}
+\title{List models that are currently loaded into memory}
 \usage{
 ps(
   output = c("df", "resp", "jsonlist", "raw", "text"),
@@ -21,7 +21,7 @@ ps(
 A response in the format specified in the output parameter.
 }
 \description{
-List running models
+List models that are currently loaded into memory
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

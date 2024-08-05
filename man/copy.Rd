@@ -19,7 +19,7 @@ copy(source, destination, endpoint = "/api/copy", host = NULL)
 A httr2 response object.
 }
 \description{
-Copy a model
+Creates a model with another name from an existing model.
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

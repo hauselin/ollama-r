@@ -17,6 +17,7 @@ reference:
       - copy
       - delete
       - pull
+      - push
       - embed
       - embeddings
       - ps

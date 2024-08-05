@@ -52,9 +52,7 @@ create_request <- function(endpoint, host = NULL) {
 
 
 
-#' Generate a completion
-#'
-#' Generate a response for a given prompt with a provided model.
+#' Generate a response for a given prompt
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param prompt A character string of the promp like "The sky is..."
@@ -155,7 +153,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 
 
 
-#' Chat with Ollama models
+#' Generate a chat completion with message history
 #'
 #' @param model A character string of the model name such as "llama3".
 #' @param messages A list with list of messages for the model (see examples below).
@@ -255,7 +253,7 @@ chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "
 
 
 
-#' Create a model
+#' Create a model from a Modelfile
 #'
 #' It is recommended to set `modelfile` to the content of the Modelfile rather than just set path.
 #'
@@ -344,7 +342,7 @@ create <- function(name, modelfile = NULL, stream = FALSE, path = NULL, endpoint
 
 
 
-#' Get available local models
+#' List models that are available locally
 #'
 #' @param output The output format. Default is "df". Other options are "resp", "jsonlist", "raw", "text".
 #' @param endpoint The endpoint to get the models. Default is "/api/tags".
@@ -386,6 +384,8 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 
 
 #' Show model information
+#'
+#' Model information includes details, modelfile, template, parameters, license, system prompt.
 #'
 #' @param name Name of the model to show
 #' @param verbose Returns full data for verbose response fields. Default is FALSE.
@@ -433,6 +433,8 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 
 #' Copy a model
 #'
+#' Creates a model with another name from an existing model.
+#'
 #' @param source The name of the model to copy.
 #' @param destination The name for the new model.
 #' @param endpoint The endpoint to copy the model. Default is "/api/copy".
@@ -478,9 +480,9 @@ copy <- function(source, destination, endpoint = "/api/copy", host = NULL) {
 
 
 
-#' Delete a model
+#' Delete a model and its data
 #'
-#' Delete a model from your local machine that you downlaoded using the pull() function. To see which models are available, use the list_models() function.
+#' Delete a model from your local machine that you downloaded using the pull() function. To see which models are available, use the list_models() function.
 #'
 #' @param name A character string of the model name such as "llama3".
 #' @param endpoint The endpoint to delete the model. Default is "/api/delete".
@@ -522,12 +524,12 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
 
 
 
-#' Pull/download a model
+#' Pull/download a model from the Ollama library.
 #'
-#' See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine.
+#' See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
 #'
 #' @param name A character string of the model name to download/pull, such as "llama3".
-#' @param stream Enable response streaming. Default is TRUE.
+#' @param stream Enable response streaming. Default is FALSE.
 #' @param insecure Allow insecure connections Only use this if you are pulling from your own library during development. Default is FALSE.
 #' @param endpoint The endpoint to pull the model. Default is "/api/pull".
 #' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
@@ -541,7 +543,7 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
 #' @examplesIf test_connection()$status_code == 200
 #' pull("llama3")
 #' pull("all-minilm", stream = FALSE)
-pull <- function(name, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
+pull <- function(name, stream = FALSE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
@@ -572,6 +574,100 @@ pull <- function(name, stream = TRUE, insecure = FALSE, endpoint = "/api/pull", 
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Push or upload a model to a model library
+#'
+#' Requires registering for ollama.ai and adding a public key first.
+#'
+#' @param name A character string of the model name to upload, in the form of <namespace>/<model>:<tag>
+#' @param insecure Allow insecure connections. Only use this if you are pushing to your own library during development. Default is FALSE.
+#' @param stream Enable response streaming. Default is FALSE.
+#' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "text", and "df".
+#' @param endpoint The endpoint to push the model. Default is "/api/push".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
+#' @references
+#' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#push-a-model)
+#'
+#' @return A httr2 response object.
+#' @export
+#'
+#' @examplesIf test_connection()$status_code == 200
+#' push("mattw/pygmalion:latest")
+push <- function(name, insecure = FALSE, stream = FALSE, output = c("resp", "jsonlist", "raw", "text", "df"), endpoint = "/api/push", host = NULL) {
+
+    output <- output[1]
+    if (!output %in% c("text", "jsonlist", "raw", "resp", "df")) {
+        stop("Invalid output format specified.")
+    }
+
+    body_json <- list(name = name, insecure = insecure, stream = stream)
+
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "POST")
+    body_json <- list(name = name)
+    req <- httr2::req_body_json(req, body_json, stream = stream)
+
+    if (!stream) {
+        tryCatch(
+            {
+                resp <- httr2::req_perform(req)
+                resp <- resp_process(resp, output = output)
+                return(resp)
+            },
+            error = function(e) {
+                stop(e)
+            }
+        )
+    }
+
+    # streaming
+    env <- new.env()
+    env$buffer <- ""
+    env$content <- ""
+    env$accumulated_data <- raw()
+    wrapped_handler <- function(x) stream_handler(x, env, endpoint)
+    resp <- httr2::req_perform_stream(req, wrapped_handler, buffer_kb = 1)
+    resp$body <- env$accumulated_data
+
+    # print final message
+    df_response <- resp_process(resp, output = "df")
+    status_messages <- df_response[nrow(df_response), ]$status
+    cat(status_messages, "\n")
+
+    return(resp)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vector_norm <- function(x) {
     return(sqrt(sum(x^2)))
 }
@@ -592,7 +688,7 @@ normalize <- function(x) {
 
 
 
-#' Get embedding for inputs
+#' Generate embedding for inputs
 #'
 #' Supercedes the `embeddings()` function.
 #'
@@ -665,7 +761,7 @@ embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = 
 
 
 
-#' Get vector embedding for a single prompt - deprecated in favor of `embed()`
+#' Generate embeddings for a single prompt - deprecated in favor of `embed()`
 #'
 #' This function will be deprecated over time and has been superceded by `embed()`. See `embed()` for more details.
 #'
@@ -724,7 +820,7 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 
 
 
-#' List running models
+#' List models that are currently loaded into memory
 #'
 #' @param output The output format. Default is "df". Supported formats are "df", "resp", "jsonlist", "raw", and "text".
 #' @param endpoint The endpoint to list the running models. Default is "/api/ps".

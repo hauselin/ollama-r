@@ -70,7 +70,7 @@ test_connection()  # test connection to Ollama server
 # if you see Ollama local server running, it's working
 
 # generate a response/text based on a prompt; returns an httr2 response by default
-resp <- generate("llama3", "tell me a 5-word story") 
+resp <- generate("llama3.1", "tell me a 5-word story") 
 resp
 
 #' interpret httr2 response object
@@ -86,7 +86,7 @@ resp_process(resp, "text")
 resp_process(resp, "df") 
 
 # alternatively, specify the output type when calling the function initially
-txt <- generate("llama3", "tell me a 5-word story", output = "text")
+txt <- generate("llama3.1", "tell me a 5-word story", output = "text")
 
 # list available models (models you've pulled/downloaded)
 list_models()  
@@ -103,8 +103,7 @@ For the list of models you can pull/download, see [Ollama
 library](https://ollama.com/library).
 
 ``` r
-pull("llama3")  # pull/download llama3 model
-pull("mistral-openorca")  # pull/download mistral-openorca model
+pull("llama3.1")  # download a model (the equivalent bash code: ollama run llama3.1)
 list_models()  # verify you've pulled/downloaded the model
 ```
 
@@ -126,14 +125,14 @@ Generate a response for a given prompt (see [API
 doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)).
 
 ``` r
-resp <- generate("llama3", "Tomorrow is a...")  # return httr2 response object by default
+resp <- generate("llama3.1", "Tomorrow is a...")  # return httr2 response object by default
 resp
 
 resp_process(resp, "text")  # process the response to return text/vector output
 
-generate("llama3", "Tomorrow is a...", output = "text")  # directly return text/vector output
-generate("llama3", "Tomorrow is a...", stream = TRUE)  # return httr2 response object and stream output
-generate("llama3", "Tomorrow is a...", output = "df", stream = TRUE)
+generate("llama3.1", "Tomorrow is a...", output = "text")  # directly return text/vector output
+generate("llama3.1", "Tomorrow is a...", stream = TRUE)  # return httr2 response object and stream output
+generate("llama3.1", "Tomorrow is a...", output = "df", stream = TRUE)
 ```
 
 ### Chat
@@ -147,16 +146,16 @@ format/prepare the messages for the functions/API calls.
 messages <- list(
     list(role = "user", content = "Who is the prime minister of the uk?")
 )
-resp <- chat("llama3", messages)  # default returns httr2 response object
+resp <- chat("llama3.1", messages)  # default returns httr2 response object
 resp  # <httr2_response>
 resp_process(resp, "text")  # process the response to return text/vector output
 
 # specify output type when calling the function
-chat("llama3", messages, output = "text")  # text vector
-chat("llama3", messages, output = "df")  # data frame/tibble
-chat("llama3", messages, output = "jsonlist")  # list
-chat("llama3", messages, output = "raw")  # raw string
-chat("llama3", messages, stream = TRUE)  # stream output and return httr2 response object
+chat("llama3.1", messages, output = "text")  # text vector
+chat("llama3.1", messages, output = "df")  # data frame/tibble
+chat("llama3.1", messages, output = "jsonlist")  # list
+chat("llama3.1", messages, output = "raw")  # raw string
+chat("llama3.1", messages, stream = TRUE)  # stream output and return httr2 response object
 
 # list of messages
 messages <- list(
@@ -166,7 +165,7 @@ messages <- list(
     list(role = "assistant", content = "Rishi Sunak"),
     list(role = "user", content = "List all the previous messages.")
 )
-cat(chat("llama3", messages, output = "text"))  # print the formatted output
+cat(chat("llama3.1", messages, output = "text"))  # print the formatted output
 ```
 
 #### Streaming responses
@@ -180,9 +179,9 @@ messages <- list(
     list(role = "user", content = "List all the previous messages.")
 )
 
-# use "llama3" model, provide list of messages, return text/vector output, and stream the output
-chat("llama3", messages, output = "text", stream = TRUE)
-# chat(model = "llama3", messages = messages, output = "text", stream = TRUE)  # same as above
+# use "llama3.1" model, provide list of messages, return text/vector output, and stream the output
+chat("llama3.1", messages, output = "text", stream = TRUE)
+# chat(model = "llama3.1", messages = messages, output = "text", stream = TRUE)  # same as above
 ```
 
 ### Embeddings
@@ -198,24 +197,24 @@ following:
   rankings
 
 ``` r
-embed("llama3", "Hello, how are you?")
+embed("llama3.1", "Hello, how are you?")
 
 # don't normalize embeddings
-embed("llama3", "Hello, how are you?", normalize = FALSE)
+embed("llama3.1", "Hello, how are you?", normalize = FALSE)
 ```
 
 ``` r
 # get embeddings for similar prompts
-e1 <- embed("llama3", "Hello, how are you?")
-e2 <- embed("llama3", "Hi, how are you?")
+e1 <- embed("llama3.1", "Hello, how are you?")
+e2 <- embed("llama3.1", "Hi, how are you?")
 
 # compute cosine similarity
 sum(e1 * e2)  # not equals to 1
 sum(e1 * e1)  # 1 (identical vectors/embeddings)
 
 # non-normalized embeddings
-e3 <- embed("llama3", "Hello, how are you?", normalize = FALSE)
-e4 <- embed("llama3", "Hi, how are you?", normalize = FALSE)
+e3 <- embed("llama3.1", "Hello, how are you?", normalize = FALSE)
+e4 <- embed("llama3.1", "Hi, how are you?", normalize = FALSE)
 ```
 
 ### Notes

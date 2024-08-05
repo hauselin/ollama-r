@@ -50,7 +50,7 @@ stream_handler <- function(x, env, endpoint) {
                     stream_content <- jsonlite::fromJSON(json_string)$response
                 } else if (endpoint == "/api/chat") {
                     stream_content <- jsonlite::fromJSON(json_string)$message$content
-                } else if (endpoint == "/api/pull") {
+                } else if (endpoint %in% c("/api/pull", "/api/push")) {
                     stream_content <- jsonlite::fromJSON(json_string)$status
                     stream_content <- paste0(stream_content, "\n")
                 }
@@ -104,14 +104,17 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         return(resp)
     }
 
-    # endpoints that should never be processed with resp_process_stream
-    endpoints_without_stream <- c("api/tags", "api/delete", "api/show", "api/ps")
-
     # process stream resp separately
     stream <- FALSE
     headers <- httr2::resp_headers(resp)
-    transfer_encoding <- headers$`Transfer-Encoding` # if response is chunked, then it was a streamed output
-    if (!is.null(transfer_encoding)) stream <- grepl("chunked", transfer_encoding)
+    # if response is chunked, then it was a streamed output
+    transfer_encoding <- headers$`Transfer-Encoding`
+    if (!is.null(transfer_encoding)) {
+        stream <- grepl("chunked", transfer_encoding)
+    }
+
+    # endpoints that should never be processed with resp_process_stream
+    endpoints_without_stream <- c("api/tags", "api/delete", "api/show", "api/ps")
     for (endpoint in endpoints_without_stream) {
         if (grepl(endpoint, resp$url)) {
             stream <- FALSE
@@ -126,7 +129,9 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
     if (output == "raw") {
         return(rawToChar(resp$body))
     } else if (output == "jsonlist") {
-        return(httr2::resp_body_json(resp))
+        tryCatch({
+            return(httr2::resp_body_json(resp))
+        }, error = function(e) {})
     }
 
     # process different endpoints
@@ -286,6 +291,35 @@ resp_process_stream <- function(resp, output) {
         for (i in seq_along(json_lines)) {
             json_lines_output[[i]] <- jsonlite::fromJSON(json_lines[[i]])
             df_response$status[i] <- json_lines_output[[i]]$status
+        }
+
+        if (output[1] == "jsonlist") {
+            return(json_lines_output)
+        }
+        if (output[1] == "df") {
+            return(df_response)
+        }
+        if (output[1] == "text") {
+            return(paste0(df_response$status, collapse = ""))
+        }
+
+    } else if (grepl("api/push", resp$url)) {
+        json_lines <- strsplit(rawToChar(resp$body), "\n")[[1]]
+
+        json_lines_output <- vector("list", length = length(json_lines))
+        df_response <- tibble::tibble(
+            status = character(length(json_lines_output))
+        )
+
+        for (i in seq_along(json_lines)) {
+            json_lines_output[[i]] <- jsonlite::fromJSON(json_lines[i])
+            if (grepl("error", json_lines[i])) {
+                df_response$status[i] <- "error"
+            } else if (grepl("success", json_lines[i])) {
+                df_response$status[i] <- "success"
+            } else {
+                df_response$status[i] <- json_lines_output[[i]]$status
+            }
         }
 
         if (output[1] == "jsonlist") {

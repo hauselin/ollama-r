@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{chat}
 \alias{chat}
-\title{Chat with Ollama models}
+\title{Generate a chat completion with message history}
 \usage{
 chat(
   model,
@@ -39,7 +39,7 @@ chat(
 A response in the format specified in the output parameter.
 }
 \description{
-Chat with Ollama models
+Generate a chat completion with message history
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

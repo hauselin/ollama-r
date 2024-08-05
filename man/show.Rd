@@ -27,7 +27,7 @@ show(
 A response in the format specified in the output parameter.
 }
 \description{
-Show model information
+Model information includes details, modelfile, template, parameters, license, system prompt.
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

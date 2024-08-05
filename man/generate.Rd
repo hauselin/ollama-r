@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{generate}
 \alias{generate}
-\title{Generate a completion}
+\title{Generate a response for a given prompt}
 \usage{
 generate(
   model,
@@ -54,7 +54,7 @@ generate(
 A response in the format specified in the output parameter.
 }
 \description{
-Generate a response for a given prompt with a provided model.
+Generate a response for a given prompt
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

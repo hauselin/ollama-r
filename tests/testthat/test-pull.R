@@ -4,7 +4,7 @@ library(ollamar)
 test_that("pull function works", {
     skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
 
-    # streaming is TRUE by default
+    # streaming is FALSE by default
     # wrong model
     result <- pull('WRONGMODEL')
     expect_s3_class(result, "httr2_response")
@@ -24,14 +24,14 @@ test_that("pull function works", {
     expect_type(resp_process(result, "raw"), "character")
     expect_type(resp_process(result, "jsonlist"), "list")
 
-    # streaming is FALSE
-    result <- pull('WRONGMODEL', stream = FALSE)
+    # streaming TRUE
+    result <- pull('WRONGMODEL', stream = TRUE)
     expect_s3_class(result, "httr2_response")
     expect_equal(result$status_code, 200)
     expect_vector(result$body)
 
     # correct model
-    result <- pull('llama3', stream = FALSE)
+    result <- pull('llama3', stream = TRUE)
     # for this endpoint, even when stream = FALSE, the response is chunked)
     expect_true(httr2::resp_headers(result)$`Transfer-Encoding` == "chunked")
     expect_s3_class(result, "httr2_response")

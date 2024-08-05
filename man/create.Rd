@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{create}
 \alias{create}
-\title{Create a model}
+\title{Create a model from a Modelfile}
 \usage{
 create(
   name,
