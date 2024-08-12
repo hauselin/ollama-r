@@ -13,7 +13,7 @@ test_connection(url = "http://localhost:11434")
 A httr2 response object.
 }
 \description{
-Test connection to Ollama server
+\code{test_connection()} tests whether the Ollama server is running or not.
 }
 \examples{
 test_connection()

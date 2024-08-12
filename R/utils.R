@@ -1,5 +1,8 @@
 #' Test connection to Ollama server
 #'
+#' @description
+#' `test_connection()` tests whether the Ollama server is running or not.
+#'
 #' @param url The URL of the Ollama server. Default is http://localhost:11434
 #'
 #' @return A httr2 response object.

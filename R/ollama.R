@@ -599,7 +599,8 @@ pull <- function(name, stream = FALSE, insecure = FALSE, endpoint = "/api/pull",
 
 #' Push or upload a model to a model library
 #'
-#' Requires registering for ollama.ai and adding a public key first.
+#' @description
+#' Push or upload a model to an Ollama model library. Requires registering for ollama.ai and adding a public key first.
 #'
 #' @param name A character string of the model name to upload, in the form of <namespace>/<model>:<tag>
 #' @param insecure Allow insecure connections. Only use this if you are pushing to your own library during development. Default is FALSE.
