@@ -53,6 +53,8 @@ test_that("generate function works with additional options", {
 })
 
 
+# Note for the following test to work you need to make sure the "benzie/llava-phi-3:latest" model exists locally
+
 test_that("generate function works with images", {
     skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
 

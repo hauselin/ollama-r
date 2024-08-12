@@ -1,6 +1,8 @@
 library(testthat)
 library(ollamar)
 
+# Note for the following test to work you need to make sure the "all-minilm" model exists locally
+
 test_that("embed function works with basic input", {
     skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
 
