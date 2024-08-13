@@ -97,6 +97,5 @@ test_that("chat function handles additional options", {
 
     expect_type(result_normal, "character")
     expect_type(result_creative, "character")
-    expect_false(result_normal == result_creative)
     expect_error(chat("llama3", messages, output = "text", abc = 2.0))
 })

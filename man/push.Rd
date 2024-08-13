@@ -14,7 +14,7 @@ push(
 )
 }
 \arguments{
-\item{name}{A character string of the model name to upload, in the form of \if{html}{\out{<namespace>}}/\if{html}{\out{<model>}}:\if{html}{\out{<tag>}}}
+\item{name}{A character string of the model name to upload, in the form of \verb{<namespace>/<model>:<tag>}}
 
 \item{insecure}{Allow insecure connections. Only use this if you are pushing to your own library during development. Default is FALSE.}
 
