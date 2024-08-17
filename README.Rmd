@@ -50,6 +50,7 @@ install.packages("ollamar")
 For the latest/development version with more features/bug fixes (see latest changes [here](https://hauselin.github.io/ollama-r/news/index.html)), you can install it from GitHub using the `install_github` function from the `remotes` library. If it doesn't work or you don't have `remotes` library, please run `install.packages("remotes")` in R or RStudio before running the code below.
 
 ```{r eval=FALSE}
+# install.packages("remotes")  # run this line if you don't have the remotes library
 remotes::install_github("hauselin/ollamar")
 ```
 

@@ -63,6 +63,7 @@ library, please run `install.packages("remotes")` in R or RStudio before
 running the code below.
 
 ``` r
+# install.packages("remotes")  # run this line if you don't have the remotes library
 remotes::install_github("hauselin/ollamar")
 ```
 
