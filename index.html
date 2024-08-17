@@ -158,11 +158,9 @@
 <div class="section level3">
 <h3 id="chat">Chat<a class="anchor" aria-label="anchor" href="#chat"></a>
 </h3>
-<p>Generate the next message in a chat (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion" class="external-link">API doc</a>). See the <a href="#notes">Notes section</a> for utility/helper functions to help you format/prepare the messages for the functions/API calls.</p>
+<p>Generate the next message in a chat (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion" class="external-link">API doc</a>). See the <a href="#notes">Notes section</a> for details on how chat messages and chat history are represented/formatted.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"what is the capital of australia"</span><span class="op">)</span>  <span class="co"># default role is user</span></span>
 <span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span><span class="op">)</span>  <span class="co"># default returns httr2 response object</span></span>
 <span><span class="va">resp</span>  <span class="co"># &lt;httr2_response&gt;</span></span>
 <span><span class="fu"><a href="reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># process the response to return text/vector output</span></span>
@@ -174,33 +172,26 @@
 <span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>  <span class="co"># raw string</span></span>
 <span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># stream output and return httr2 response object</span></span>
 <span></span>
-<span><span class="co"># list of messages</span></span>
-<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
+<span><span class="co"># create chat history</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_messages.html">create_messages</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"end all your sentences with !!!"</span>, role <span class="op">=</span> <span class="st">"system"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"Hello!"</span><span class="op">)</span>,  <span class="co"># default role is user</span></span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"Hi, how can I help you?!!!"</span>, role <span class="op">=</span> <span class="st">"assistant"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"What is the capital of Australia?"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"Canberra!!!"</span>, role <span class="op">=</span> <span class="st">"assistant"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"what is your name?"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>  <span class="co"># print the formatted output</span></span>
 <span></span>
 <span><span class="co"># image prompt</span></span>
-<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"What is in the image?"</span>, images <span class="op">=</span> <span class="st">"image.png"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"What is in the image?"</span>, images <span class="op">=</span> <span class="st">"image.png"</span><span class="op">)</span></span>
 <span><span class="co"># use a vision/multi-modal model</span></span>
 <span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"benzie/llava-phi-3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="streaming-responses">Streaming responses<a class="anchor" aria-label="anchor" href="#streaming-responses"></a>
 </h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"Tell me a 1-paragraph story."</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># use "llama3.1" model, provide list of messages, return text/vector output, and stream the output</span></span>
 <span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span>, stream <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -282,6 +273,8 @@
 <p>To simplify the process of creating and managing messages, <code>ollamar</code> provides utility/helper functions to format and prepare messages for the <code><a href="reference/chat.html">chat()</a></code> function.</p>
 <ul>
 <li>
+<code><a href="reference/create_messages.html">create_messages()</a></code>: create messages to build a chat history</li>
+<li>
 <code><a href="reference/create_message.html">create_message()</a></code> creates the first message</li>
 <li>
 <code><a href="reference/append_message.html">append_message()</a></code> adds a new message to the end of the existing messages</li>
@@ -302,7 +295,7 @@
 </li>
 </ul>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># create first message</span></span>
+<code class="sourceCode R"><span><span class="co"># create a chat history with one message</span></span>
 <span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span>content <span class="op">=</span> <span class="st">"Hi! How are you? (1ST MESSAGE)"</span>, role <span class="op">=</span> <span class="st">"assistant"</span><span class="op">)</span></span>
 <span><span class="co"># or simply, messages &lt;- create_message("Hi! How are you?", "assistant")</span></span>
 <span><span class="va">messages</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 1st message</span></span>
@@ -327,7 +320,13 @@
 <span><span class="va">messages</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get 2nd message</span></span>
 <span></span>
 <span><span class="co"># delete a message at a specific index/position (2nd position in the example below)</span></span>
-<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/delete_message.html">delete_message</a></span><span class="op">(</span><span class="va">messages</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/delete_message.html">delete_message</a></span><span class="op">(</span><span class="va">messages</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create a chat history with multiple messages</span></span>
+<span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_messages.html">create_messages</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"You're a knowledgeable tour guide."</span>, role <span class="op">=</span> <span class="st">"system"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"What is the capital of Australia?"</span><span class="op">)</span>  <span class="co"># default role is user</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
