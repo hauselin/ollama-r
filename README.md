@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ollamar)](https://CRAN.R-project.org/package=ollamar)
 [![R-CMD-check](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml)
 [![CRAN_Download_Badge](https://cranlogs.r-pkg.org/badges/grand-total/ollamar)](https://cran.r-project.org/package=ollamar)
 <!-- badges: end -->
@@ -52,7 +54,9 @@ Stable version:
 install.packages("ollamar")
 ```
 
-For the latest/development version with more features/bug fixes, you can
+For the latest/development version with more features/bug fixes (see
+latest changes
+[here](https://hauselin.github.io/ollama-r/news/index.html)), you can
 install it from GitHub using the `install_github` function from the
 `remotes` library. If it doesn’t work or you don’t have `remotes`
 library, please run `install.packages("remotes")` in R or RStudio before
