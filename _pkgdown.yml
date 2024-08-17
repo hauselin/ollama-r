@@ -46,6 +46,7 @@ reference:
   - subtitle: Manipulate chat/conversation history
     desc: Functions to manipulate messages and chat history for `chat()` function.
     contents:
+      - create_messages
       - create_message
       - append_message
       - prepend_message

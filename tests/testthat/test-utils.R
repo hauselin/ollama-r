@@ -41,6 +41,21 @@ test_that("copy function works with basic input", {
     expect_true(msg5[[1]]$content == "hello2" & msg5[[2]]$content == "hello2.1" & msg5[[3]]$content == "hello4")
 
 
+    messages1 <- create_messages(
+        list(role = "system", content = "be nice"),
+        list(role = "user", content = "hello")
+    )
+    messages2 <- create_messages(
+        create_message("be nice", "system"),
+        create_message("hello")
+    )
+    messages3 <- create_message("be nice", "system")
+    messages3 <- append_message("hello", "user", messages3)
+    expect_identical(messages1, messages3)
+    expect_identical(messages1, messages2)
+    expect_identical(messages2, messages3)
+
+
     expect_true(validate_message(list(role = "user", content = "hello")))
     expect_error(validate_message(""))
     expect_error(validate_message(list(role = "user")))

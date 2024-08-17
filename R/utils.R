@@ -376,6 +376,8 @@ image_encode_base64 <- function(image_path) {
 
 
 
+
+
 #' Create a message
 #'
 #' @param content The content of the message.
@@ -542,6 +544,59 @@ validate_message <- function(message) {
     }
     return(TRUE)
 }
+
+
+
+
+
+
+
+#' Create a list of messages
+#'
+#' Create messages for `chat()` function.
+#'
+#' @param ... A list of messages, each of list class.
+#'
+#' @return A list of messages, each of list class.
+#' @export
+#'
+#' @examples
+#' messages <- create_messages(
+#'     create_message("be nice", "system"),
+#'     create_message("tell me a 3-word joke")
+#' )
+#'
+#' messages <- create_messages(
+#'     list(role = "system", content = "be nice"),
+#'     list(role = "user", content = "tell me a 3-word joke")
+#' )
+create_messages <- function(...) {
+    messages <- list(...)
+    for (i in 1:length(messages)) {
+        message <- messages[[i]]
+        # in case message is in a nested list created by create_message()
+        if (is.null(names(message))) {
+            if (validate_message(message[[1]])) {
+                message <- message[[1]]
+                messages[[i]] <- message
+            }
+        }
+        if (validate_message(message)) {
+            next
+        }
+    }
+    return(messages)
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
