@@ -51,16 +51,16 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The <a href="https://hauselin.github.io/ollama-r/">Ollama R library</a> provides the easiest way to integrate R with <a href="https://ollama.com/" class="external-link">Ollama</a>, which lets you run language models locally on your own machine. Main site: <a href="https://hauselin.github.io/ollama-r/" class="uri">https://hauselin.github.io/ollama-r/</a></p>
+<p>The <a href="https://hauselin.github.io/ollama-r/">Ollama R library</a> is the easiest way to integrate R with <a href="https://ollama.com/" class="external-link">Ollama</a>, which lets you run language models locally on your own machine. Main site: <a href="https://hauselin.github.io/ollama-r/" class="uri">https://hauselin.github.io/ollama-r/</a></p>
 <blockquote>
 <p>Note: You should have at least 8 GB of RAM available to run the 7B models, 16 GB to run the 13B models, and 32 GB to run the 33B models.</p>
 </blockquote>
-<p>You’ll need to have the <a href="https://ollama.com/" class="external-link">Ollama</a> app installed on your computer to use this library.</p>
-<p>See <a href="https://github.com/ollama/ollama" class="external-link">Ollama’s Github page</a> for more information. See also the <a href="https://github.com/ollama/ollama/blob/main/docs/api.md" class="external-link">Ollama API documentation and endpoints</a>.</p>
+<p>To use this R library, you’ll need to ensure the <a href="https://ollama.com/" class="external-link">Ollama</a> app is installed. Ollama can use GPUs for accelerating LLM inference. See the <a href="https://github.com/ollama/ollama/blob/main/docs/gpu.md" class="external-link">Ollama GPU documentation</a> for more information.</p>
+<p>See <a href="https://github.com/ollama/ollama" class="external-link">Ollama’s Github page</a> for more information. This library uses the <a href="https://github.com/ollama/ollama/blob/main/docs/api.md" class="external-link">Ollama REST API (see documentation/details here)</a>.</p>
 <div class="section level2">
 <h2 id="ollama-r-versus-ollama-python">Ollama R versus Ollama Python<a class="anchor" aria-label="anchor" href="#ollama-r-versus-ollama-python"></a>
 </h2>
-<p>This library has been inspired by the <a href="https://github.com/ollama/ollama-python" class="external-link">Ollama Python library</a>, so if you’re coming from Python, you should feel right at home. Alternatively, if you plan to use Ollama with Python, using this R library will help you understand the Python library as well.</p>
+<p>This library has been inspired by the official <a href="https://github.com/ollama/ollama-python" class="external-link">Ollama Python</a> and <a href="https://github.com/ollama/ollama-js" class="external-link">Ollama JavaScript</a> libraries. If you’re coming from Python or JavaScript, you should feel right at home. Alternatively, if you plan to use Ollama with Python or JavaScript, using this R library will help you understand the Python/JavaScript libraries as well.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -73,11 +73,11 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ollamar"</span><span class="op">)</span></span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
-<li>Alternatively, for the <strong>latest/development</strong> version with more/latest features, you can install it like so:</li>
+<li>Alternatively, for the <strong>latest/development</strong> version with more/latest features, you can install the latest version from GitHub using the <code>install_github</code> function from the <code>remotes</code> library:</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"hauselin/ollamar"</span><span class="op">)</span></span></code></pre></div>
-<p>If it doesn’t work or you don’t have <code>devtools</code> installed, please run <code>install.packages("devtools")</code> in R or RStudio first.</p>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"hauselin/ollamar"</span><span class="op">)</span></span></code></pre></div>
+<p>If it doesn’t work or you don’t have <code>remotes</code> library installed, please run <code>install.packages("remotes")</code> in R or RStudio first.</p>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
