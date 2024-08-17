@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Download_Badge](https://cranlogs.r-pkg.org/badges/grand-total/ollamar)](https://cran.r-project.org/package=ollamar)
 <!-- badges: end -->
 
 The [Ollama R library](https://hauselin.github.io/ollama-r/) is the
