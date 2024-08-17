@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 The [Ollama R library](https://hauselin.github.io/ollama-r/) is the easiest way to integrate R with [Ollama](https://ollama.com/), which lets you run language models locally on your own machine. Main site: https://hauselin.github.io/ollama-r/
 
-To use this R library, ensure the [Ollama](https://ollama.com) app is installed. Ollama can use GPUs for accelerating LLM inference. See[Ollama GPU documentation](https://github.com/ollama/ollama/blob/main/docs/gpu.md) for more information.
+To use this R library, ensure the [Ollama](https://ollama.com) app is installed. Ollama can use GPUs for accelerating LLM inference. See [Ollama GPU documentation](https://github.com/ollama/ollama/blob/main/docs/gpu.md) for more information.
 
 See [Ollama's Github page](https://github.com/ollama/ollama) for more information. This library uses the [Ollama REST API (see documentation for details)](https://github.com/ollama/ollama/blob/main/docs/api.md).
 

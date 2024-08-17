@@ -14,8 +14,8 @@ lets you run language models locally on your own machine. Main site:
 <https://hauselin.github.io/ollama-r/>
 
 To use this R library, ensure the [Ollama](https://ollama.com) app is
-installed. Ollama can use GPUs for accelerating LLM inference.
-See[Ollama GPU
+installed. Ollama can use GPUs for accelerating LLM inference. See
+[Ollama GPU
 documentation](https://github.com/ollama/ollama/blob/main/docs/gpu.md)
 for more information.
 

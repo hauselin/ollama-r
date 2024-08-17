@@ -1,7 +1,18 @@
 url: https://hauselin.github.io/ollama-r
 
+home:
+    title: Ollama R Library
+    description: Run Ollama language models in R.
+
 template:
   bootstrap: 5
+  light-switch: true
+  theme: a11y-light
+  theme-dark: a11y-dark
+  opengraph:
+    twitter:
+      site: "@hauselin"
+      creator: "@hauselin"
 
 reference:
   - title: Ollamar functions
