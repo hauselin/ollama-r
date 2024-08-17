@@ -118,6 +118,10 @@ resp_process(resp, "text")  # process the response to return text/vector output
 generate("llama3.1", "Tomorrow is a...", output = "text")  # directly return text/vector output
 generate("llama3.1", "Tomorrow is a...", stream = TRUE)  # return httr2 response object and stream output
 generate("llama3.1", "Tomorrow is a...", output = "df", stream = TRUE)
+
+# image prompt
+# use a vision/multi-modal model
+generate("benzie/llava-phi-3", "What is in the image?", images = "image.png", output = 'text')
 ```
 
 ### Chat
@@ -148,6 +152,13 @@ messages <- list(
     list(role = "user", content = "List all the previous messages.")
 )
 cat(chat("llama3.1", messages, output = "text"))  # print the formatted output
+
+# image prompt
+messages <- list(
+    list(role = "user", content = "What is in the image?", images = "image.png")
+)
+# use a vision/multi-modal model
+chat("benzie/llava-phi-3", messages, output = "text")
 ```
 
 #### Streaming responses
