@@ -4,7 +4,7 @@
 \alias{insert_message}
 \title{Insert message into a list at a specified position}
 \usage{
-insert_message(content, role = "user", x = NULL, position = -1)
+insert_message(content, role = "user", x = NULL, position = -1, ...)
 }
 \arguments{
 \item{content}{The content of the message.}
@@ -14,6 +14,8 @@ insert_message(content, role = "user", x = NULL, position = -1)
 \item{x}{A list of messages. Default is NULL.}
 
 \item{position}{The position at which to insert the new message. Default is -1 (end of list).}
+
+\item{...}{Additional arguments such as images.}
 }
 \value{
 A list of messages with the new message inserted at the specified position.

@@ -4,7 +4,7 @@
 \alias{append_message}
 \title{Append message to a list}
 \usage{
-append_message(content, role = "user", x = NULL)
+append_message(content, role = "user", x = NULL, ...)
 }
 \arguments{
 \item{content}{The content of the message.}
@@ -12,6 +12,8 @@ append_message(content, role = "user", x = NULL)
 \item{role}{The role of the message. Can be "user", "system", "assistant". Default is "user".}
 
 \item{x}{A list of messages. Default is NULL.}
+
+\item{...}{Additional arguments such as images.}
 }
 \value{
 A list of messages with the new message appended.

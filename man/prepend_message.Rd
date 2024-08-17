@@ -4,7 +4,7 @@
 \alias{prepend_message}
 \title{Prepend message to a list}
 \usage{
-prepend_message(content, role = "user", x = NULL)
+prepend_message(content, role = "user", x = NULL, ...)
 }
 \arguments{
 \item{content}{The content of the message.}
@@ -12,6 +12,8 @@ prepend_message(content, role = "user", x = NULL)
 \item{role}{The role of the message. Can be "user", "system", "assistant".}
 
 \item{x}{A list of messages. Default is NULL.}
+
+\item{...}{Additional arguments such as images.}
 }
 \value{
 A list of messages with the new message prepended.

@@ -382,6 +382,7 @@ image_encode_base64 <- function(image_path) {
 #'
 #' @param content The content of the message.
 #' @param role The role of the message. Can be "user", "system", "assistant". Default is "user".
+#' @param ... Additional arguments such as images.
 #'
 #' @return A list of messages.
 #' @export
@@ -390,8 +391,8 @@ image_encode_base64 <- function(image_path) {
 #' create_message("Hello", "user")
 #' create_message("Always respond nicely", "system")
 #' create_message("I am here to help", "assistant")
-create_message <- function(content, role = "user") {
-    message <- list(list(role = role, content = content))
+create_message <- function(content, role = "user", ...) {
+    message <- list(c(list(role = role, content = content), list(...)))
     return(message)
 }
 
@@ -404,6 +405,7 @@ create_message <- function(content, role = "user") {
 #' @param content  The content of the message.
 #' @param role The role of the message. Can be "user", "system", "assistant". Default is "user".
 #' @param x A list of messages. Default is NULL.
+#' @param ... Additional arguments such as images.
 #'
 #' @return A list of messages with the new message appended.
 #' @export
@@ -411,11 +413,11 @@ create_message <- function(content, role = "user") {
 #' @examples
 #' append_message("user", "Hello")
 #' append_message("system", "Always respond nicely")
-append_message <- function(content, role = "user", x = NULL) {
+append_message <- function(content, role = "user", x = NULL, ...) {
     if (is.null(x)) {
         x <- list()
     }
-    new_message <- list(role = role, content = content)
+    new_message <- c(list(role = role, content = content), list(...))
     x[[length(x) + 1]] <- new_message
     return(x)
 }
@@ -429,6 +431,7 @@ append_message <- function(content, role = "user", x = NULL) {
 #' @param content  The content of the message.
 #' @param role The role of the message. Can be "user", "system", "assistant".
 #' @param x A list of messages. Default is NULL.
+#' @param ... Additional arguments such as images.
 #'
 #' @return A list of messages with the new message prepended.
 #' @export
@@ -436,11 +439,11 @@ append_message <- function(content, role = "user", x = NULL) {
 #' @examples
 #' prepend_message("user", "Hello")
 #' prepend_message("system", "Always respond nicely")
-prepend_message <- function(content, role = "user", x = NULL) {
+prepend_message <- function(content, role = "user", x = NULL, ...) {
     if (is.null(x)) {
         x <- list()
     }
-    new_message <- list(role = role, content = content)
+    new_message <- c(list(role = role, content = content), list(...))
     x <- c(list(new_message), x) # Prepend by combining the new message with the existing list
     return(x)
 }
@@ -456,6 +459,7 @@ prepend_message <- function(content, role = "user", x = NULL) {
 #' @param role The role of the message. Can be "user", "system", "assistant". Default is "user".
 #' @param x A list of messages. Default is NULL.
 #' @param position The position at which to insert the new message. Default is -1 (end of list).
+#' @param ... Additional arguments such as images.
 #'
 #' @return A list of messages with the new message inserted at the specified position.
 #' @export
@@ -467,9 +471,9 @@ prepend_message <- function(content, role = "user", x = NULL) {
 #' )
 #' insert_message("INSERT MESSAGE AT THE END", "user", messages)
 #' insert_message("INSERT MESSAGE AT THE BEGINNING", "user", messages, 2)
-insert_message <- function(content, role = "user", x = NULL, position = -1) {
+insert_message <- function(content, role = "user", x = NULL, position = -1, ...) {
     if (position == -1) position <- length(x) + 1
-    new_message <- list(role = role, content = content)
+    new_message <- c(list(role = role, content = content), list(...))
     if (is.null(x)) {
         return(list(new_message))
     }

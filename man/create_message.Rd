@@ -4,12 +4,14 @@
 \alias{create_message}
 \title{Create a message}
 \usage{
-create_message(content, role = "user")
+create_message(content, role = "user", ...)
 }
 \arguments{
 \item{content}{The content of the message.}
 
 \item{role}{The role of the message. Can be "user", "system", "assistant". Default is "user".}
+
+\item{...}{Additional arguments such as images.}
 }
 \value{
 A list of messages.

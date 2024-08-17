@@ -94,4 +94,26 @@ test_that("copy function works with basic input", {
         list(role = "user", content = "hello", images = "")
     )), "list")
 
+    # test additional arguments ...
+    messages <- create_message("hello", images = c("image1", "image2"), abc = 4:5)
+    expect_true(length(messages) == 1)
+    expect_true(messages[[1]]$content == "hello")
+    expect_true(messages[[1]]$role == "user")
+    expect_true(names(messages[[1]])[1] == "role" &
+                    names(messages[[1]])[2] == "content" &
+                    names(messages[[1]])[3] == "images" &
+                    names(messages[[1]])[4] == "abc")
+
+    messages2 <- append_message("hello3", "3", messages, new_field = "NEW")
+    expect_true(length(messages2) == 2)
+    expect_true(messages2[[2]]$new_field == "NEW")
+
+    messages3 <- prepend_message("hello4", "4", messages2, new_prepended = "NEW_PRE")
+    expect_true(length(messages3) == 3)
+    expect_true(messages3[[1]]$new_prepended == "NEW_PRE")
+
+    messages4 <- insert_message("hello5", "5", messages3, 2, new_inserted = "NEW_INS")
+    expect_true(length(messages4) == 4)
+    expect_true(messages4[[2]]$new_inserted == "NEW_INS")
+
 })
