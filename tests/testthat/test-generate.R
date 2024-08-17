@@ -66,4 +66,15 @@ test_that("generate function works with images", {
     expect_match(tolower(resp_process(result, "text")), "watermelon")
 
     expect_error(generate("benzie/llava-phi-3:latest", "What is in the image?", images = "incorrect_path.png"))
+
+    images <- c(file.path(system.file("extdata", package = "ollamar"), "image1.png"),
+                file.path(system.file("extdata", package = "ollamar"), "image2.png"))
+
+    # multiple images
+    result <- generate("benzie/llava-phi-3:latest", "What objects are in the two images?", images = images)
+    expect_s3_class(result, "httr2_response")
+    expect_type(resp_process(result, "text"), "character")
+
 })
+
+

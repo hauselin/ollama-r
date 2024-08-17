@@ -1,5 +1,7 @@
 # ollamar (development version)
 
+- `generate()` and `chat()` accept multiple images as prompts/messages.
+
 # ollamar 1.2.0
 
 - All functions calling API endpoints have `endpoint` parameter.

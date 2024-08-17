@@ -76,10 +76,16 @@ create_request <- function(endpoint, host = NULL) {
 #' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)
 #'
 #' @examplesIf test_connection()$status_code == 200
+#' # text prompt
 #' generate("llama3", "The sky is...", stream = FALSE, output = "df")
-#' generate("llama3", "The sky is...", stream = TRUE, output = "text")
+#' # stream and increase temperature
 #' generate("llama3", "The sky is...", stream = TRUE, output = "text", temperature = 2.0)
-#' generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
+#'
+#' # image prompt
+#' # something like "image1.png"
+#' image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
+#' # use vision or multimodal model such as https://ollama.com/benzie/llava-phi-3
+#' generate("benzie/llava-phi-3:latest", "What is in the image?", images = image_path, output = "text")
 generate <- function(model, prompt, suffix = "", images = "", system = "", template = "", context = list(), stream = FALSE, raw = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text", "req"), endpoint = "/api/generate", host = NULL, ...) {
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text", "req")) {
@@ -90,7 +96,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
     req <- httr2::req_method(req, "POST")
 
     images_list <- list()
-    if (images != "") images_list <- list(image_encode_base64(images))
+    if (images[1] != "") images_list <- lapply(images, image_encode_base64)
 
     body_json <- list(
         model = model,

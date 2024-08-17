@@ -58,10 +58,16 @@ Generate a response for a given prompt
 }
 \examples{
 \dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# text prompt
 generate("llama3", "The sky is...", stream = FALSE, output = "df")
-generate("llama3", "The sky is...", stream = TRUE, output = "text")
+# stream and increase temperature
 generate("llama3", "The sky is...", stream = TRUE, output = "text", temperature = 2.0)
-generate("llama3", "The sky is...", stream = FALSE, output = "jsonlist")
+
+# image prompt
+# something like "image1.png"
+image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
+# use vision or multimodal model such as https://ollama.com/benzie/llava-phi-3
+generate("benzie/llava-phi-3:latest", "What is in the image?", images = image_path, output = "text")
 \dontshow{\}) # examplesIf}
 }
 \references{
