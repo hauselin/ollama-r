@@ -13,21 +13,20 @@ easiest way to integrate R with [Ollama](https://ollama.com/), which
 lets you run language models locally on your own machine. Main site:
 <https://hauselin.github.io/ollama-r/>
 
-> Note: You should have at least 8 GB of RAM available to run the 7B
-> models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
-
-To use this R library, you’ll need to ensure the
-[Ollama](https://ollama.com/) app is installed. Ollama can use GPUs for
-accelerating LLM inference. See the [Ollama GPU
+To use this R library, ensure the [Ollama](https://ollama.com) app is
+installed. Ollama can use GPUs for accelerating LLM inference.
+See[Ollama GPU
 documentation](https://github.com/ollama/ollama/blob/main/docs/gpu.md)
 for more information.
 
 See [Ollama’s Github page](https://github.com/ollama/ollama) for more
-information. This library uses the [Ollama REST API (see
-documentation/details
-here)](https://github.com/ollama/ollama/blob/main/docs/api.md).
+information. This library uses the [Ollama REST API (see documentation
+for details)](https://github.com/ollama/ollama/blob/main/docs/api.md).
 
-## Ollama R versus Ollama Python
+> Note: You should have at least 8 GB of RAM available to run the 7B
+> models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
+
+## Ollama R versus Ollama Python/JavaScript
 
 This library has been inspired by the official [Ollama
 Python](https://github.com/ollama/ollama-python) and [Ollama
@@ -39,28 +38,25 @@ libraries as well.
 
 ## Installation
 
-1.  You should have the Ollama app installed on your computer. Download
-    it from [Ollama](https://ollama.com/).
+1.  Download and install [Ollama](https://ollama.com).
 
-2.  Open/launch the Ollama app to start the local server. You can then
-    run your language models locally, on your own machine/computer.
+2.  Open/launch the Ollama app to start the local server.
 
-3.  Install the **stable** version like so:
+3.  Install the **stable** version of `ollamar` like so:
 
 ``` r
 install.packages("ollamar")
 ```
 
-4.  Alternatively, for the **latest/development** version with
-    more/latest features, you can install the latest version from GitHub
-    using the `install_github` function from the `remotes` library:
+Alternatively, for the **latest/development** version with more/latest
+features, you can install it from GitHub using the `install_github`
+function from the `remotes` library. If it doesn’t work or you don’t
+have `remotes` library, please run `install.packages("remotes")` in R or
+RStudio before running the code below.
 
 ``` r
 remotes::install_github("hauselin/ollamar")
 ```
-
-If it doesn’t work or you don’t have `remotes` library installed, please
-run `install.packages("remotes")` in R or RStudio first.
 
 ## Usage
 
