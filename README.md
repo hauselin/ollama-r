@@ -8,28 +8,34 @@
 [![R-CMD-check](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The [Ollama R library](https://hauselin.github.io/ollama-r/) provides
-the easiest way to integrate R with [Ollama](https://ollama.com/), which
+The [Ollama R library](https://hauselin.github.io/ollama-r/) is the
+easiest way to integrate R with [Ollama](https://ollama.com/), which
 lets you run language models locally on your own machine. Main site:
 <https://hauselin.github.io/ollama-r/>
 
 > Note: You should have at least 8 GB of RAM available to run the 7B
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
-You’ll need to have the [Ollama](https://ollama.com/) app installed on
-your computer to use this library.
+To use this R library, you’ll need to ensure the
+[Ollama](https://ollama.com/) app is installed. Ollama can use GPUs for
+accelerating LLM inference. See the [Ollama GPU
+documentation](https://github.com/ollama/ollama/blob/main/docs/gpu.md)
+for more information.
 
 See [Ollama’s Github page](https://github.com/ollama/ollama) for more
-information. See also the [Ollama API documentation and
-endpoints](https://github.com/ollama/ollama/blob/main/docs/api.md).
+information. This library uses the [Ollama REST API (see
+documentation/details
+here)](https://github.com/ollama/ollama/blob/main/docs/api.md).
 
 ## Ollama R versus Ollama Python
 
-This library has been inspired by the [Ollama Python
-library](https://github.com/ollama/ollama-python), so if you’re coming
-from Python, you should feel right at home. Alternatively, if you plan
-to use Ollama with Python, using this R library will help you understand
-the Python library as well.
+This library has been inspired by the official [Ollama
+Python](https://github.com/ollama/ollama-python) and [Ollama
+JavaScript](https://github.com/ollama/ollama-js) libraries. If you’re
+coming from Python or JavaScript, you should feel right at home.
+Alternatively, if you plan to use Ollama with Python or JavaScript,
+using this R library will help you understand the Python/JavaScript
+libraries as well.
 
 ## Installation
 
@@ -46,14 +52,15 @@ install.packages("ollamar")
 ```
 
 4.  Alternatively, for the **latest/development** version with
-    more/latest features, you can install it like so:
+    more/latest features, you can install the latest version from GitHub
+    using the `install_github` function from the `remotes` library:
 
 ``` r
-devtools::install_github("hauselin/ollamar")
+remotes::install_github("hauselin/ollamar")
 ```
 
-If it doesn’t work or you don’t have `devtools` installed, please run
-`install.packages("devtools")` in R or RStudio first.
+If it doesn’t work or you don’t have `remotes` library installed, please
+run `install.packages("remotes")` in R or RStudio first.
 
 ## Usage
 
