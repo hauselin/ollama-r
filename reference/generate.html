@@ -135,10 +135,16 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># test_connection()$status_code == 200</span></span></span>
+<span class="r-in"><span><span class="co"># text prompt</span></span></span>
 <span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># stream and increase temperature</span></span></span>
 <span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">TRUE</span>, output <span class="op">=</span> <span class="st">"text"</span>, temperature <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"llama3"</span>, <span class="st">"The sky is..."</span>, stream <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"jsonlist"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># image prompt</span></span></span>
+<span class="r-in"><span><span class="co"># something like "image1.png"</span></span></span>
+<span class="r-in"><span><span class="va">image_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"ollamar"</span><span class="op">)</span>, <span class="st">"image1.png"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># use vision or multimodal model such as https://ollama.com/benzie/llava-phi-3</span></span></span>
+<span class="r-in"><span><span class="fu">generate</span><span class="op">(</span><span class="st">"benzie/llava-phi-3:latest"</span>, <span class="st">"What is in the image?"</span>, images <span class="op">=</span> <span class="va">image_path</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

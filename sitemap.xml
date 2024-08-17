@@ -17,6 +17,7 @@
 <url><loc>https://hauselin.github.io/ollama-r/reference/delete_message.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/embed.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/embeddings.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/encode_images_in_messages.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/generate.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/image_encode_base64.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/index.html</loc></url>
@@ -36,6 +37,8 @@
 <url><loc>https://hauselin.github.io/ollama-r/reference/show.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/stream_handler.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/test_connection.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/validate_message.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/validate_messages.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/validate_options.html</loc></url>
 </urlset>
 
