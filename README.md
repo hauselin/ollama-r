@@ -42,17 +42,20 @@ libraries as well.
 
 2.  Open/launch the Ollama app to start the local server.
 
-3.  Install the **stable** version of `ollamar` like so:
+3.  Install either the stable or latest/development version of
+    `ollamar`.
+
+Stable version:
 
 ``` r
 install.packages("ollamar")
 ```
 
-Alternatively, for the **latest/development** version with more/latest
-features, you can install it from GitHub using the `install_github`
-function from the `remotes` library. If it doesn’t work or you don’t
-have `remotes` library, please run `install.packages("remotes")` in R or
-RStudio before running the code below.
+For the latest/development version with more features/bug fixes, you can
+install it from GitHub using the `install_github` function from the
+`remotes` library. If it doesn’t work or you don’t have `remotes`
+library, please run `install.packages("remotes")` in R or RStudio before
+running the code below.
 
 ``` r
 remotes::install_github("hauselin/ollamar")
