@@ -1,3 +1,5 @@
+# ollamar (development version)
+
 # ollamar 1.2.0
 
 - All functions calling API endpoints have `endpoint` parameter.
