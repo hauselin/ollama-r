@@ -62,6 +62,13 @@ messages <- list(
     list(role = "user", content = "List all the previous messages.")
 )
 chat("llama3", messages, stream = TRUE)
+
+# image
+image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
+messages <- list(
+   list(role = "user", content = "What is in the image?", images = image_path)
+)
+chat("benzie/llava-phi-3", messages, output = 'text')
 \dontshow{\}) # examplesIf}
 }
 \references{

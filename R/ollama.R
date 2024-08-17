@@ -201,6 +201,13 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #'     list(role = "user", content = "List all the previous messages.")
 #' )
 #' chat("llama3", messages, stream = TRUE)
+#'
+#' # image
+#' image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
+#' messages <- list(
+#'    list(role = "user", content = "What is in the image?", images = image_path)
+#' )
+#' chat("benzie/llava-phi-3", messages, output = 'text')
 chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text", "req"), endpoint = "/api/chat", host = NULL, ...) {
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text", "req")) {
@@ -209,6 +216,12 @@ chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "
 
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
+
+    if (!validate_messages(messages)) {
+        stop("Invalid messages.")
+    }
+
+    messages <- encode_images_in_messages(messages)
 
     body_json <- list(
         model = model,

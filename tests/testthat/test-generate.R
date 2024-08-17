@@ -53,27 +53,28 @@ test_that("generate function works with additional options", {
 })
 
 
-# Note for the following test to work you need to make sure the "benzie/llava-phi-3:latest" model exists locally
 
 test_that("generate function works with images", {
     skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(model_avail("benzie/llava-phi-3"), "benzie/llava-phi-3 model not available")
 
     image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
 
-    result <- generate("benzie/llava-phi-3:latest", "What is in the image?", images = image_path)
+    result <- generate("benzie/llava-phi-3", "What is in the image?", images = image_path)
     expect_s3_class(result, "httr2_response")
     expect_type(resp_process(result, "text"), "character")
     expect_match(tolower(resp_process(result, "text")), "watermelon")
 
-    expect_error(generate("benzie/llava-phi-3:latest", "What is in the image?", images = "incorrect_path.png"))
+    expect_error(generate("benzie/llava-phi-3", "What is in the image?", images = "incorrect_path.png"))
 
     images <- c(file.path(system.file("extdata", package = "ollamar"), "image1.png"),
                 file.path(system.file("extdata", package = "ollamar"), "image2.png"))
 
     # multiple images
-    result <- generate("benzie/llava-phi-3:latest", "What objects are in the two images?", images = images)
-    expect_s3_class(result, "httr2_response")
-    expect_type(resp_process(result, "text"), "character")
+    result <- generate("benzie/llava-phi-3", "What objects are in the two images?",
+                       images = images, output = 'text')
+    expect_type(result, "character")
+    expect_true(grepl("melon", tolower(result)) | grepl("cam", tolower(result)))
 
 })
 

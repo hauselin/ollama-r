@@ -99,3 +99,32 @@ test_that("chat function handles additional options", {
     expect_type(result_creative, "character")
     expect_error(chat("llama3", messages, output = "text", abc = 2.0))
 })
+
+
+test_that("chat function handles images in messages", {
+    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(model_avail("benzie/llava-phi-3"), "benzie/llava-phi-3 model not available")
+
+    images <- c(file.path(system.file("extdata", package = "ollamar"), "image1.png"),
+                file.path(system.file("extdata", package = "ollamar"), "image2.png"))
+
+    # 1 image
+    messages <- list(
+        list(role = "system", content = "You have to evaluate what objects are in images."),
+        list(role = "user", content = "what is in the image?", images = images[2])
+    )
+
+    result <- chat("benzie/llava-phi-3", messages, output = "text")
+    expect_match(tolower(result), "cam")
+
+    # multiple images
+    messages <- list(
+        list(role = "system", content = "You have to evaluate what objects are in the two images."),
+        list(role = "user", content = "what objects are in the two separate images?", images = images)
+    )
+
+    result <- chat("benzie/llava-phi-3", messages, output = "text")
+    expect_type(result, "character")
+    expect_true(grepl("melon", tolower(result)) | grepl("cam", tolower(result)))
+
+})

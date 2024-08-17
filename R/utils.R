@@ -513,3 +513,102 @@ delete_message <- function(x, position = -1) {
     if (position < 0) position <- length(x) + position + 1
     return(x[-position])
 }
+
+
+
+
+#' Validate a message
+#'
+#' Validate a message to ensure it has the required fields and the correct data types for the `chat()` function.
+#' @param message A list with a single message of list class.
+#'
+#' @return TRUE if message is valid, otherwise an error is thrown.
+#' @export
+#'
+#' @examples
+#' validate_message(list(role = "user", content = "Hello"))
+validate_message <- function(message) {
+    if (!is.list(message)) {
+        stop("Message must be list.")
+    }
+    if (!all(c("role", "content") %in% names(message))) {
+        stop("Message must have role and content.")
+    }
+    if (!is.character(message$role)) {
+        stop("Message role must be character.")
+    }
+    if (!is.character(message$content)) {
+        stop("Message content must be character.")
+    }
+    return(TRUE)
+}
+
+
+
+#' Validate a list of messages
+#'
+#' Validate a list of messages to ensure they have the required fields and the correct data types for the `chat()` function.
+#'
+#' @param messages A list of messages, each of list class.
+#'
+#' @return TRUE if all messages are valid, otherwise warning messages are printed and FALSE is returned.
+#' @export
+#'
+#' @examples
+#' validate_messages(list(
+#'    list(role = "system", content = "Be friendly"),
+#'    list(role = "user", content = "Hello")
+#' ))
+validate_messages <- function(messages) {
+    status <- TRUE
+    for (i in 1:length(messages)) {
+        tryCatch({
+            validate_message(messages[[i]])
+        }, error = function(e) {
+            status <<- FALSE
+            message(paste0("Message ", i, ": ", conditionMessage(e)))
+        })
+    }
+    return(status)
+}
+
+
+
+#' Encode images in messages to base64 format
+#'
+#' @param messages A list of messages, each of list class. Generally used in the `chat()` function.
+#'
+#' @return A list of messages with images encoded in base64 format.
+#' @export
+#'
+#' @examples
+#' image <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
+#' messages <- list(
+#'     list(role = "user", content = "what is in the image?", images = image)
+#' )
+#' messages_updated <- encode_images_in_messages(messages)
+encode_images_in_messages <- function(messages) {
+    if (!validate_messages(messages)) {
+        stop("Invalid messages.")
+    }
+
+    for (i in 1:length(messages)) {
+        message <- messages[[i]]
+        if ("images" %in% names(message)) {
+            images <- message$images
+            if (images[1] != "") {
+                message$images <- lapply(images, image_encode_base64)
+                messages[[i]] <- message
+            } else {
+                next
+            }
+        }
+    }
+
+    # revalidate messages
+    if (!validate_messages(messages)) {
+        stop("Invalid messages.")
+    }
+
+    return(messages)
+}

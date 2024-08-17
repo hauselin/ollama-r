@@ -1,6 +1,8 @@
 # ollamar (development version)
 
 - `generate()` and `chat()` accept multiple images as prompts/messages.
+- Add functions to validate messages for `chat()` function: `validate_message()`, `validate_messages()`.
+- Add `encode_images_in_messages()` to encode images in messages for `chat()` function.
 
 # ollamar 1.2.0
 

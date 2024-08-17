@@ -51,6 +51,9 @@ reference:
       - prepend_message
       - delete_message
       - insert_message
+      - validate_message
+      - validate_messages
+      - encode_images_in_messages
 
   - subtitle: Model options
     desc: Functions to get information about the options available.

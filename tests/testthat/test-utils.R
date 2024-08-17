@@ -40,4 +40,34 @@ test_that("copy function works with basic input", {
     expect_true(msg5[[1]]$role == "2" & msg5[[2]]$role == "2.1" & msg5[[3]]$role == "4")
     expect_true(msg5[[1]]$content == "hello2" & msg5[[2]]$content == "hello2.1" & msg5[[3]]$content == "hello4")
 
+
+    expect_true(validate_message(list(role = "user", content = "hello")))
+    expect_error(validate_message(""))
+    expect_error(validate_message(list(role = "user")))
+    expect_error(validate_message(list(content = "hello")))
+    expect_error(validate_message(list(role = 1, content = "hello")))
+    expect_error(validate_message(list(role = "user", content = 1)))
+
+
+    expect_true(validate_messages(list(
+        list(role = "user", content = "hello")
+    )))
+    expect_true(validate_messages(list(
+        list(role = "system", content = "hello"),
+        list(role = "user", content = "hello")
+    )))
+    expect_false(validate_messages(list(
+        list(role = "system", content = "hello"),
+        list(role = "user", content = 1)
+    )))
+
+    images <- c(file.path(system.file("extdata", package = "ollamar"), "image1.png"),
+                file.path(system.file("extdata", package = "ollamar"), "image2.png"))
+
+    expect_type(encode_images_in_messages(list(
+        list(role = "user", content = "hello", images = images[1]),
+        list(role = "user", content = "hello"),
+        list(role = "user", content = "hello", images = "")
+    )), "list")
+
 })
