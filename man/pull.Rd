@@ -2,7 +2,7 @@
 % Please edit documentation in R/ollama.R
 \name{pull}
 \alias{pull}
-\title{Pull/download a model from the Ollama library.}
+\title{Pull/download a model from the Ollama library}
 \usage{
 pull(
   name,

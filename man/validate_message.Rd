@@ -16,5 +16,6 @@ TRUE if message is valid, otherwise an error is thrown.
 Validate a message to ensure it has the required fields and the correct data types for the \code{chat()} function.
 }
 \examples{
+validate_message(create_message("Hello"))
 validate_message(list(role = "user", content = "Hello"))
 }

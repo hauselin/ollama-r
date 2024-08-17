@@ -67,6 +67,9 @@ test_that("copy function works with basic input", {
     expect_identical(messages5, messages4)
 
     expect_true(validate_message(list(role = "user", content = "hello")))
+    expect_true(validate_message(create_message('hello')))
+    expect_error(validate_message(create_message('hello', 1)))
+    expect_error(validate_message(create_message(2, 1)))
     expect_error(validate_message(""))
     expect_error(validate_message(list(role = "user")))
     expect_error(validate_message(list(content = "hello")))
@@ -83,6 +86,18 @@ test_that("copy function works with basic input", {
     expect_false(validate_messages(list(
         list(role = "system", content = "hello"),
         list(role = "user", content = 1)
+    )))
+
+    expect_true(validate_messages(create_messages(
+        create_message(content = "hello")
+    )))
+    expect_true(validate_messages(create_messages(
+        create_message(role = "system", content = "hello"),
+        create_message(role = "user", content = "hello")
+    )))
+    expect_error(validate_messages(create_messages(
+        create_message(role = 2, content = "hello"),
+        create_message(role = "user", content = 1)
     )))
 
     images <- c(file.path(system.file("extdata", package = "ollamar"), "image1.png"),

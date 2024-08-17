@@ -284,10 +284,7 @@ text). The example below shows how the messages/lists are presented.
 ``` r
 list(  # main list containing all the messages
     list(role = "user", content = "Hello!"),  # first message as a list
-    list(role = "assistant", content = "Hi! How are you?"),  # second message as a list
-    list(role = "user", content = "Who is the prime minister of the uk?"),  # third message as a list
-    list(role = "assistant", content = "Rishi Sunak"),  # fourth message as a list
-    list(role = "user", content = "List all the previous messages.")  # fifth message as a list
+    list(role = "assistant", content = "Hi! How are you?")  # second message as a list
 )
 ```
 
@@ -296,7 +293,7 @@ provides utility/helper functions to format and prepare messages for the
 `chat()` function.
 
 - `create_messages()`: create messages to build a chat history
-- `create_message()` creates the first message
+- `create_message()` creates a chat history with a single message
 - `append_message()` adds a new message to the end of the existing
   messages
 - `prepend_message()` adds a new message to the beginning of the

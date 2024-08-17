@@ -16,8 +16,8 @@ TRUE if all messages are valid, otherwise warning messages are printed and FALSE
 Validate a list of messages to ensure they have the required fields and the correct data types for the \code{chat()} function.
 }
 \examples{
-validate_messages(list(
-   list(role = "system", content = "Be friendly"),
-   list(role = "user", content = "Hello")
+validate_messages(create_messages(
+   create_message("Be friendly", "system"),
+   create_message("Hello")
 ))
 }

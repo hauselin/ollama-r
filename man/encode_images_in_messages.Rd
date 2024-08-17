@@ -17,8 +17,6 @@ Encode images in messages to base64 format
 }
 \examples{
 image <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
-messages <- list(
-    list(role = "user", content = "what is in the image?", images = image)
-)
-messages_updated <- encode_images_in_messages(messages)
+message <- create_message(content = "what is in the image?", images = image)
+message_updated <- encode_images_in_messages(message)
 }

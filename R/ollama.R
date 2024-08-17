@@ -550,7 +550,7 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
 
 
 
-#' Pull/download a model from the Ollama library.
+#' Pull/download a model from the Ollama library
 #'
 #' See https://ollama.com/library for a list of available models. Use the list_models() function to get the list of models already downloaded/installed on your machine. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
 #'

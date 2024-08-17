@@ -4,6 +4,7 @@
 - Add functions to validate messages for `chat()` function: `validate_message()`, `validate_messages()`.
 - Add `encode_images_in_messages()` to encode images in messages for `chat()` function.
 - Add `create_messages()` to create messages easily.
+- Helper functions for managing messages accept `...` parameter to pass additional options.
 
 # ollamar 1.2.0
 

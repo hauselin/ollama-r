@@ -532,8 +532,16 @@ delete_message <- function(x, position = -1) {
 #' @export
 #'
 #' @examples
+#' validate_message(create_message("Hello"))
 #' validate_message(list(role = "user", content = "Hello"))
 validate_message <- function(message) {
+
+    # if message is a list of messages, extract the first message
+    # likely created by create_message()
+    if (is.list(message) & all(c("role", "content") %in% names(message[[1]]))) {
+        message <- message[[1]]
+    }
+
     if (!is.list(message)) {
         stop("Message must be list.")
     }
@@ -614,9 +622,9 @@ create_messages <- function(...) {
 #' @export
 #'
 #' @examples
-#' validate_messages(list(
-#'    list(role = "system", content = "Be friendly"),
-#'    list(role = "user", content = "Hello")
+#' validate_messages(create_messages(
+#'    create_message("Be friendly", "system"),
+#'    create_message("Hello")
 #' ))
 validate_messages <- function(messages) {
     status <- TRUE
@@ -642,10 +650,8 @@ validate_messages <- function(messages) {
 #'
 #' @examples
 #' image <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
-#' messages <- list(
-#'     list(role = "user", content = "what is in the image?", images = image)
-#' )
-#' messages_updated <- encode_images_in_messages(messages)
+#' message <- create_message(content = "what is in the image?", images = image)
+#' message_updated <- encode_images_in_messages(message)
 encode_images_in_messages <- function(messages) {
     if (!validate_messages(messages)) {
         stop("Invalid messages.")
