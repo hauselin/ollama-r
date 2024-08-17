@@ -266,17 +266,14 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>  <span class="co"># main list containing all the messages</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,  <span class="co"># first message as a list</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>,  <span class="co"># second message as a list</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Who is the prime minister of the uk?"</span><span class="op">)</span>,  <span class="co"># third message as a list</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Rishi Sunak"</span><span class="op">)</span>,  <span class="co"># fourth message as a list</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"List all the previous messages."</span><span class="op">)</span>  <span class="co"># fifth message as a list</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>  <span class="co"># second message as a list</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>To simplify the process of creating and managing messages, <code>ollamar</code> provides utility/helper functions to format and prepare messages for the <code><a href="reference/chat.html">chat()</a></code> function.</p>
 <ul>
 <li>
 <code><a href="reference/create_messages.html">create_messages()</a></code>: create messages to build a chat history</li>
 <li>
-<code><a href="reference/create_message.html">create_message()</a></code> creates the first message</li>
+<code><a href="reference/create_message.html">create_message()</a></code> creates a chat history with a single message</li>
 <li>
 <code><a href="reference/append_message.html">append_message()</a></code> adds a new message to the end of the existing messages</li>
 <li>
