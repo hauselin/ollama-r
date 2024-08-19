@@ -24,7 +24,7 @@ generate(
 \arguments{
 \item{model}{A character string of the model name such as "llama3".}
 
-\item{prompt}{A character string of the promp like "The sky is..."}
+\item{prompt}{A character string of the prompt like "The sky is..."}
 
 \item{suffix}{A character string after the model response. Default is "".}
 

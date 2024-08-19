@@ -55,7 +55,7 @@ create_request <- function(endpoint, host = NULL) {
 #' Generate a response for a given prompt
 #'
 #' @param model A character string of the model name such as "llama3".
-#' @param prompt A character string of the promp like "The sky is..."
+#' @param prompt A character string of the prompt like "The sky is..."
 #' @param suffix A character string after the model response. Default is "".
 #' @param images A path to an image file to include in the prompt. Default is "".
 #' @param system A character string of the system prompt (overrides what is defined in the Modelfile). Default is "".
