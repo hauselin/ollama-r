@@ -1,5 +1,5 @@
 ---
-title: 'ollamar: An R Package for running large language models'
+title: 'ollamar: An R package for running large language models'
 tags:
   - R
   - large language models
