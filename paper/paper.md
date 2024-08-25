@@ -36,6 +36,120 @@ The `ollamar` R library is a package that integrates R with Ollama, allowing use
 
 **Utility functions for managing conversation history**: LLM APIs often expect conversational or chat history data as input, often nested lists or JSON objects. Note that this data format is standard for chat-based applications and APIs (not limited to Ollama), such as those provided by OpenAI and Anthropic. `ollamar` provides helper functions to simplify preparing and processing conversational data for input to different LLMs, streamlining the workflow for chat-based applications.
 
+```r
+# nested list of conversation history with multiple messages
+list(
+    list(role = "system", content = "Be kind."),
+    list(role = "user", content = "Hi! How are you?")
+)
+```
+
+# Usage and examples
+
+This section highlights the key features of `ollamar`. For documentation and detailed examples, see https://hauselin.github.io/ollama-r/.
+
+## Install and use Ollama
+
+1. Download and install Ollama from https://ollama.com
+2. Open/launch the Ollama app to start the local server
+3. Install \verb+ollamar+ in R by running `install.packages("ollamar")`
+
+```r
+install.packages("ollamar")
+library(ollamar)  # load ollamar
+
+test_connection()  # test connection to Ollama server
+# <httr2_response>
+# GET http://localhost:11434/
+# Status: 200 OK  # indicates connected to server
+```
+## Manage LLMs
+
+To use Ollama, you must first download the model you want to use from https://ollama.com/library. All examples below use the Google's Gemma 2 LLM (specifically, the 2-billion parameter model, which is about 1.6GB, as of August 2024).
+
+```r
+# download model, https://ollama.com/library/gemma2:2b
+pull("gemma2:2b")
+
+# two ways to verify it's downloaded
+list_models()
+model_avail("gemma2:2b")
+```
+
+## Call API endpoints
+
+`ollamar` has distinct functions for each official Ollama API endpoint (see https://hauselin.github.io/ollama-r/reference/index.html). By default, all functions calling API endpoints will return an `httr2::httr2_response` object (see https://httr2.r-lib.org/index.html). You can then parse/process the response object using the `resp_process()` function.
+
+```r
+# generate text based on a single prompt
+resp <- generate("gemma2:2b", "tell me a 5-word story")
+resp_process(resp, "text")
+resp_process(resp, "df")
+resp_process(resp, "jsonlist")
+resp_process(resp, "raw")
+
+# generate text based on chat or conversation history
+# create messages in a chat history
+messages <- create_messages(
+  create_message("end all your sentences with !!!", role = "system"),
+  create_message("Hello")  # default role is user
+)
+resp <- chat("gemma2:2b", messages)  # make request with chat API endpoint
+
+# get vector embedding for prompts
+embed("gemma2:2b", "Hello, how are you?")
+embed("gemma2:2b", c("Hello, how are you?", "Good bye"))
+```
+
+## Manage chat history
+
+When chatting with a model, Ollama and other LLM providers like OpenAI and Anthropic require chat/conversation histories to be formatted in a particular way. `ollamar provides utility functions to format the messages in the chat history.
+
+```r
+# initialize or create messages for a chat history
+messages <- create_messages(
+  create_message("end all your sentences with !!!", role = "system"),
+  create_message("Hello")  # default role is user
+)
+
+# add message to the end of chat history
+messages <- append_message("Hi, how are you?", "assistant", messages)
+# delete message at index/position 1
+messages <- delete_message(messages, 1)
+# prepend message to the beginning of chat history
+messages <- prepend_message("Start all sentences with Yo!", "user", messages)
+# insert message at position 2
+messages <- insert_message("Yo!", "assistant", messages, 2)
+```
+
+## Make parallel requests
+
+`ollamar` uses the `httr2` library, which provides functions to make parallel requests. Below is a simple example demonstrating how to perform sentiment analysis in parallel. Specifically, we use the `generate()` function with the parameter `output = "req"`, which asks the function to return an `httr2::httr2_request` object instead of making the request.
+
+
+```r
+library(httr2)
+
+texts_to_classify <- c(
+    'I love this product',
+    'I hate this product',
+    'I am neutral about this product',
+    'I like this product'
+)
+
+# create httr2_request objects for each text with the same system prompt
+reqs <- lapply(texts_to_classify, function(text) {
+  prompt <- paste0("Is the statement positive, negative, or neutral? ", text)
+  generate("gemma2:2b", prompt, output = "req")
+})
+
+# make parallel requests and get responses
+resps <- req_perform_parallel(reqs)
+
+# process each response with resp_process to extract text
+sapply(resps, resp_process, "text")
+```
+
 # Conclusion
 
 `ollamar` bridges a crucial gap in the R ecosystem by providing seamless access to large language models through Ollama. Its user-friendly API, flexible output formats, and conversation management utilities enable R users to integrate LLMs into their workflows easily. This library empowers researchers and data scientists across various disciplines to leverage the power of locally deployed LLMs, potentially accelerating research and development in fields relying on R for data analysis and machine learning.
