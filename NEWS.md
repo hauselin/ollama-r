@@ -1,3 +1,5 @@
+# ollamar (development version)
+
 # ollamar 1.2.1
 
 - `generate()` and `chat()` accept multiple images as prompts/messages.
