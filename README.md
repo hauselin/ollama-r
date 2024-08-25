@@ -42,7 +42,6 @@ entry:
     journal = {PsyArXiv},
     year = {2024},
     month = aug,
-    urldate = {2024-08-24},
     publisher = {OSF},
     doi = {10.31234/osf.io/zsrg5},
     url = {https://doi.org/10.31234/osf.io/zsrg5}
