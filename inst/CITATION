@@ -1,0 +1,18 @@
+citHeader("To cite ollamar in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "ollamar: An R package for running large language models",
+  author   = "Lin Hause and Tawab Safi",
+  journal  = "PsyArXiv",
+  year     = "2024",
+  month    = "aug",
+  publisher = "OSF",
+  doi      = "10.31234/osf.io/zsrg5",
+  url      = "https://doi.org/10.31234/osf.io/zsrg5",
+  textVersion = paste0(
+    "Lin, H., & Safi, T. (2024). ",
+    "ollamar: An R package for running large language models. ",
+    "PsyArXiv. https://doi.org/10.31234/osf.io/zsrg5"
+  )
+)

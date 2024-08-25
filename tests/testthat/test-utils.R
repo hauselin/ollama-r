@@ -131,4 +131,25 @@ test_that("copy function works with basic input", {
     expect_true(length(messages4) == 4)
     expect_true(messages4[[2]]$new_inserted == "NEW_INS")
 
+
+
+
+    # # convert from list to data.frame
+    # messages1 <- create_messages(
+    #     list(role = "system", content = "be nice"),
+    #     list(role = "user", content = "hello"),
+    #     list(role = "assistant", content = "hi")
+    # )
+    # expect_true(nrow(dplyr::bind_rows(messages1)) == 3)
+    # expect_true(ncol(dplyr::bind_rows(messages1)) == 2)
+    # expect_true(nrow(data.table::rbindlist(messages1)) == 3)
+    # expect_true(ncol(data.table::rbindlist(messages1)) == 2)
+    #
+    # d0 <- data.table::rbindlist(messages1)
+    # # convert from data.frame to list
+    # expect_equal(apply(d0, 1, as.list), messages1)
+    # expect_equal(purrr::transpose(d0), messages1)
+    # expect_equal(lapply(1:nrow(d0), function(i) as.list(d0[i, ])), messages1)
+
+
 })

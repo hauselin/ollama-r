@@ -29,6 +29,26 @@ for details)](https://github.com/ollama/ollama/blob/main/docs/api.md).
 > Note: You should have at least 8 GB of RAM available to run the 7B
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
+## Citing `ollamar`
+
+If you use this library, please cite [this
+paper](https://doi.org/10.31234/osf.io/zsrg5) using the following BibTeX
+entry:
+
+``` bibtex
+@article{Lin2024Aug,
+    author = {Lin, Hause and Safi, Tawab},
+    title = {{ollamar: An R package for running large language models}},
+    journal = {PsyArXiv},
+    year = {2024},
+    month = aug,
+    urldate = {2024-08-24},
+    publisher = {OSF},
+    doi = {10.31234/osf.io/zsrg5},
+    url = {https://doi.org/10.31234/osf.io/zsrg5}
+}
+```
+
 ## Ollama R versus Ollama Python/JavaScript
 
 This library has been inspired by the official [Ollama
@@ -340,6 +360,26 @@ messages <- create_messages(
   create_message("You're a knowledgeable tour guide.", role = "system"),
   create_message("What is the capital of Australia?")  # default role is user
 )
+```
+
+You can convert `data.frame`, `tibble` or `data.table` objects to
+`list()` of messages and vice versa with functions from base R or other
+popular libraries.
+
+``` r
+# create a list of messages 
+messages <- create_messages(
+  create_message("You're a knowledgeable tour guide.", role = "system"),
+  create_message("What is the capital of Australia?")  
+)
+
+# convert to dataframe
+df <- dplyr::bind_rows(messages)  # with dplyr library
+df <- data.table::rbindlist(messages)  # with data.table library
+
+# convert dataframe to list with apply, purrr functions
+apply(df, 1, as.list)  # convert each row to a list with base R apply
+purrr::transpose(df)  # with purrr library
 ```
 
 ## Advanced usage
