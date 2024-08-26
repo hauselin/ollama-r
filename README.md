@@ -16,6 +16,13 @@ easiest way to integrate R with [Ollama](https://ollama.com/), which
 lets you run language models locally on your own machine. Main site:
 <https://hauselin.github.io/ollama-r/>
 
+The library also makes it easy to work with data structures (e.g.,
+conversational/chat histories) that are standard for different LLMs
+(such as those provided by OpenAI and Anthropic). It also lets you
+specify different output formats (e.g., dataframes, text/vector, lists)
+that best suit your need, allowing easy integration with other
+libraries/tools and parallelization via the `httr2` library.
+
 To use this R library, ensure the [Ollama](https://ollama.com) app is
 installed. Ollama can use GPUs for accelerating LLM inference. See
 [Ollama GPU
@@ -293,7 +300,7 @@ resp_process(resp, "text")  # text vector
 # or list_models("text")
 ```
 
-#### Utility/helper functions to format and prepare messages for the `chat()` function
+#### Format and prepare messages for the `chat()` function
 
 Internally, messages are represented as a `list` of many distinct `list`
 messages. Each list/message object has two elements: `role` (can be
@@ -308,8 +315,9 @@ list(  # main list containing all the messages
 ```
 
 To simplify the process of creating and managing messages, `ollamar`
-provides utility/helper functions to format and prepare messages for the
-`chat()` function.
+provides functions to format and prepare messages for the `chat()`
+function. These functions also work with other APIs or LLM providers
+like OpenAI and Anthropic.
 
 - `create_messages()`: create messages to build a chat history
 - `create_message()` creates a chat history with a single message

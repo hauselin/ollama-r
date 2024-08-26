@@ -18,7 +18,7 @@ reference:
   - title: Ollamar functions
 
   - subtitle: API endpoints
-    desc: Functions to make calls to the Ollama server/API.
+    desc: Make calls to the Ollama server/API.
     contents:
       - generate
       - chat
@@ -33,8 +33,8 @@ reference:
       - embeddings
       - ps
 
-  - subtitle: Utility functions
-    desc: Functions to work with the Ollama API.
+  - subtitle: API helpers
+    desc: ork with the Ollama API.
     contents:
       - resp_process
       - ohelp
@@ -43,8 +43,8 @@ reference:
       - test_connection
       - create_request
 
-  - subtitle: Manipulate chat/conversation history
-    desc: Functions to manipulate messages and chat history for `chat()` function.
+  - subtitle: Manipulate chat history
+    desc: Manipulate chat history for Ollama and other LLM providers.
     contents:
       - create_messages
       - create_message
