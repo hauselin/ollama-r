@@ -63,6 +63,7 @@
 <!-- badges: start -->
 
 <p>The <a href="https://hauselin.github.io/ollama-r/">Ollama R library</a> is the easiest way to integrate R with <a href="https://ollama.com/" class="external-link">Ollama</a>, which lets you run language models locally on your own machine. Main site: <a href="https://hauselin.github.io/ollama-r/" class="uri">https://hauselin.github.io/ollama-r/</a></p>
+<p>The library also makes it easy to work with data structures (e.g., conversational/chat histories) that are standard for different LLMs (such as those provided by OpenAI and Anthropic). It also lets you specify different output formats (e.g., dataframes, text/vector, lists) that best suit your need, allowing easy integration with other libraries/tools and parallelization via the <code>httr2</code> library.</p>
 <p>To use this R library, ensure the <a href="https://ollama.com" class="external-link">Ollama</a> app is installed. Ollama can use GPUs for accelerating LLM inference. See <a href="https://github.com/ollama/ollama/blob/main/docs/gpu.md" class="external-link">Ollama GPU documentation</a> for more information.</p>
 <p>See <a href="https://github.com/ollama/ollama" class="external-link">Ollama’s Github page</a> for more information. This library uses the <a href="https://github.com/ollama/ollama/blob/main/docs/api.md" class="external-link">Ollama REST API (see documentation for details)</a>.</p>
 <blockquote>
@@ -276,7 +277,7 @@
 <span><span class="co"># or list_models("text")</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="utilityhelper-functions-to-format-and-prepare-messages-for-the-chat-function">Utility/helper functions to format and prepare messages for the <code>chat()</code> function<a class="anchor" aria-label="anchor" href="#utilityhelper-functions-to-format-and-prepare-messages-for-the-chat-function"></a>
+<h4 id="format-and-prepare-messages-for-the-chat-function">Format and prepare messages for the <code>chat()</code> function<a class="anchor" aria-label="anchor" href="#format-and-prepare-messages-for-the-chat-function"></a>
 </h4>
 <p>Internally, messages are represented as a <code>list</code> of many distinct <code>list</code> messages. Each list/message object has two elements: <code>role</code> (can be <code>"user"</code> or <code>"assistant"</code> or <code>"system"</code>) and <code>content</code> (the message text). The example below shows how the messages/lists are presented.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -284,7 +285,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"user"</span>, content <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">)</span>,  <span class="co"># first message as a list</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>role <span class="op">=</span> <span class="st">"assistant"</span>, content <span class="op">=</span> <span class="st">"Hi! How are you?"</span><span class="op">)</span>  <span class="co"># second message as a list</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>To simplify the process of creating and managing messages, <code>ollamar</code> provides utility/helper functions to format and prepare messages for the <code><a href="reference/chat.html">chat()</a></code> function.</p>
+<p>To simplify the process of creating and managing messages, <code>ollamar</code> provides functions to format and prepare messages for the <code><a href="reference/chat.html">chat()</a></code> function. These functions also work with other APIs or LLM providers like OpenAI and Anthropic.</p>
 <ul>
 <li>
 <code><a href="reference/create_messages.html">create_messages()</a></code>: create messages to build a chat history</li>
