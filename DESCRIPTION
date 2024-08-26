@@ -1,6 +1,6 @@
 Package: ollamar
 Title: 'Ollama' Language Models
-Version: 1.2.0.9000
+Version: 1.2.1.9000
 Authors@R: c( 
     person("Hause", "Lin", , "hauselin@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0003-4590-7039")),
