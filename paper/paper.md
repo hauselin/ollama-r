@@ -30,14 +30,14 @@ The increasing importance of LLMs in various fields has created a demand for acc
 
 The `ollamar` R library is a package that integrates R with Ollama, allowing users to run large language models locally on their machines. Although alternative R libraries exist [@Gruber2024Apr], `ollamar` distinguishes itself through the features described below.
 
-**User-friendly API wrapper**: It provides an interface to the Ollama server and all API endpoints, closely following the official API design. This design makes it easy for R users to understand how similar libraries (such as in Python and JavaScript) work while allowing users familiar with other programming languages to adapt to and use this library quickly. The consistent API structure across languages facilitates seamless transitions and knowledge transfer for developers working in multi-language environments.
+**User-friendly design**: It provides an interface to the Ollama server and all API endpoints, closely following the official API design. This design makes it easy for R users to understand how similar libraries (such as in Python and JavaScript) work while allowing users familiar with other programming languages to adapt to and use this library quickly. The consistent API structure across languages facilitates seamless transitions and knowledge transfer for developers working in multi-language environments.
 
 **Consistent and flexible output formats**: All functions that call API endpoints return `httr2::httr2_response` objects by default, but users can specify different output formats, such as dataframes (`"df"`), lists (of JSON objects) (`"jsonlist"`), raw strings (`"raw"`), text vectors (`"text"`), or request objects (`"req"`). This flexibility greatly enhances the usability and versatility of the library. Users can choose the format that best suits their needs, such as when working with different data structures, integrating the output with other R packages, or allowing parallelization via the `httr2` library.
 
-**Utility functions for managing conversation history**: LLM APIs often expect conversational or chat history data as input, often nested lists or JSON objects. Note that this data format is standard for chat-based applications and APIs (not limited to Ollama), such as those provided by OpenAI and Anthropic. `ollamar` provides helper functions to simplify preparing and processing conversational data for input to different LLMs, streamlining the workflow for chat-based applications.
+**Easy management of LLM conversation history**: LLM APIs often expect conversation/chat history data as input, often nested lists or JSON objects. Note that this data format is standard for chat-based applications and APIs (not limited to Ollama), such as those provided by OpenAI and Anthropic. `ollamar` simplifies preparing and processing conversational data for input to different LLMs, streamlining the workflow for the most popular chat-based applications.
 
 ```r
-# nested list of conversation history with multiple messages
+# nested list of chat history with multiple messages
 list(
     list(role = "system", content = "Be kind."),
     list(role = "user", content = "Hi! How are you?")
@@ -103,7 +103,7 @@ embed("gemma2:2b", c("Hello, how are you?", "Good bye"))
 
 ## Manage chat history
 
-When chatting with a model, Ollama and other LLM providers like OpenAI and Anthropic require chat/conversation histories to be formatted in a particular way. `ollamar provides utility functions to format the messages in the chat history.
+When chatting with a model, Ollama and other LLM providers like OpenAI and Anthropic require chat/conversation histories to be formatted in a particular way. `ollamar makes it easy to manipulate the messages in the chat history.
 
 ```r
 # initialize or create messages for a chat history
@@ -152,7 +152,7 @@ sapply(resps, resp_process, "text")
 
 # Conclusion
 
-`ollamar` bridges a crucial gap in the R ecosystem by providing seamless access to large language models through Ollama. Its user-friendly API, flexible output formats, and conversation management utilities enable R users to integrate LLMs into their workflows easily. This library empowers researchers and data scientists across various disciplines to leverage the power of locally deployed LLMs, potentially accelerating research and development in fields relying on R for data analysis and machine learning.
+`ollamar` bridges a crucial gap in the R ecosystem by providing seamless access to large language models through Ollama. Its user-friendly API, flexible output formats, and conversation management functions enable R users to integrate LLMs into their workflows easily. This library empowers researchers and data scientists across various disciplines to leverage the power of locally deployed LLMs, potentially accelerating research and development in fields relying on R for data analysis and machine learning.
 
 # Acknowledgements
 
