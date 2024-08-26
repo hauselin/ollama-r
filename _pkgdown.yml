@@ -34,7 +34,7 @@ reference:
       - ps
 
   - subtitle: API helpers
-    desc: ork with the Ollama API.
+    desc: Work with and extend the Ollama API.
     contents:
       - resp_process
       - ohelp
