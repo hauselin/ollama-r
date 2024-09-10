@@ -15,6 +15,8 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
@@ -26,3 +28,4 @@ Imports:
     tibble
 BugReports: https://github.com/hauselin/ollama-r/issues
 URL: https://hauselin.github.io/ollama-r/, https://github.com/hauselin/ollama-r
+VignetteBuilder: knitr
