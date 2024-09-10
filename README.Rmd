@@ -27,7 +27,7 @@ The library also makes it easy to work with data structures (e.g., conversationa
 
 To use this R library, ensure the [Ollama](https://ollama.com) app is installed. Ollama can use GPUs for accelerating LLM inference. See [Ollama GPU documentation](https://github.com/ollama/ollama/blob/main/docs/gpu.md) for more information.
 
-See [Ollama's Github page](https://github.com/ollama/ollama) for more information. This library uses the [Ollama REST API (see documentation for details)](https://github.com/ollama/ollama/blob/main/docs/api.md).
+See [Ollama's Github page](https://github.com/ollama/ollama) for more information. This library uses the [Ollama REST API (see documentation for details)](https://github.com/ollama/ollama/blob/main/docs/api.md) and has been tested on Ollama v0.1.30 and above. It was last tested on Ollama v0.3.10.
 
 > Note: You should have at least 8 GB of RAM available to run the 7B models, 16 GB to run the 13B models, and 32 GB to run the 33B models.
 
