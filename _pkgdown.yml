@@ -4,7 +4,7 @@ home:
     title: Ollama R Library
     description: Run Ollama language models in R.
     sidebar:
-      structure: [links, license, community, citation, dev, toc]
+      structure: [links, license, community, citation, authors, dev, toc]
       toc:
         depth: 4
 

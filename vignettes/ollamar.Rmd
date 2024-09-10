@@ -37,7 +37,7 @@ remotes::install_github("hauselin/ollamar")
 
 ## Usage
 
-`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default. If the response object says `Status: 200 OK`, then the request was successful. See [Notes section](#notes) below for more information.
+`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default. If the response object says `Status: 200 OK`, then the request was successful.
 
 ```{r eval=FALSE}
 library(ollamar)
