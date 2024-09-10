@@ -63,7 +63,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The <a href="https://hauselin.github.io/ollama-r/">Ollama R library</a> is the easiest way to integrate R with <a href="https://ollama.com/" class="external-link">Ollama</a>, which lets you run language models locally on your own machine. Main site: <a href="https://hauselin.github.io/ollama-r/" class="uri">https://hauselin.github.io/ollama-r/</a></p>
+<p>The <a href="https://hauselin.github.io/ollama-r/">Ollama R library</a> is the easiest way to integrate R with <a href="https://ollama.com/" class="external-link">Ollama</a>, which lets you run language models locally on your own machine.</p>
 <p>The library also makes it easy to work with data structures (e.g., conversational/chat histories) that are standard for different LLMs (such as those provided by OpenAI and Anthropic). It also lets you specify different output formats (e.g., dataframes, text/vector, lists) that best suit your need, allowing easy integration with other libraries/tools and parallelization via the <code>httr2</code> library.</p>
 <p>To use this R library, ensure the <a href="https://ollama.com" class="external-link">Ollama</a> app is installed. Ollama can use GPUs for accelerating LLM inference. See <a href="https://github.com/ollama/ollama/blob/main/docs/gpu.md" class="external-link">Ollama GPU documentation</a> for more information.</p>
 <p>See <a href="https://github.com/ollama/ollama" class="external-link">Ollama’s Github page</a> for more information. This library uses the <a href="https://github.com/ollama/ollama/blob/main/docs/api.md" class="external-link">Ollama REST API (see documentation for details)</a> and has been tested on Ollama v0.1.30 and above. It was last tested on Ollama v0.3.10.</p>
@@ -103,7 +103,7 @@
 <div class="section level2">
 <h2 id="example-usage">Example usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
 </h2>
-<p>Below is a basic demonstration of how to use the library. For details, see the <a href="https://hauselin.github.io/ollama-r/articles/ollamar.html">getting started vignette</a>.</p>
+<p>Below is a basic demonstration of how to use the library. For details, see the <a href="https://hauselin.github.io/ollama-r/articles/ollamar.html">getting started vignette</a> on our <a href="https://hauselin.github.io/ollama-r/">main page</a>.</p>
 <p><code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server, so many functions in this library returns an <code>httr2_response</code> object by default. If the response object says <code>Status: 200 OK</code>, then the request was successful.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
