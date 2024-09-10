@@ -3,6 +3,10 @@ url: https://hauselin.github.io/ollama-r
 home:
     title: Ollama R Library
     description: Run Ollama language models in R.
+    sidebar:
+      structure: [links, license, community, citation, dev, toc]
+      toc:
+        depth: 4
 
 template:
   bootstrap: 5

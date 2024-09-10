@@ -55,7 +55,7 @@ entry:
 }
 ```
 
-## Ollama R versus Ollama Python/JavaScript
+## Ollama R vs Ollama Python/JS
 
 This library has been inspired by the official [Ollama
 Python](https://github.com/ollama/ollama-python) and [Ollama
@@ -67,7 +67,7 @@ libraries as well.
 
 ## Installation
 
-1.  Download and install [Ollama](https://ollama.com).
+1.  Download and install the [Ollama](https://ollama.com) app.
 
 - [macOS](https://ollama.com/download/Ollama-darwin.zip)
 - [Windows preview](https://ollama.com/download/OllamaSetup.exe)
@@ -150,7 +150,7 @@ pull("llama3.1")  # download a model (the equivalent bash code: ollama run llama
 list_models()  # verify you've pulled/downloaded the model
 ```
 
-### Delete a model
+### Delete model
 
 Delete a model and its data (see [API
 doc](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)).
@@ -162,7 +162,7 @@ list_models()  # see the models you've pulled/downloaded
 delete("all-minilm:latest")  # returns a httr2 response object
 ```
 
-### Generate a completion
+### Generate completion
 
 Generate a response for a given prompt (see [API
 doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)).
@@ -216,7 +216,7 @@ messages <- create_message("What is in the image?", images = "image.png")
 chat("benzie/llava-phi-3", messages, output = "text")
 ```
 
-#### Streaming responses
+#### Stream responses
 
 ``` r
 messages <- create_message("Tell me a 1-paragraph story.")
@@ -226,7 +226,7 @@ chat("llama3.1", messages, output = "text", stream = TRUE)
 # chat(model = "llama3.1", messages = messages, output = "text", stream = TRUE)  # same as above
 ```
 
-#### Format and prepare messages for the `chat()` function
+#### Format messages for chat
 
 Internally, messages are represented as a `list` of many distinct `list`
 messages. Each list/message object has two elements: `role` (can be
@@ -348,7 +348,7 @@ e3 <- embed("llama3.1", "Hello, how are you?", normalize = FALSE)
 e4 <- embed("llama3.1", "Hi, how are you?", normalize = FALSE)
 ```
 
-### Parsing `httr2_response` objects with `resp_process()`
+### Parse `httr2_response` objects with `resp_process()`
 
 `ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html)
 to make HTTP requests to the Ollama server, so many functions in this
@@ -480,15 +480,3 @@ bind_rows(lapply(resps, resp_process, "df"))  # get responses as dataframes
 # 2 llama3.1 assistant negative 2024-08-05T17:54:27.657525Z
 # 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z
 ```
-
-## Community guidelines
-
-Contribute: Fork the repository, create a branch for your changes, and
-submit a pull request with documented and tested code. Refer to [R
-packages](https://r-pkgs.org/) by Hadley Wickham and Jennifer Bryan for
-R package development guidelines.
-
-Report issues or seek support: Open a [Github
-issue](https://github.com/hauselin/ollama-r/issues) with a concise
-description of the problem, including steps to reproduce and your
-environment. Check existing/closed issues before posting.
