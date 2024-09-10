@@ -1,5 +1,5 @@
 ---
-title: "Using Ollamar library"
+title: "Using ollamar"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ollamar}
