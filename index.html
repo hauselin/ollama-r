@@ -86,7 +86,7 @@
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="ollama-r-versus-ollama-pythonjavascript">Ollama R versus Ollama Python/JavaScript<a class="anchor" aria-label="anchor" href="#ollama-r-versus-ollama-pythonjavascript"></a>
+<h2 id="ollama-r-vs-ollama-pythonjs">Ollama R vs Ollama Python/JS<a class="anchor" aria-label="anchor" href="#ollama-r-vs-ollama-pythonjs"></a>
 </h2>
 <p>This library has been inspired by the official <a href="https://github.com/ollama/ollama-python" class="external-link">Ollama Python</a> and <a href="https://github.com/ollama/ollama-js" class="external-link">Ollama JavaScript</a> libraries. If you’re coming from Python or JavaScript, you should feel right at home. Alternatively, if you plan to use Ollama with Python or JavaScript, using this R library will help you understand the Python/JavaScript libraries as well.</p>
 </div>
@@ -94,7 +94,7 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li>Download and install <a href="https://ollama.com" class="external-link">Ollama</a>.</li>
+<li>Download and install the <a href="https://ollama.com" class="external-link">Ollama</a> app.</li>
 </ol>
 <ul>
 <li><a href="https://ollama.com/download/Ollama-darwin.zip" class="external-link">macOS</a></li>
@@ -157,7 +157,7 @@
 <span><span class="fu"><a href="reference/list_models.html">list_models</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># verify you've pulled/downloaded the model</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="delete-a-model">Delete a model<a class="anchor" aria-label="anchor" href="#delete-a-model"></a>
+<h3 id="delete-model">Delete model<a class="anchor" aria-label="anchor" href="#delete-model"></a>
 </h3>
 <p>Delete a model and its data (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model" class="external-link">API doc</a>). You can see what models you’ve downloaded with <code><a href="reference/list_models.html">list_models()</a></code>. To download a model, specify the name of the model.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -165,7 +165,7 @@
 <span><span class="fu"><a href="reference/delete.html">delete</a></span><span class="op">(</span><span class="st">"all-minilm:latest"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="generate-a-completion">Generate a completion<a class="anchor" aria-label="anchor" href="#generate-a-completion"></a>
+<h3 id="generate-completion">Generate completion<a class="anchor" aria-label="anchor" href="#generate-completion"></a>
 </h3>
 <p>Generate a response for a given prompt (see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion" class="external-link">API doc</a>).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -215,7 +215,7 @@
 <span><span class="co"># use a vision/multi-modal model</span></span>
 <span><span class="fu"><a href="reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"benzie/llava-phi-3"</span>, <span class="va">messages</span>, output <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
-<h4 id="streaming-responses">Streaming responses<a class="anchor" aria-label="anchor" href="#streaming-responses"></a>
+<h4 id="stream-responses">Stream responses<a class="anchor" aria-label="anchor" href="#stream-responses"></a>
 </h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"Tell me a 1-paragraph story."</span><span class="op">)</span></span>
@@ -225,7 +225,7 @@
 <span><span class="co"># chat(model = "llama3.1", messages = messages, output = "text", stream = TRUE)  # same as above</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="format-and-prepare-messages-for-the-chat-function">Format and prepare messages for the <code>chat()</code> function<a class="anchor" aria-label="anchor" href="#format-and-prepare-messages-for-the-chat-function"></a>
+<h4 id="format-messages-for-chat">Format messages for chat<a class="anchor" aria-label="anchor" href="#format-messages-for-chat"></a>
 </h4>
 <p>Internally, messages are represented as a <code>list</code> of many distinct <code>list</code> messages. Each list/message object has two elements: <code>role</code> (can be <code>"user"</code> or <code>"assistant"</code> or <code>"system"</code>) and <code>content</code> (the message text). The example below shows how the messages/lists are presented.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -334,8 +334,8 @@
 <span><span class="va">e4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/embed.html">embed</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"Hi, how are you?"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="parsing-httr2_response-objects-with-resp_process">Parsing <code>httr2_response</code> objects with <code>resp_process()</code>
-<a class="anchor" aria-label="anchor" href="#parsing-httr2_response-objects-with-resp_process"></a>
+<h3 id="parse-httr2_response-objects-with-resp_process">Parse <code>httr2_response</code> objects with <code>resp_process()</code>
+<a class="anchor" aria-label="anchor" href="#parse-httr2_response-objects-with-resp_process"></a>
 </h3>
 <p><code>ollamar</code> uses the <a href="https://httr2.r-lib.org/index.html" class="external-link"><code>httr2</code> library</a> to make HTTP requests to the Ollama server, so many functions in this library returns an <code>httr2_response</code> object by default.</p>
 <p>You can either parse the output with <code><a href="reference/resp_process.html">resp_process()</a></code> or use the <code>output</code> parameter in the function to specify the output format. Generally, the <code>output</code> parameter can be one of <code>"df"</code>, <code>"jsonlist"</code>, <code>"raw"</code>, <code>"resp"</code>, or <code>"text"</code>.</p>
@@ -446,12 +446,6 @@
 <span><span class="co"># 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="community-guidelines">Community guidelines<a class="anchor" aria-label="anchor" href="#community-guidelines"></a>
-</h2>
-<p>Contribute: Fork the repository, create a branch for your changes, and submit a pull request with documented and tested code. Refer to <a href="https://r-pkgs.org/" class="external-link">R packages</a> by Hadley Wickham and Jennifer Bryan for R package development guidelines.</p>
-<p>Report issues or seek support: Open a <a href="https://github.com/hauselin/ollama-r/issues" class="external-link">Github issue</a> with a concise description of the problem, including steps to reproduce and your environment. Check existing/closed issues before posting.</p>
-</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
@@ -470,19 +464,18 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
 <li><a href="authors.html#citation">Citing ollamar</a></li>
-</ul>
-</div>
-
-<div class="developers">
-<h2 data-toc-skip>Developers</h2>
-<ul class="list-unstyled">
-<li>Hause Lin <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0003-4590-7039" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Tawab Safi <br><small class="roles"> Author, contributor </small> <a href="https://orcid.org/0009-0000-5659-9890" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -492,6 +485,13 @@
 <li><a href="https://CRAN.R-project.org/package=ollamar" class="external-link"><img src="https://www.r-pkg.org/badges/version/ollamar" alt="CRAN status"></a></li>
 <li><a href="https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://cran.r-project.org/package=ollamar" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/ollamar" alt="CRAN_Download_Badge"></a></li>
+</ul>
+</div>
+
+<div class="table-of-contents">
+<h2 data-toc-skip>Table of contents</h2>
+<ul class="list-unstyled">
+<li><nav id="toc"></nav></li>
 </ul>
 </div>
 
