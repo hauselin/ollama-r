@@ -13,8 +13,7 @@ status](https://www.r-pkg.org/badges/version/ollamar)](https://CRAN.R-project.or
 
 The [Ollama R library](https://hauselin.github.io/ollama-r/) is the
 easiest way to integrate R with [Ollama](https://ollama.com/), which
-lets you run language models locally on your own machine. Main site:
-<https://hauselin.github.io/ollama-r/>
+lets you run language models locally on your own machine.
 
 The library also makes it easy to work with data structures (e.g.,
 conversational/chat histories) that are standard for different LLMs
@@ -85,7 +84,8 @@ remotes::install_github("hauselin/ollamar")
 
 Below is a basic demonstration of how to use the library. For details,
 see the [getting started
-vignette](https://hauselin.github.io/ollama-r/articles/ollamar.html).
+vignette](https://hauselin.github.io/ollama-r/articles/ollamar.html) on
+our [main page](https://hauselin.github.io/ollama-r/).
 
 `ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html)
 to make HTTP requests to the Ollama server, so many functions in this
