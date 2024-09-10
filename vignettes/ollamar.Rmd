@@ -1,0 +1,386 @@
+---
+title: "Using Ollamar library"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ollamar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+ollamar is the easiest way to integrate R with [Ollama](https://ollama.com/), which lets you run language models locally on your own machine.
+
+## Installation
+
+1. Download and install the [Ollama](https://ollama.com) app.
+
+- [macOS](https://ollama.com/download/Ollama-darwin.zip)
+- [Windows preview](https://ollama.com/download/OllamaSetup.exe)
+- Linux: `curl -fsSL https://ollama.com/install.sh | sh`
+- [Docker image](https://hub.docker.com/r/ollama/ollama)
+
+2. Open/launch the Ollama app to start the local server. 
+
+3. Install either the stable or latest/development version of `ollamar`.
+
+Stable version: 
+
+```{r eval=FALSE}
+install.packages("ollamar")
+```
+
+For the latest/development version with more features/bug fixes (see latest changes [here](https://hauselin.github.io/ollama-r/news/index.html)), you can install it from GitHub using the `install_github` function from the `remotes` library. If it doesn't work or you don't have `remotes` library, please run `install.packages("remotes")` in R or RStudio before running the code below.
+
+```{r eval=FALSE}
+# install.packages("remotes")  # run this line if you don't have the remotes library
+remotes::install_github("hauselin/ollamar")
+```
+
+## Usage
+
+`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default. If the response object says `Status: 200 OK`, then the request was successful. See [Notes section](#notes) below for more information.
+
+```{r eval=FALSE}
+library(ollamar)
+
+test_connection()  # test connection to Ollama server
+# if you see "Ollama local server not running or wrong server," Ollama app/server isn't running
+
+# generate a response/text based on a prompt; returns an httr2 response by default
+resp <- generate("llama3.1", "tell me a 5-word story") 
+resp
+
+#' interpret httr2 response object
+#' <httr2_response>
+#' POST http://127.0.0.1:11434/api/generate  # endpoint
+#' Status: 200 OK  # if successful, status code should be 200 OK
+#' Content-Type: application/json
+#' Body: In memory (414 bytes)
+
+# get just the text from the response object
+resp_process(resp, "text") 
+# get the text as a tibble dataframe
+resp_process(resp, "df") 
+
+# alternatively, specify the output type when calling the function initially
+txt <- generate("llama3.1", "tell me a 5-word story", output = "text")
+
+# list available models (models you've pulled/downloaded)
+list_models()  
+                        name    size parameter_size quantization_level            modified
+1               codegemma:7b    5 GB             9B               Q4_0 2024-07-27T23:44:10
+2            llama3.1:latest  4.7 GB           8.0B               Q4_0 2024-07-31T07:44:33
+```
+
+### Pull/download model
+
+Download a model from the ollama library (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#pull-a-model)). For the list of models you can pull/download, see [Ollama library](https://ollama.com/library).
+
+```{r eval=FALSE}
+pull("llama3.1")  # download a model (equivalent bash code: ollama run llama3.1)
+list_models()  # verify you've pulled/downloaded the model
+```
+
+### Delete model
+
+Delete a model and its data (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)). You can see what models you've downloaded with `list_models()`. To download a model, specify the name of the model.
+
+```{r eval=FALSE}
+list_models()  # see the models you've pulled/downloaded
+delete("all-minilm:latest")  # returns a httr2 response object
+```
+
+### Generate completion
+
+Generate a response for a given prompt (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)).
+
+```{r eval=FALSE}
+resp <- generate("llama3.1", "Tomorrow is a...")  # return httr2 response object by default
+resp
+
+resp_process(resp, "text")  # process the response to return text/vector output
+
+generate("llama3.1", "Tomorrow is a...", output = "text")  # directly return text/vector output
+generate("llama3.1", "Tomorrow is a...", stream = TRUE)  # return httr2 response object and stream output
+generate("llama3.1", "Tomorrow is a...", output = "df", stream = TRUE)
+
+# image prompt
+# use a vision/multi-modal model
+generate("benzie/llava-phi-3", "What is in the image?", images = "image.png", output = 'text')
+```
+
+### Chat
+
+Generate the next message in a chat/conversation.
+
+```{r eval=FALSE}
+messages <- create_message("what is the capital of australia")  # default role is user
+resp <- chat("llama3.1", messages)  # default returns httr2 response object
+resp  # <httr2_response>
+resp_process(resp, "text")  # process the response to return text/vector output
+
+# specify output type when calling the function
+chat("llama3.1", messages, output = "text")  # text vector
+chat("llama3.1", messages, output = "df")  # data frame/tibble
+chat("llama3.1", messages, output = "jsonlist")  # list
+chat("llama3.1", messages, output = "raw")  # raw string
+chat("llama3.1", messages, stream = TRUE)  # stream output and return httr2 response object
+
+# create chat history
+messages <- create_messages(
+  create_message("end all your sentences with !!!", role = "system"),
+  create_message("Hello!"),  # default role is user
+  create_message("Hi, how can I help you?!!!", role = "assistant"),
+  create_message("What is the capital of Australia?"),
+  create_message("Canberra!!!", role = "assistant"),
+  create_message("what is your name?")
+)
+cat(chat("llama3.1", messages, output = "text"))  # print the formatted output
+
+# image prompt
+messages <- create_message("What is in the image?", images = "image.png")
+# use a vision/multi-modal model
+chat("benzie/llava-phi-3", messages, output = "text")
+```
+
+#### Stream responses
+
+```{r eval=FALSE}
+messages <- create_message("Tell me a 1-paragraph story.")
+
+# use "llama3.1" model, provide list of messages, return text/vector output, and stream the output
+chat("llama3.1", messages, output = "text", stream = TRUE)
+# chat(model = "llama3.1", messages = messages, output = "text", stream = TRUE)  # same as above
+```
+
+#### Format messages for chat
+
+Internally, messages are represented as a `list` of many distinct `list` messages. Each list/message object has two elements: `role` (can be `"user"` or `"assistant"` or `"system"`) and `content` (the message text). The example below shows how the messages/lists are presented.
+
+```{r eval=FALSE}
+list(  # main list containing all the messages
+    list(role = "user", content = "Hello!"),  # first message as a list
+    list(role = "assistant", content = "Hi! How are you?")  # second message as a list
+)
+```
+
+To simplify the process of creating and managing messages, `ollamar` provides functions to format and prepare messages for the `chat()` function. These functions also work with other APIs or LLM providers like OpenAI and Anthropic.
+
+- `create_messages()`: create messages to build a chat history
+- `create_message()` creates a chat history with a single message
+- `append_message()` adds a new message to the end of the existing messages
+- `prepend_message()` adds a new message to the beginning of the existing messages
+- `insert_message()` inserts a new message at a specific index in the existing messages
+    - by default, it inserts the message at the -1 (final) position
+- `delete_message()` delete a message at a specific index in the existing messages
+    - positive and negative indices/positions are supported
+    - if there are 5 messages, the positions are 1 (-5), 2 (-4), 3 (-3), 4 (-2), 5 (-1)
+
+```{r eval=FALSE}
+# create a chat history with one message
+messages <- create_message(content = "Hi! How are you? (1ST MESSAGE)", role = "assistant")
+# or simply, messages <- create_message("Hi! How are you?", "assistant")
+messages[[1]]  # get 1st message
+
+# append (add to the end) a new message to the existing messages
+messages <- append_message("I'm good. How are you? (2ND MESSAGE)", "user", messages)
+messages[[1]]  # get 1st message
+messages[[2]]  # get 2nd message (newly added message)
+
+# prepend (add to the beginning) a new message to the existing messages
+messages <- prepend_message("I'm good. How are you? (0TH MESSAGE)", "user", messages)
+messages[[1]]  # get 0th message (newly added message)
+messages[[2]]  # get 1st message
+messages[[3]]  # get 2nd message
+
+# insert a new message at a specific index/position (2nd position in the example below)
+# by default, the message is inserted at the end of the existing messages (position -1 is the end/default)
+messages <- insert_message("I'm good. How are you? (BETWEEN 0 and 1 MESSAGE)", "user", messages, 2)
+messages[[1]]  # get 0th message
+messages[[2]]  # get between 0 and 1 message (newly added message)
+messages[[3]]  # get 1st message
+messages[[4]]  # get 2nd message
+
+# delete a message at a specific index/position (2nd position in the example below)
+messages <- delete_message(messages, 2)
+
+# create a chat history with multiple messages
+messages <- create_messages(
+  create_message("You're a knowledgeable tour guide.", role = "system"),
+  create_message("What is the capital of Australia?")  # default role is user
+)
+```
+
+You can convert `data.frame`, `tibble` or `data.table` objects to `list()` of messages and vice versa with functions from base R or other popular libraries.
+
+```{r eval=FALSE}
+# create a list of messages 
+messages <- create_messages(
+  create_message("You're a knowledgeable tour guide.", role = "system"),
+  create_message("What is the capital of Australia?")  
+)
+
+# convert to dataframe
+df <- dplyr::bind_rows(messages)  # with dplyr library
+df <- data.table::rbindlist(messages)  # with data.table library
+
+# convert dataframe to list with apply, purrr functions
+apply(df, 1, as.list)  # convert each row to a list with base R apply
+purrr::transpose(df)  # with purrr library
+```
+
+
+### Embeddings
+
+Get the vector embedding of some prompt/text (see [API doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings)). By default, the embeddings are normalized to length 1, which means the following:
+
+- cosine similarity can be computed slightly faster using just a dot product
+- cosine similarity and Euclidean distance will result in the identical rankings
+
+```{r eval=FALSE}
+embed("llama3.1", "Hello, how are you?")
+
+# don't normalize embeddings
+embed("llama3.1", "Hello, how are you?", normalize = FALSE)
+```
+
+```{r eval=FALSE}
+# get embeddings for similar prompts
+e1 <- embed("llama3.1", "Hello, how are you?")
+e2 <- embed("llama3.1", "Hi, how are you?")
+
+# compute cosine similarity
+sum(e1 * e2)  # not equals to 1
+sum(e1 * e1)  # 1 (identical vectors/embeddings)
+
+# non-normalized embeddings
+e3 <- embed("llama3.1", "Hello, how are you?", normalize = FALSE)
+e4 <- embed("llama3.1", "Hi, how are you?", normalize = FALSE)
+```
+
+### Parse `httr2_response` objects with `resp_process()`
+
+`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html) to make HTTP requests to the Ollama server, so many functions in this library returns an `httr2_response` object by default.
+
+You can either parse the output with `resp_process()` or use the `output` parameter in the function to specify the output format. Generally, the `output` parameter can be one of `"df"`, `"jsonlist"`, `"raw"`, `"resp"`, or `"text"`.
+
+```{r eval=FALSE}
+resp <- list_models(output = "resp")  # returns a httr2 response object
+# <httr2_response>
+# GET http://127.0.0.1:11434/api/tags
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (5401 bytes)
+
+# process the httr2 response object with the resp_process() function
+resp_process(resp, "df")
+# or list_models(output = "df")
+resp_process(resp, "jsonlist")  # list
+# or list_models(output = "jsonlist")
+resp_process(resp, "raw")  # raw string
+# or list_models(output = "raw")
+resp_process(resp, "resp")  # returns the input httr2 response object
+# or list_models() or list_models("resp")
+resp_process(resp, "text")  # text vector
+# or list_models("text")
+```
+
+
+
+## Advanced usage
+
+### Parallel requests
+
+For the `generate()` and `chat()` endpoints/functions, you can specify `output = 'req'` in the function so the functions return `httr2_request` objects instead of `httr2_response` objects.
+
+```{r eval=FALSE}
+prompt <- "Tell me a 10-word story"
+req <- generate("llama3.1", prompt, output = "req")  # returns a httr2_request object
+# <httr2_request>
+# POST http://127.0.0.1:11434/api/generate
+# Headers:
+# • content_type: 'application/json'
+# • accept: 'application/json'
+# • user_agent: 'ollama-r/1.1.1 (aarch64-apple-darwin20) R/4.4.0'
+# Body: json encoded data
+
+```
+
+When you have multiple `httr2_request` objects in a list, you can make parallel requests with the `req_perform_parallel` function from the `httr2` library. See [`httr2` documentation](https://httr2.r-lib.org/reference/req_perform_parallel.html) for details.
+
+```{r eval=FALSE}
+library(httr2)
+
+prompt <- "Tell me a 5-word story"
+
+# create 5 httr2_request objects that generate a response to the same prompt
+reqs <- lapply(1:5, function(r) generate("llama3.1", prompt, output = "req"))
+
+# make parallel requests and get response
+resps <- req_perform_parallel(reqs)  # list of httr2_request objects
+
+# process the responses
+sapply(resps, resp_process, "text")  # get responses as text
+# [1] "She found him in Paris."         "She found the key upstairs."    
+# [3] "She found her long-lost sister." "She found love on Mars."        
+# [5] "She found the diamond ring."    
+
+```
+
+Example sentiment analysis with parallel requests with `generate()` function
+
+```{r eval=FALSE}
+library(httr2)
+library(glue)
+library(dplyr)
+
+# text to classify
+texts <- c('I love this product', 'I hate this product', 'I am neutral about this product')
+
+# create httr2_request objects for each text, using the same system prompt
+reqs <- lapply(texts, function(text) {
+  prompt <- glue("Your only task/role is to evaluate the sentiment of product reviews, and your response should be one of the following:'positive', 'negative', or 'other'. Product review: {text}")
+  generate("llama3.1", prompt, output = "req")
+})
+
+# make parallel requests and get response
+resps <- req_perform_parallel(reqs)  # list of httr2_request objects
+
+# process the responses
+sapply(resps, resp_process, "text")  # get responses as text
+# [1] "Positive"                            "Negative."                          
+# [3] "'neutral' translates to... 'other'."
+
+
+```
+
+Example sentiment analysis with parallel requests with `chat()` function
+
+```{r eval=FALSE}
+library(httr2)
+library(dplyr)
+
+# text to classify
+texts <- c('I love this product', 'I hate this product', 'I am neutral about this product')
+
+# create system prompt
+chat_history <- create_message("Your only task/role is to evaluate the sentiment of product reviews provided by the user. Your response should simply be 'positive', 'negative', or 'other'.", "system")
+
+# create httr2_request objects for each text, using the same system prompt
+reqs <- lapply(texts, function(text) {
+  messages <- append_message(text, "user", chat_history)
+  chat("llama3.1", messages, output = "req")
+})
+
+# make parallel requests and get response
+resps <- req_perform_parallel(reqs)  # list of httr2_request objects
+
+# process the responses
+bind_rows(lapply(resps, resp_process, "df"))  # get responses as dataframes
+# # A tibble: 3 × 4
+#   model    role      content  created_at                 
+#   <chr>    <chr>     <chr>    <chr>                      
+# 1 llama3.1 assistant Positive 2024-08-05T17:54:27.758618Z
+# 2 llama3.1 assistant negative 2024-08-05T17:54:27.657525Z
+# 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z
+
+```

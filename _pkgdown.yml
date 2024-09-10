@@ -8,6 +8,15 @@ home:
       toc:
         depth: 4
 
+navbar:
+    structure:
+      left: [intro, reference, news]
+    components:
+      twitter:
+        icon: fa-twitter
+        href: https://x.com/hauselin
+        arial-label: X
+
 template:
   bootstrap: 5
   light-switch: true

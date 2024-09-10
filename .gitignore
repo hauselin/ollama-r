@@ -9,3 +9,4 @@ docs
 R/scratch.R
 
 /.quarto/
+inst/doc
