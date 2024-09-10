@@ -69,6 +69,11 @@ libraries as well.
 
 1.  Download and install [Ollama](https://ollama.com).
 
+- [macOS](https://ollama.com/download/Ollama-darwin.zip)
+- [Windows preview](https://ollama.com/download/OllamaSetup.exe)
+- Linux: `curl -fsSL https://ollama.com/install.sh | sh`
+- [Docker image](https://hub.docker.com/r/ollama/ollama)
+
 2.  Open/launch the Ollama app to start the local server.
 
 3.  Install either the stable or latest/development version of
@@ -105,7 +110,7 @@ object says `Status: 200 OK`, then the request was successful. See
 library(ollamar)
 
 test_connection()  # test connection to Ollama server
-# if you see Ollama local server running, it's working
+# if you see "Ollama local server not running or wrong server," Ollama app/server isn't running
 
 # generate a response/text based on a prompt; returns an httr2 response by default
 resp <- generate("llama3.1", "tell me a 5-word story") 
@@ -179,10 +184,7 @@ generate("benzie/llava-phi-3", "What is in the image?", images = "image.png", ou
 
 ### Chat
 
-Generate the next message in a chat (see [API
-doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion)).
-See the [Notes section](#notes) for details on how chat messages and
-chat history are represented/formatted.
+Generate the next message in a chat/conversation.
 
 ``` r
 messages <- create_message("what is the capital of australia")  # default role is user
@@ -222,82 +224,6 @@ messages <- create_message("Tell me a 1-paragraph story.")
 # use "llama3.1" model, provide list of messages, return text/vector output, and stream the output
 chat("llama3.1", messages, output = "text", stream = TRUE)
 # chat(model = "llama3.1", messages = messages, output = "text", stream = TRUE)  # same as above
-```
-
-### Embeddings
-
-Get the vector embedding of some prompt/text (see [API
-doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings)).
-By default, the embeddings are normalized to length 1, which means the
-following:
-
-- cosine similarity can be computed slightly faster using just a dot
-  product
-- cosine similarity and Euclidean distance will result in the identical
-  rankings
-
-``` r
-embed("llama3.1", "Hello, how are you?")
-
-# don't normalize embeddings
-embed("llama3.1", "Hello, how are you?", normalize = FALSE)
-```
-
-``` r
-# get embeddings for similar prompts
-e1 <- embed("llama3.1", "Hello, how are you?")
-e2 <- embed("llama3.1", "Hi, how are you?")
-
-# compute cosine similarity
-sum(e1 * e2)  # not equals to 1
-sum(e1 * e1)  # 1 (identical vectors/embeddings)
-
-# non-normalized embeddings
-e3 <- embed("llama3.1", "Hello, how are you?", normalize = FALSE)
-e4 <- embed("llama3.1", "Hi, how are you?", normalize = FALSE)
-```
-
-### Notes
-
-If you don’t have the Ollama app running, you’ll get an error. Make sure
-to open the Ollama app before using this library.
-
-``` r
-test_connection()
-# Ollama local server not running or wrong server.
-# Error in `httr2::req_perform()` at ollamar/R/test_connection.R:18:9:
-```
-
-#### Parsing `httr2_response` objects with `resp_process()`
-
-`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html)
-to make HTTP requests to the Ollama server, so many functions in this
-library returns an `httr2_response` object by default.
-
-You can either parse the output with `resp_process()` or use the
-`output` parameter in the function to specify the output format.
-Generally, the `output` parameter can be one of `"df"`, `"jsonlist"`,
-`"raw"`, `"resp"`, or `"text"`.
-
-``` r
-resp <- list_models(output = "resp")  # returns a httr2 response object
-# <httr2_response>
-# GET http://127.0.0.1:11434/api/tags
-# Status: 200 OK
-# Content-Type: application/json
-# Body: In memory (5401 bytes)
-
-# process the httr2 response object with the resp_process() function
-resp_process(resp, "df")
-# or list_models(output = "df")
-resp_process(resp, "jsonlist")  # list
-# or list_models(output = "jsonlist")
-resp_process(resp, "raw")  # raw string
-# or list_models(output = "raw")
-resp_process(resp, "resp")  # returns the input httr2 response object
-# or list_models() or list_models("resp")
-resp_process(resp, "text")  # text vector
-# or list_models("text")
 ```
 
 #### Format and prepare messages for the `chat()` function
@@ -387,6 +313,71 @@ df <- data.table::rbindlist(messages)  # with data.table library
 # convert dataframe to list with apply, purrr functions
 apply(df, 1, as.list)  # convert each row to a list with base R apply
 purrr::transpose(df)  # with purrr library
+```
+
+### Embeddings
+
+Get the vector embedding of some prompt/text (see [API
+doc](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings)).
+By default, the embeddings are normalized to length 1, which means the
+following:
+
+- cosine similarity can be computed slightly faster using just a dot
+  product
+- cosine similarity and Euclidean distance will result in the identical
+  rankings
+
+``` r
+embed("llama3.1", "Hello, how are you?")
+
+# don't normalize embeddings
+embed("llama3.1", "Hello, how are you?", normalize = FALSE)
+```
+
+``` r
+# get embeddings for similar prompts
+e1 <- embed("llama3.1", "Hello, how are you?")
+e2 <- embed("llama3.1", "Hi, how are you?")
+
+# compute cosine similarity
+sum(e1 * e2)  # not equals to 1
+sum(e1 * e1)  # 1 (identical vectors/embeddings)
+
+# non-normalized embeddings
+e3 <- embed("llama3.1", "Hello, how are you?", normalize = FALSE)
+e4 <- embed("llama3.1", "Hi, how are you?", normalize = FALSE)
+```
+
+### Parsing `httr2_response` objects with `resp_process()`
+
+`ollamar` uses the [`httr2` library](https://httr2.r-lib.org/index.html)
+to make HTTP requests to the Ollama server, so many functions in this
+library returns an `httr2_response` object by default.
+
+You can either parse the output with `resp_process()` or use the
+`output` parameter in the function to specify the output format.
+Generally, the `output` parameter can be one of `"df"`, `"jsonlist"`,
+`"raw"`, `"resp"`, or `"text"`.
+
+``` r
+resp <- list_models(output = "resp")  # returns a httr2 response object
+# <httr2_response>
+# GET http://127.0.0.1:11434/api/tags
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (5401 bytes)
+
+# process the httr2 response object with the resp_process() function
+resp_process(resp, "df")
+# or list_models(output = "df")
+resp_process(resp, "jsonlist")  # list
+# or list_models(output = "jsonlist")
+resp_process(resp, "raw")  # raw string
+# or list_models(output = "raw")
+resp_process(resp, "resp")  # returns the input httr2 response object
+# or list_models() or list_models("resp")
+resp_process(resp, "text")  # text vector
+# or list_models("text")
 ```
 
 ## Advanced usage
@@ -489,3 +480,15 @@ bind_rows(lapply(resps, resp_process, "df"))  # get responses as dataframes
 # 2 llama3.1 assistant negative 2024-08-05T17:54:27.657525Z
 # 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z
 ```
+
+## Community guidelines
+
+Contribute: Fork the repository, create a branch for your changes, and
+submit a pull request with documented and tested code. Refer to [R
+packages](https://r-pkgs.org/) by Hadley Wickham and Jennifer Bryan for
+R package development guidelines.
+
+Report issues or seek support: Open a [Github
+issue](https://github.com/hauselin/ollama-r/issues) with a concise
+description of the problem, including steps to reproduce and your
+environment. Check existing/closed issues before posting.
