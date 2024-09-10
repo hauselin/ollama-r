@@ -2,7 +2,7 @@
 title: "Using ollamar"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ollamar}
+  %\VignetteIndexEntry{Using ollamar}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
