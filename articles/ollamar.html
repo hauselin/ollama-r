@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Using ollamar • ollamar</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
@@ -124,24 +130,23 @@ successful.</p>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#' interpret httr2 response object</span></span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#' &lt;httr2_response&gt;</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#' POST http://127.0.0.1:11434/api/generate  # endpoint</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#' Status: 200 OK  # if successful, status code should be 200 OK</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#' Content-Type: application/json</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#' Body: In memory (414 bytes)</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># get just the text from the response object</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"text"</span>) </span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># get the text as a tibble dataframe</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"df"</span>) </span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co"># alternatively, specify the output type when calling the function initially</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>, <span class="at">output =</span> <span class="st">"text"</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co"># list available models (models you've pulled/downloaded)</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="fu">list_models</span>()  </span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>                        name    size parameter_size quantization_level            modified</span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="dv">1</span>               codegemma<span class="sc">:</span><span class="dv">7</span>b    <span class="dv">5</span> GB             <span class="dv">9</span>B               Q4_0 <span class="dv">2024-07-27</span>T23<span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="dv">2</span>            llama3<span class="fl">.1</span><span class="sc">:</span>latest  <span class="fl">4.7</span> GB           <span class="fl">8.0</span>B               Q4_0 <span class="dv">2024-07-31</span>T07<span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">33</span></span></code></pre></div>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#' Status: 200 OK  # if successful, status code should be 200 OK</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#' Content-Type: application/json</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#' Body: In memory (414 bytes)</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># get just the text from the response object</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"text"</span>) </span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co"># get the text as a tibble dataframe</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"df"</span>) </span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># alternatively, specify the output type when calling the function initially</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>, <span class="at">output =</span> <span class="st">"text"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co"># list available models (models you've pulled/downloaded)</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="fu">list_models</span>()  </span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>                        name    size parameter_size quantization_level            modified</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="dv">1</span>               codegemma<span class="sc">:</span><span class="dv">7</span>b    <span class="dv">5</span> GB             <span class="dv">9</span>B               Q4_0 <span class="dv">2024-07-27</span>T23<span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="dv">2</span>            llama3<span class="fl">.1</span><span class="sc">:</span>latest  <span class="fl">4.7</span> GB           <span class="fl">8.0</span>B               Q4_0 <span class="dv">2024-07-31</span>T07<span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">33</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pulldownload-model">Pull/download model<a class="anchor" aria-label="anchor" href="#pulldownload-model"></a>
 </h3>
@@ -368,10 +373,8 @@ of <code>"df"</code>, <code>"jsonlist"</code>, <code>"raw"</code>,
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/list_models.html">list_models</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"resp"</span><span class="op">)</span>  <span class="co"># returns a httr2 response object</span></span>
 <span><span class="co"># &lt;httr2_response&gt;</span></span>
-<span><span class="co"># GET http://127.0.0.1:11434/api/tags</span></span>
 <span><span class="co"># Status: 200 OK</span></span>
 <span><span class="co"># Content-Type: application/json</span></span>
-<span><span class="co"># Body: In memory (5401 bytes)</span></span>
 <span></span>
 <span><span class="co"># process the httr2 response object with the resp_process() function</span></span>
 <span><span class="fu"><a href="../reference/resp_process.html">resp_process</a></span><span class="op">(</span><span class="va">resp</span>, <span class="st">"df"</span><span class="op">)</span></span>
@@ -398,14 +401,7 @@ function so the functions return <code>httr2_request</code> objects
 instead of <code>httr2_response</code> objects.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prompt</span> <span class="op">&lt;-</span> <span class="st">"Tell me a 10-word story"</span></span>
-<span><span class="va">req</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">prompt</span>, output <span class="op">=</span> <span class="st">"req"</span><span class="op">)</span>  <span class="co"># returns a httr2_request object</span></span>
-<span><span class="co"># &lt;httr2_request&gt;</span></span>
-<span><span class="co"># POST http://127.0.0.1:11434/api/generate</span></span>
-<span><span class="co"># Headers:</span></span>
-<span><span class="co"># • content_type: 'application/json'</span></span>
-<span><span class="co"># • accept: 'application/json'</span></span>
-<span><span class="co"># • user_agent: 'ollama-r/1.1.1 (aarch64-apple-darwin20) R/4.4.0'</span></span>
-<span><span class="co"># Body: json encoded data</span></span></code></pre></div>
+<span><span class="va">req</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">prompt</span>, output <span class="op">=</span> <span class="st">"req"</span><span class="op">)</span>  <span class="co"># returns a httr2_request object</span></span></code></pre></div>
 <p>When you have multiple <code>httr2_request</code> objects in a list,
 you can make parallel requests with the
 <code>req_perform_parallel</code> function from the <code>httr2</code>
