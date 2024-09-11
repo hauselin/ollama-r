@@ -51,7 +51,6 @@ resp
 
 #' interpret httr2 response object
 #' <httr2_response>
-#' POST http://127.0.0.1:11434/api/generate  # endpoint
 #' Status: 200 OK  # if successful, status code should be 200 OK
 #' Content-Type: application/json
 #' Body: In memory (414 bytes)
@@ -266,10 +265,8 @@ You can either parse the output with `resp_process()` or use the `output` parame
 ```{r eval=FALSE}
 resp <- list_models(output = "resp")  # returns a httr2 response object
 # <httr2_response>
-# GET http://127.0.0.1:11434/api/tags
 # Status: 200 OK
 # Content-Type: application/json
-# Body: In memory (5401 bytes)
 
 # process the httr2 response object with the resp_process() function
 resp_process(resp, "df")
@@ -295,14 +292,6 @@ For the `generate()` and `chat()` endpoints/functions, you can specify `output =
 ```{r eval=FALSE}
 prompt <- "Tell me a 10-word story"
 req <- generate("llama3.1", prompt, output = "req")  # returns a httr2_request object
-# <httr2_request>
-# POST http://127.0.0.1:11434/api/generate
-# Headers:
-# • content_type: 'application/json'
-# • accept: 'application/json'
-# • user_agent: 'ollama-r/1.1.1 (aarch64-apple-darwin20) R/4.4.0'
-# Body: json encoded data
-
 ```
 
 When you have multiple `httr2_request` objects in a list, you can make parallel requests with the `req_perform_parallel` function from the `httr2` library. See [`httr2` documentation](https://httr2.r-lib.org/reference/req_perform_parallel.html) for details.
