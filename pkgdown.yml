@@ -3,7 +3,7 @@ pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   ollamar: ollamar.html
-last_built: 2024-09-10T20:33Z
+last_built: 2024-09-11T14:01Z
 urls:
   reference: https://hauselin.github.io/ollama-r/reference
   article: https://hauselin.github.io/ollama-r/articles
