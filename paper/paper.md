@@ -16,149 +16,45 @@ authors:
 affiliations:
   - name: Massachusetts Institute of Technology, USA
     index: 1
-date: 24 August 2024
+date: 21 November 2024
 bibliography: paper.bib
 ---
 
 # Summary
 
-Large language models (LLMs) have transformed natural language processing and AI. Many tools like Ollama (https://ollama.com/) have been developed to allow users to easily deploy and interact with LLMs hosted on  users' own machines. `ollamar` is an R library that interfaces with Ollama, allowing R users to easily run and interact with LLMs. This library is valuable for researchers and data scientists integrating LLMs into R workflows. `ollamar` is actively developed on GitHub (https://github.com/hauselin/ollamar) and available on the Comprehensive R Archive Network (https://cran.r-project.org/web/packages/ollamar/index.html).
+Large language models (LLMs) have transformed natural language processing and AI applications across numerous domains. While cloud-based LLMs are common, locally deployed models offer distinct advantages in reproducibility, data privacy, security, and customization. `ollamar` is an R package that provides interface to Ollama, enabling researchers and data scientists to seamlessly integrate locally-hosted LLMs into their R workflows. It implements a consistent API design that aligns with other programming languages and follows established LLM usage conventions. It further distinguishes itself by offering flexible output formats, and easy management of conversation history. `ollamar` is maintained on GitHub and available through the Comprehensive R Archive Network (CRAN), where it regularly undergoes comprehensive continuous integration testing across multiple platforms.
+
+# State of the Field
+
+The increasing importance of LLMs in various fields has created a demand for accessible tools that allow researchers and practitioners to leverage LLMs within their preferred programming environments. Locally deployed LLMs offer advantages in terms of data privacy, security, reproducibility, and customization, making them an attractive option for many users [@Chan2024Aug; @Liu2024Aug; @Lytvyn2024Jun; @Shostack2024Mar]. Currently, Ollama (https://ollama.com/) is one of the most popular tools for running locally hosted LLMs, offering access to a range of models with different sizes and capabilities. Several R packages currently facilitate interaction with locally deployed LLMs through Ollama, each with distinct approaches, capabilities, and limitations.
+
+The `rollama` [@Gruber2024Apr] and `tidyllm` [@Brull2024] libraries focus on text generation, conversations, and text embedding, but their core functions do not always or necessarily mirror the official Ollama API endpoints, which lead to inconsistencies and confusion for users familiar with the official API. Additionally, these libraries may not support all Ollama endpoints and features. Another popular R library is `tidychatmodels` [@Rapp2024], which allows users to chat with different LLMs, but it is not available on CRAN, and therefore is not subject to the same level of testing and quality assurance as CRAN packages.
+
+All these libraries also adopt the tidyverse workflow, which some may find restrictive, opinionated, or unfamiliar. While the tidyverse is popular in the R community, it may not align with the programming style or workflow of all users, especially those coming from other programming languages or domains. This limitation can hinder the accessibility and usability of these libraries for a broader audience of R users. Thus, the R ecosystem lacks a simple and reliable library to interface with Ollama, even though R is a popular and crucial tool in statistics, data science, and various research domains [@Hill2024May].
 
 # Statement of Need
 
-The increasing importance of LLMs in various fields has created a demand for accessible tools that allow researchers and practitioners to leverage LLMs within their preferred programming environments. Locally deployed LLMs offer advantages in terms of data privacy, security, and customization, making them an attractive option for many users [@Chan2024Aug; @Liu2024Aug; @Lytvyn2024Jun; @Shostack2024Mar]. However, the lack of native R libraries for interfacing with locally deployed LLMs has limited the accessibility of these models to R users, even though R is a popular and crucial tool in statistics, data science, and various research domains [@Hill2024May]. `ollamar` fills a critical gap in the R ecosystem by providing a native interface to run locally deployed LLMs, and is already being used by researchers and practitioners [@Turner2024Aug].
+`ollamar` addresses the limitations of existing R libraries by providing a consistent API design that mirrors official Ollama endpoints, enabling seamless integration across programming environments. It also offers flexible output formats supporting dataframes, JSON lists, raw strings, and text vectors, allowing users to choose the format that best suits their needs. The package also includes independent conversation management tools that align with industry-standard chat formats, streamlining the integration of locally deployed LLMs into R workflows. These features make `ollamar` a versatile and user-friendly tool for researchers and data scientists working with LLMs in R. It fills a critical gap in the R ecosystem by providing a native interface to run locally deployed LLMs, and is already being used by researchers and practitioners [@Turner2024Aug].
 
-The `ollamar` R library is a package that integrates R with Ollama, allowing users to run large language models locally on their machines. Although alternative R libraries exist [@Gruber2024Apr], `ollamar` distinguishes itself through the features described below.
+# Design
 
-**User-friendly design**: It provides an interface to the Ollama server and all API endpoints, closely following the official API design. This design makes it easy for R users to understand how similar libraries (such as in Python and JavaScript) work while allowing users familiar with other programming languages to adapt to and use this library quickly. The consistent API structure across languages facilitates seamless transitions and knowledge transfer for developers working in multi-language environments.
+`ollamar` implements a modular, non-opininated, and consistent approach that aligns with established software engineering principles, where breaking down complex systems into manageable components enhances maintainability, reusability, and overall performance. It also avoids feature bloat, ensuring the library remains focused on its core functionality. The key design philosophy of `ollamar` are described below.
 
-**Consistent and flexible output formats**: All functions that call API endpoints return `httr2::httr2_response` objects by default, but users can specify different output formats, such as dataframes (`"df"`), lists (of JSON objects) (`"jsonlist"`), raw strings (`"raw"`), text vectors (`"text"`), or request objects (`"req"`). This flexibility greatly enhances the usability and versatility of the library. Users can choose the format that best suits their needs, such as when working with different data structures, integrating the output with other R packages, or allowing parallelization via the `httr2` library.
+**Consistency and maintainability**: It provides an interface to the Ollama server and all API endpoints, closely following the official API design, where each function corresponds to a specific endpoint. This implementation ensures the library is consistent with the official Ollama API and easy to maintain and extend as new features are added to Ollama. It also makes it easy for R users to understand how similar libraries (such as in Python and JavaScript) work while allowing users familiar with other programming languages to adapt to and use this library quickly. The consistent API structure across languages facilitates seamless transitions and knowledge transfer for developers working in multi-language environments.
 
-**Easy management of LLM conversation history**: LLM APIs often expect conversation/chat history data as input, often nested lists or JSON objects. Note that this data format is standard for chat-based applications and APIs (not limited to Ollama), such as those provided by OpenAI and Anthropic. `ollamar` simplifies preparing and processing conversational data for input to different LLMs, streamlining the workflow for the most popular chat-based applications.
+**Consistent and flexible output formats**: All functions that call API endpoints return `httr2::httr2_response` objects by default, which provides a consistent interface for flexible downstream processing. If preferred, users have the option to specify different output formats when calling the endpoints, such as dataframes (`"df"`), lists (of JSON objects) (`"jsonlist"`), raw strings (`"raw"`), text vectors (`"text"`), or request objects (`"req"`). Alternatively, use the `resp_process()` function to convert and process the response object as needed. This flexibility allows users to choose the format that best suits their needs, such as when working with different data structures, integrating the output with other R packages, or allowing parallelization via the popular `httr2` library. It also allows users to easily build applications or pipelines on top of the library, without being constrained by a specific output format.
 
-```r
-# nested list of chat history with multiple messages
-list(
-    list(role = "system", content = "Be kind."),
-    list(role = "user", content = "Hi! How are you?")
-)
-```
+**Easy management of LLM conversation history**: LLM APIs often expect conversation/chat history data as input, often nested lists or JSON objects. Note that this data format is standard for chat-based applications and APIs (not limited to Ollama), such as those provided by OpenAI and Anthropic. `ollamar` simplifies preparing and processing conversational data for input to different LLMs, focusing on streamlining the workflow for the most popular chat-based applications.
 
-# Usage and examples
-
-This section highlights the key features of `ollamar`. For documentation and detailed examples, see https://hauselin.github.io/ollama-r/.
-
-## Install and use Ollama
-
-1. Download and install Ollama from https://ollama.com
-2. Open/launch the Ollama app to start the local server
-3. Install \verb+ollamar+ in R by running `install.packages("ollamar")`
-
-```r
-install.packages("ollamar")
-library(ollamar)  # load ollamar
-
-test_connection()  # test connection to Ollama server
-# <httr2_response>
-# GET http://localhost:11434/
-# Status: 200 OK  # indicates connected to server
-```
-## Manage LLMs
-
-To use Ollama, you must first download the model you want to use from https://ollama.com/library. All examples below use the Google's Gemma 2 LLM (specifically, the 2-billion parameter model, which is about 1.6GB, as of August 2024).
-
-```r
-# download model, https://ollama.com/library/gemma2:2b
-pull("gemma2:2b")
-
-# two ways to verify it's downloaded
-list_models()
-model_avail("gemma2:2b")
-```
-
-## Call API endpoints
-
-`ollamar` has distinct functions for each official Ollama API endpoint (see https://hauselin.github.io/ollama-r/reference/index.html). By default, all functions calling API endpoints will return an `httr2::httr2_response` object (see https://httr2.r-lib.org/index.html). You can then parse/process the response object using the `resp_process()` function.
-
-```r
-# generate text based on a single prompt
-resp <- generate("gemma2:2b", "tell me a 5-word story")
-resp_process(resp, "text")
-resp_process(resp, "df")
-resp_process(resp, "jsonlist")
-resp_process(resp, "raw")
-
-# generate text based on chat or conversation history
-# create messages in a chat history
-messages <- create_messages(
-  create_message("end all your sentences with !!!", role = "system"),
-  create_message("Hello")  # default role is user
-)
-resp <- chat("gemma2:2b", messages)  # make request with chat API endpoint
-
-# get vector embedding for prompts
-embed("gemma2:2b", "Hello, how are you?")
-embed("gemma2:2b", c("Hello, how are you?", "Good bye"))
-```
-
-## Manage chat history
-
-When chatting with a model, Ollama and other LLM providers like OpenAI and Anthropic require chat/conversation histories to be formatted in a particular way. `ollamar makes it easy to manipulate the messages in the chat history.
-
-```r
-# initialize or create messages for a chat history
-messages <- create_messages(
-  create_message("end all your sentences with !!!", role = "system"),
-  create_message("Hello")  # default role is user
-)
-
-# add message to the end of chat history
-messages <- append_message("Hi, how are you?", "assistant", messages)
-# delete message at index/position 1
-messages <- delete_message(messages, 1)
-# prepend message to the beginning of chat history
-messages <- prepend_message("Start all sentences with Yo!", "user", messages)
-# insert message at position 2
-messages <- insert_message("Yo!", "assistant", messages, 2)
-```
-
-## Make parallel requests
-
-`ollamar` uses the `httr2` library, which provides functions to make parallel requests. Below is a simple example demonstrating how to perform sentiment analysis in parallel. Specifically, we use the `generate()` function with the parameter `output = "req"`, which asks the function to return an `httr2::httr2_request` object instead of making the request.
-
-
-```r
-library(httr2)
-
-texts_to_classify <- c(
-    'I love this product',
-    'I hate this product',
-    'I am neutral about this product',
-    'I like this product'
-)
-
-# create httr2_request objects for each text with the same system prompt
-reqs <- lapply(texts_to_classify, function(text) {
-  prompt <- paste0("Is the statement positive, negative, or neutral? ", text)
-  generate("gemma2:2b", prompt, output = "req")
-})
-
-# make parallel requests and get responses
-resps <- req_perform_parallel(reqs)
-
-# process each response with resp_process to extract text
-sapply(resps, resp_process, "text")
-```
+**Automated regular testing**: `ollamar` is hosted on GitHub and available through CRAN, where it undergoes comprehensive continuous integration testing across multiple platforms to ensure reliability. Daily automated quality checks maintain long-term stability, and scheduled tests verify version compatibility.
 
 # Conclusion
 
-`ollamar` bridges a crucial gap in the R ecosystem by providing seamless access to large language models through Ollama. Its user-friendly API, flexible output formats, and conversation management functions enable R users to integrate LLMs into their workflows easily. This library empowers researchers and data scientists across various disciplines to leverage the power of locally deployed LLMs, potentially accelerating research and development in fields relying on R for data analysis and machine learning.
+`ollamar` bridges a crucial gap in the R ecosystem by providing seamless access to large language models through Ollama. Its focus on consistency, flexibility, and maintainability makes it a versatile and user-friendly tool for researchers and data scientists working with LLMs in R. These design choices ensure `ollamar` is a user-friendly and reliable tool for integrating locally deployed LLMs into R workflows, accelerating research and development in fields relying on R for data analysis and machine learning.
 
 # Acknowledgements
 
 This project was partially supported by the Canadian Social Sciences & Humanities Research Council Tri-Agency Funding (funding reference: 192324).
 
 # References
-
-
 
