@@ -22,7 +22,7 @@ bibliography: paper.bib
 
 # Summary
 
-Large language models (LLMs) have transformed natural language processing and AI applications across numerous domains. While cloud-based LLMs are common, locally deployed models offer distinct advantages in reproducibility, data privacy, security, and customization. `ollamar` is an R package that provides interface to Ollama, enabling researchers and data scientists to seamlessly integrate locally-hosted LLMs into their R workflows. It implements a consistent API design that aligns with other programming languages and follows established LLM usage conventions. It further distinguishes itself by offering flexible output formats, and easy management of conversation history. `ollamar` is maintained on GitHub and available through the Comprehensive R Archive Network (CRAN), where it regularly undergoes comprehensive continuous integration testing across multiple platforms.
+Large language models (LLMs) have transformed natural language processing and AI applications across numerous domains. While cloud-based LLMs are common, locally deployed models offer distinct advantages in reproducibility, data privacy, security, and customization. `ollamar` is an R package that provides an interface to Ollama, enabling researchers and data scientists to integrate locally-hosted LLMs into their R workflows seamlessly. It implements a consistent API design that aligns with other programming languages and follows established LLM usage conventions. It further distinguishes itself by offering flexible output formats and easy management of conversation history. `ollamar` is maintained on GitHub and available through the Comprehensive R Archive Network (CRAN), where it regularly undergoes comprehensive continuous integration testing across multiple platforms.
 
 # State of the Field
 
@@ -38,7 +38,7 @@ All these libraries also adopt the tidyverse workflow, which some may find restr
 
 # Design
 
-`ollamar` implements a modular, non-opininated, and consistent approach that aligns with established software engineering principles, where breaking down complex systems into manageable components enhances maintainability, reusability, and overall performance. It also avoids feature bloat, ensuring the library remains focused on its core functionality. The key design philosophy of `ollamar` are described below.
+`ollamar` implements a modular, non-opinionated, and consistent approach that aligns with established software engineering principles, where breaking down complex systems into manageable components enhances maintainability, reusability, and overall performance. It also avoids feature bloat, ensuring the library remains focused on its core functionality. The key design philosophy of `ollamar` are described below.
 
 **Consistency and maintainability**: It provides an interface to the Ollama server and all API endpoints, closely following the official API design, where each function corresponds to a specific endpoint. This implementation ensures the library is consistent with the official Ollama API and easy to maintain and extend as new features are added to Ollama. It also makes it easy for R users to understand how similar libraries (such as in Python and JavaScript) work while allowing users familiar with other programming languages to adapt to and use this library quickly. The consistent API structure across languages facilitates seamless transitions and knowledge transfer for developers working in multi-language environments.
 
