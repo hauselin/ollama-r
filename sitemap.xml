@@ -24,6 +24,7 @@
 <url><loc>https://hauselin.github.io/ollama-r/reference/embeddings.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/encode_images_in_messages.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/generate.html</loc></url>
+<url><loc>https://hauselin.github.io/ollama-r/reference/get_tool_calls.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/image_encode_base64.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/index.html</loc></url>
 <url><loc>https://hauselin.github.io/ollama-r/reference/insert_message.html</loc></url>
