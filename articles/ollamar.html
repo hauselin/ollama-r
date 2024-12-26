@@ -469,13 +469,39 @@ multiple times.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">resp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">name</span>, <span class="va">resp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span> <span class="co"># 70</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="structured-outputs">Structured outputs<a class="anchor" aria-label="anchor" href="#structured-outputs"></a>
+</h3>
+<p>The <code><a href="../reference/chat.html">chat()</a></code> and <code><a href="../reference/generate.html">generate()</a></code> functions support
+<a href="https://ollama.com/blog/structured-outputs" class="external-link">structured
+outputs</a>, making it possible to constrain a model’s output to a
+specified format defined by a JSON schema (R list).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># define a JSON schema as a list to constrain a model's output</span></span>
+<span><span class="va">format</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  type <span class="op">=</span> <span class="st">"object"</span>,</span>
+<span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"string"</span><span class="op">)</span>,</span>
+<span>    capital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"string"</span><span class="op">)</span>,</span>
+<span>    languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"array"</span>, </span>
+<span>                     items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"string"</span><span class="op">)</span></span>
+<span>                     <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"capital"</span>, <span class="st">"languages"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="st">"tell me about Canada"</span>, output <span class="op">=</span> <span class="st">"structured"</span>, format <span class="op">=</span> <span class="va">format</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"tell me about Canada"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">msg</span>, format <span class="op">=</span> <span class="va">format</span>, output <span class="op">=</span> <span class="st">"structured"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="parallel-requests">Parallel requests<a class="anchor" aria-label="anchor" href="#parallel-requests"></a>
 </h3>
 <p>For the <code><a href="../reference/generate.html">generate()</a></code> and <code><a href="../reference/chat.html">chat()</a></code>
 endpoints/functions, you can specify <code>output = 'req'</code> in the
 function so the functions return <code>httr2_request</code> objects
 instead of <code>httr2_response</code> objects.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prompt</span> <span class="op">&lt;-</span> <span class="st">"Tell me a 10-word story"</span></span>
 <span><span class="va">req</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate.html">generate</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">prompt</span>, output <span class="op">=</span> <span class="st">"req"</span><span class="op">)</span>  <span class="co"># returns a httr2_request object</span></span></code></pre></div>
 <p>When you have multiple <code>httr2_request</code> objects in a list,
@@ -483,7 +509,7 @@ you can make parallel requests with the
 <code>req_perform_parallel</code> function from the <code>httr2</code>
 library. See <a href="https://httr2.r-lib.org/reference/req_perform_parallel.html" class="external-link"><code>httr2</code>
 documentation</a> for details.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org" class="external-link">httr2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">prompt</span> <span class="op">&lt;-</span> <span class="st">"Tell me a 5-word story"</span></span>
@@ -501,7 +527,7 @@ documentation</a> for details.</p>
 <span><span class="co"># [5] "She found the diamond ring."    </span></span></code></pre></div>
 <p>Example sentiment analysis with parallel requests with
 <code><a href="../reference/generate.html">generate()</a></code> function</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org" class="external-link">httr2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/" class="external-link">glue</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -524,7 +550,7 @@ documentation</a> for details.</p>
 <span><span class="co"># [3] "'neutral' translates to... 'other'."</span></span></code></pre></div>
 <p>Example sentiment analysis with parallel requests with
 <code><a href="../reference/chat.html">chat()</a></code> function</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org" class="external-link">httr2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>

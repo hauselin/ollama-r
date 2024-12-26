@@ -50,13 +50,14 @@
 <span>  <span class="va">prompt</span>,</span>
 <span>  suffix <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  images <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  system <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  template <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  stream <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  raw <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep_alive <span class="op">=</span> <span class="st">"5m"</span>,</span>
-<span>  output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resp"</span>, <span class="st">"jsonlist"</span>, <span class="st">"raw"</span>, <span class="st">"df"</span>, <span class="st">"text"</span>, <span class="st">"req"</span><span class="op">)</span>,</span>
+<span>  output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resp"</span>, <span class="st">"jsonlist"</span>, <span class="st">"raw"</span>, <span class="st">"df"</span>, <span class="st">"text"</span>, <span class="st">"req"</span>, <span class="st">"structured"</span><span class="op">)</span>,</span>
 <span>  endpoint <span class="op">=</span> <span class="st">"/api/generate"</span>,</span>
 <span>  host <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -81,6 +82,10 @@
 
 <dt id="arg-images">images<a class="anchor" aria-label="anchor" href="#arg-images"></a></dt>
 <dd><p>A path to an image file to include in the prompt. Default is "".</p></dd>
+
+
+<dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
+<dd><p>Format to return a response in. Format can be json/list (structured response).</p></dd>
 
 
 <dt id="arg-system">system<a class="anchor" aria-label="anchor" href="#arg-system"></a></dt>
