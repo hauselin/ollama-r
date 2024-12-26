@@ -31,8 +31,7 @@ for more information.
 See [Ollama’s Github page](https://github.com/ollama/ollama) for more
 information. This library uses the [Ollama REST API (see documentation
 for details)](https://github.com/ollama/ollama/blob/main/docs/api.md)
-and has been tested on Ollama v0.1.30 and above. It was last tested on
-Ollama v0.3.10.
+and was last tested on v0.5.4.
 
 > Note: You should have at least 8 GB of RAM available to run the 7B
 > models, 16 GB to run the 13B models, and 32 GB to run the 33B models.

@@ -112,7 +112,7 @@ get_tool_calls <- function(resp) {
 #' Process httr2 response object
 #'
 #' @param resp A httr2 response object.
-#' @param output The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text", "tools" (tool_calls)
+#' @param output The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text", "tools" (tool_calls), "structured" (structured output).
 #'
 #' @return A data frame, json list, raw or httr2 response object.
 #' @export
@@ -122,7 +122,6 @@ get_tool_calls <- function(resp) {
 #' resp_process(resp, "df") # parse response to dataframe/tibble
 #' resp_process(resp, "jsonlist") # parse response to list
 #' resp_process(resp, "raw") # parse response to raw string
-#' resp_process(resp, "resp") # return input response object
 #' resp_process(resp, "text") # return text/character vector
 #' resp_process(resp, "tools") # return tool_calls
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text", "tools")) {
@@ -195,6 +194,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
             return(df_response)
         } else if (output == "text") {
             return(df_response$response)
+        } else if (output == "structured") {
+            return(jsonlite::fromJSON(df_response$response))
         }
     } else if (grepl("api/chat", resp$url)) { # process chat endpoint
         json_body <- httr2::resp_body_json(resp)
@@ -209,6 +210,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
             return(df_response)
         } else if (output == "text") {
             return(df_response$content)
+        } else if (output == "structured") {
+            return(jsonlite::fromJSON(df_response$content))
         }
     } else if (grepl("api/tags", resp$url)) { # process tags endpoint
         json_body <- httr2::resp_body_json(resp)[[1]]

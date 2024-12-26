@@ -130,7 +130,7 @@ test_that("chat function handles images in messages", {
 })
 
 
-test_that("chat function handles tools", {
+test_that("chat function tool calling", {
     skip_if_not(test_connection(), "Ollama server not available")
 
     add_two_numbers <- function(x, y) {
@@ -188,7 +188,7 @@ test_that("chat function handles tools", {
 
 
     # test multiple tools
-    msg <- create_message("what is three plus one? then multiply the output of that by ten")
+    msg <- create_message("add three plus four. then multiply by ten")
     tools <- list(list(type = "function",
                        "function" = list(
                            name = "add_two_numbers",
@@ -234,3 +234,38 @@ test_that("chat function handles tools", {
     # expect_equal(resp[[2]]$name, "multiply_two_numbers")
 
 })
+
+
+
+
+test_that("structured output", {
+    skip_if_not(test_connection(), "Ollama server not available")
+
+    format <- list(
+        type = "object",
+        properties = list(
+            name = list(
+                type = "string"
+            ),
+            capital = list(
+                type = "string"
+            ),
+            languages = list(
+                type = "array",
+                items = list(
+                    type = "string"
+                )
+            )
+        ),
+        required = list("name", "capital", "languages")
+    )
+
+    msg <- create_message("tell me about canada")
+    resp <- chat("llama3.1", msg, format = format)
+    # content <- httr2::resp_body_json(resp)$message$content
+    structured_output <- resp_process(resp, "structured")
+    expect_equal(tolower(structured_output$name), "canada")
+
+})
+
+

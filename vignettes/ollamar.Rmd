@@ -362,6 +362,30 @@ do.call(resp[[1]]$name, resp[[1]]$arguments) # 7
 do.call(resp[[2]]$name, resp[[2]]$arguments) # 70
 ```
 
+### Structured outputs
+
+The `chat()` and `generate()` functions support [structured outputs](https://ollama.com/blog/structured-outputs), making it possible to constrain a model's output to a specified format defined by a JSON schema (R list). 
+
+```{r eval=FALSE} 
+# define a JSON schema as a list to constrain a model's output
+format <- list(
+  type = "object",
+  properties = list(
+    name = list(type = "string"),
+    capital = list(type = "string"),
+    languages = list(type = "array", 
+                     items = list(type = "string")
+                     )
+    ),
+  required = list("name", "capital", "languages")
+  )
+
+generate("llama3.1", "tell me about Canada", output = "structured", format = format)
+
+msg <- create_message("tell me about Canada")
+chat("llama3.1", msg, format = format, output = "structured")
+```
+
 ### Parallel requests
 
 For the `generate()` and `chat()` endpoints/functions, you can specify `output = 'req'` in the function so the functions return `httr2_request` objects instead of `httr2_response` objects.

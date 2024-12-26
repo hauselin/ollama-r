@@ -79,3 +79,37 @@ test_that("generate function works with images", {
 })
 
 
+
+
+
+test_that("structured output", {
+    skip_if_not(test_connection(), "Ollama server not available")
+
+    format <- list(
+        type = "object",
+        properties = list(
+            name = list(
+                type = "string"
+            ),
+            capital = list(
+                type = "string"
+            ),
+            languages = list(
+                type = "array",
+                items = list(
+                    type = "string"
+                )
+            )
+        ),
+        required = list("name", "capital", "languages")
+    )
+
+    msg <- "tell me about canada"
+    resp <- generate("llama3.1", prompt = msg, format = format)
+    # response <- httr2::resp_body_json(resp)$response
+    structured_output <- resp_process(resp, "structured")
+    expect_equal(tolower(structured_output$name), "canada")
+
+})
+
+

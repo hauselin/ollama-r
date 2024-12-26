@@ -1,5 +1,10 @@
 # ollamar (development version)
 
+- `generate()` and `chat()` support [structured output](https://ollama.com/blog/structured-outputs) via `format` parameter.
+- `test_connection()` returns boolean instead of `httr2` object. #29
+- `chat()` supports [tool calling](https://ollama.com/blog/tool-support) via `tools` parameter. Added `get_tool_calls()` helper function to process tools. #30
+- Simplify README and add Get started vignette with more examples.
+
 # ollamar 1.2.1
 
 - `generate()` and `chat()` accept multiple images as prompts/messages.
