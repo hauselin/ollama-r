@@ -36,7 +36,7 @@ A numeric vector of the embedding.
 This function will be deprecated over time and has been superceded by \code{embed()}. See \code{embed()} for more details.
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 # pass model options to the model
 embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)

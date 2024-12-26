@@ -24,7 +24,7 @@ A response in the format specified in the output parameter.
 List models that are available locally
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 list_models() # returns dataframe
 list_models("df") # returns dataframe
 list_models("resp") # httr2 response object

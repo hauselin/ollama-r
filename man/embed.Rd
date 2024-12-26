@@ -39,7 +39,7 @@ A numeric matrix of the embedding. Each column is the embedding for one input.
 Supercedes the \code{embeddings()} function.
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 embed("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 # pass multiple inputs
 embed("nomic-embed-text:latest", c("Good bye", "Bye", "See you."))

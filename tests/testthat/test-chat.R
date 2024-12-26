@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("chat function works with basic input", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     messages <- list(
         list(role = "user", content = "Tell me a 5-word story.")
@@ -56,7 +56,7 @@ test_that("chat function works with basic input", {
 })
 
 test_that("chat function handles streaming correctly", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     messages <- list(
         list(role = "user", content = "Count to 5")
@@ -70,7 +70,7 @@ test_that("chat function handles streaming correctly", {
 
 
 test_that("chat function handles multiple messages", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     messages <- list(
         list(role = "user", content = "Hello!"),
@@ -86,7 +86,7 @@ test_that("chat function handles multiple messages", {
 })
 
 test_that("chat function handles additional options", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     messages <- list(
         list(role = "user", content = "Tell me a very short joke")
@@ -102,7 +102,7 @@ test_that("chat function handles additional options", {
 
 
 test_that("chat function handles images in messages", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
     skip_if_not(model_avail("benzie/llava-phi-3"), "benzie/llava-phi-3 model not available")
 
     images <- c(file.path(system.file("extdata", package = "ollamar"), "image1.png"),

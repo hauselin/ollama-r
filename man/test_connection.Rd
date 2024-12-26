@@ -10,7 +10,7 @@ test_connection(url = "http://localhost:11434")
 \item{url}{The URL of the Ollama server. Default is http://localhost:11434}
 }
 \value{
-A httr2 response object.
+Boolean TRUE if the server is running, otherwise FALSE.
 }
 \description{
 \code{test_connection()} tests whether the Ollama server is running or not.

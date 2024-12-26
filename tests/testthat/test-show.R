@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("show function works", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     result <- show("llama3", output = "resp")
     expect_s3_class(result, "httr2_response")

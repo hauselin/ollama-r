@@ -5,7 +5,7 @@
 #'
 #' @param url The URL of the Ollama server. Default is http://localhost:11434
 #'
-#' @return A httr2 response object.
+#' @return Boolean TRUE if the server is running, otherwise FALSE.
 #' @export
 #'
 #' @examples
@@ -19,12 +19,12 @@ test_connection <- function(url = "http://localhost:11434") {
         {
             resp <- httr2::req_perform(req)
             message("Ollama local server running")
-            return(resp)
+            return(TRUE)
         },
         error = function(e) {
             message("Ollama local server not running or wrong server.\nDownload and launch Ollama app to run the server. Visit https://ollama.com or https://github.com/ollama/ollama")
             req$status_code <- 503
-            return(req)
+            return(FALSE)
         }
     )
 }
@@ -81,7 +81,7 @@ stream_handler <- function(x, env, endpoint) {
 #' @return A data frame, json list, raw or httr2 response object.
 #' @export
 #'
-#' @examplesIf test_connection()$status_code == 200
+#' @examplesIf test_connection()
 #' resp <- list_models("resp")
 #' resp_process(resp, "df") # parse response to dataframe/tibble
 #' resp_process(resp, "jsonlist") # parse response to list

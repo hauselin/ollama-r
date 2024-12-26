@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("list_models function works", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     # incorrect output type
     expect_error(list_models("sdf"))

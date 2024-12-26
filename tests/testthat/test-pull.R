@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("pull function works", {
-    skip_if_not(test_connection()$status_code == 200, "Ollama server not available")
+    skip_if_not(test_connection(), "Ollama server not available")
 
     # streaming is FALSE by default
     # wrong model

@@ -22,7 +22,7 @@ A httr2 response object.
 Creates a model with another name from an existing model.
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 copy("llama3", "llama3_copy")
 delete("llama3_copy")  # delete the model was just got copied
 \dontshow{\}) # examplesIf}

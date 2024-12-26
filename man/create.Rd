@@ -33,7 +33,7 @@ A response in the format specified in the output parameter.
 It is recommended to set \code{modelfile} to the content of the Modelfile rather than just set path.
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 create("mario", "FROM llama3\nSYSTEM You are mario from Super Mario Bros.")
 generate("mario", "who are you?", output = "text")  # model should say it's Mario
 delete("mario")  # delete the model created above

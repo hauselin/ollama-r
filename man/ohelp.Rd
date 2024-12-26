@@ -18,7 +18,7 @@ Does not return anything. It prints the conversation in the console.
 Chat with a model in real-time in R console
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 ohelp(first_prompt = "quit")
 # regular usage: ohelp()
 \dontshow{\}) # examplesIf}

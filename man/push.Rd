@@ -33,7 +33,7 @@ A httr2 response object.
 Push or upload a model to an Ollama model library. Requires registering for ollama.ai and adding a public key first.
 }
 \examples{
-\dontshow{if (test_connection()$status_code == 200) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 push("mattw/pygmalion:latest")
 \dontshow{\}) # examplesIf}
 }
