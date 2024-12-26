@@ -170,7 +170,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #' @param tools Tools for the model to use if supported. Requires stream = FALSE. Default is an empty list.
 #' @param stream Enable response streaming. Default is FALSE.
 #' @param keep_alive The duration to keep the connection alive. Default is "5m".
-#' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text", "req" (httr2_request object).
+#' @param output The output format. Default is "resp". Other options are "jsonlist", "raw", "df", "text", "req" (httr2_request object), "tools" (tool calling)
 #' @param endpoint The endpoint to chat with the model. Default is "/api/chat".
 #' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #' @param ... Additional options to pass to the model.
@@ -208,7 +208,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #'    list(role = "user", content = "What is in the image?", images = image_path)
 #' )
 #' chat("benzie/llava-phi-3", messages, output = 'text')
-chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text", "req"), endpoint = "/api/chat", host = NULL, ...) {
+chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text", "req", "tools"), endpoint = "/api/chat", host = NULL, ...) {
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text", "req", "tools")) {
         stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
