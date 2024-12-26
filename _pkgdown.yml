@@ -84,3 +84,4 @@ reference:
       - model_options
       - stream_handler
       - resp_process_stream
+      - get_tool_calls

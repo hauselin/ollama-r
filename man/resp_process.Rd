@@ -4,12 +4,15 @@
 \alias{resp_process}
 \title{Process httr2 response object}
 \usage{
-resp_process(resp, output = c("df", "jsonlist", "raw", "resp", "text"))
+resp_process(
+  resp,
+  output = c("df", "jsonlist", "raw", "resp", "text", "tools")
+)
 }
 \arguments{
 \item{resp}{A httr2 response object.}
 
-\item{output}{The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text"}
+\item{output}{The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text", "tools" (tool_calls)}
 }
 \value{
 A data frame, json list, raw or httr2 response object.
@@ -25,5 +28,6 @@ resp_process(resp, "jsonlist") # parse response to list
 resp_process(resp, "raw") # parse response to raw string
 resp_process(resp, "resp") # return input response object
 resp_process(resp, "text") # return text/character vector
+resp_process(resp, "tools") # return tool_calls
 \dontshow{\}) # examplesIf}
 }

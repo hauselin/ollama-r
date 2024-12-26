@@ -210,7 +210,7 @@ generate <- function(model, prompt, suffix = "", images = "", system = "", templ
 #' chat("benzie/llava-phi-3", messages, output = 'text')
 chat <- function(model, messages, tools = list(), stream = FALSE, keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text", "req"), endpoint = "/api/chat", host = NULL, ...) {
     output <- output[1]
-    if (!output %in% c("df", "resp", "jsonlist", "raw", "text", "req")) {
+    if (!output %in% c("df", "resp", "jsonlist", "raw", "text", "req", "tools")) {
         stop("Invalid output format specified. Supported formats: 'df', 'resp', 'jsonlist', 'raw', 'text'")
     }
 

@@ -73,10 +73,49 @@ stream_handler <- function(x, env, endpoint) {
 
 
 
+
+
+#' Get tool calls helper function
+#'
+#' Get tool calls from response object.
+#'
+#' @keywords internal
+get_tool_calls <- function(resp) {
+    body <- httr2::resp_body_json(resp)
+    tools <- list()
+    tools_list <- list()
+    if (!is.null(body$message)) {
+        if (!is.null(body$message$tool_calls)) {
+            tools <- body$message$tool_calls
+
+            tools_list <- list()
+            if (length(tools) > 0) {
+                for (i in seq_along(tools)) {
+                    func <- tools[[i]]$`function`
+                    func_name <- func$name
+                    tools_list[[i]] <- list()
+                    names(tools_list)[[i]] <- func_name
+                    tools_list[[func_name]] <- func
+                }
+            }
+
+            # remove empty lists
+            tools_list <- tools_list[which(sapply(tools_list, length) != 0)]
+            message(paste0("Tools: ", paste0(names(tools_list), collapse = ", ")))
+        }
+    }
+
+    return(tools_list)
+}
+
+
+
+
+
 #' Process httr2 response object
 #'
 #' @param resp A httr2 response object.
-#' @param output The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text"
+#' @param output The output format. Default is "df". Other options are "jsonlist", "raw", "resp" (httr2 response object), "text", "tools" (tool_calls)
 #'
 #' @return A data frame, json list, raw or httr2 response object.
 #' @export
@@ -88,7 +127,8 @@ stream_handler <- function(x, env, endpoint) {
 #' resp_process(resp, "raw") # parse response to raw string
 #' resp_process(resp, "resp") # return input response object
 #' resp_process(resp, "text") # return text/character vector
-resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text")) {
+#' resp_process(resp, "tools") # return tool_calls
+resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text", "tools")) {
 
     if (!inherits(resp, "httr2_response")) {
         stop("Input must be a httr2 response object")
@@ -109,6 +149,10 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
     output <- output[1]
     if (output == "resp") {
         return(resp)
+    }
+
+    if (output == "tools") {
+        return(get_tool_calls(resp))
     }
 
     # process stream resp separately

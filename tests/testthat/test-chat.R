@@ -128,3 +128,108 @@ test_that("chat function handles images in messages", {
     expect_true(grepl("melon", tolower(result)) | grepl("cam", tolower(result)))
 
 })
+
+
+test_that("chat function handles tools", {
+    skip_if_not(test_connection(), "Ollama server not available")
+
+    add_two_numbers <- function(x, y) {
+        return(x + y)
+    }
+
+    multiply_two_numbers <- function(x, y) {
+        return(x * y)
+    }
+
+    tools <- list(list(type = "function",
+                       "function" = list(
+                           name = "add_two_numbers",
+                           description = "add two numbers",
+                           parameters = list(
+                               type = "object",
+                               required = list("x", "y"),
+                               properties = list(
+                                   x = list(class = "numeric", description = "first number"),
+                                   y = list(class = "numeric", description = "second number")
+                               )
+                           )
+                       )
+    )
+    )
+
+    msg <- create_message("what is three plus one?")
+    resp <- chat("llama3.1", msg, tools = tools, output = "tools")
+    resp2 <- resp[[1]]
+    expect_equal(resp2$name, "add_two_numbers")
+    expect_equal(do.call(resp2$name, resp2$arguments), 4)
+
+    tools <- list(list(type = "function",
+                       "function" = list(
+                           name = "multiply_two_numbers",
+                           description = "multiply two numbers",
+                           parameters = list(
+                               type = "object",
+                               required = list("x", "y"),
+                               properties = list(
+                                   x = list(class = "numeric", description = "first number"),
+                                   y = list(class = "numeric", description = "second number")
+                               )
+                           )
+                       )
+    )
+    )
+
+    msg <- create_message("what is three times eleven?")
+    resp <- chat("llama3.1", msg, tools = tools, output = "tools")
+    resp2 <- resp[[1]]
+    expect_equal(resp2$name, "multiply_two_numbers")
+    expect_equal(do.call(resp2$name, resp2$arguments), 33)
+
+
+
+    # test multiple tools
+    msg <- create_message("what is three plus one? then multiply the output of that by ten")
+    tools <- list(list(type = "function",
+                       "function" = list(
+                           name = "add_two_numbers",
+                           description = "add two numbers",
+                           parameters = list(
+                               type = "object",
+                               required = list("x", "y"),
+                               properties = list(
+                                   x = list(class = "numeric", description = "first number"),
+                                   y = list(class = "numeric", description = "second number")
+                               )
+                           )
+                       )
+                       ),
+                  list(type = "function",
+                       "function" = list(
+                           name = "multiply_two_numbers",
+                           description = "multiply two numbers",
+                           parameters = list(
+                               type = "object",
+                               required = list("x", "y"),
+                               properties = list(
+                                   x = list(class = "numeric", description = "first number"),
+                                   y = list(class = "numeric", description = "second number")
+                               )
+                           )
+                       )
+                  )
+    )
+
+    msg <- create_message("what is four plus five?")
+    resp <- chat("llama3.1", msg, tools = tools, output = "tools")
+    expect_equal(resp[[1]]$name, "add_two_numbers")
+
+    msg <- create_message("what is four times five?")
+    resp <- chat("llama3.1", msg, tools = tools, output = "tools")
+    expect_equal(resp[[1]]$name, "multiply_two_numbers")
+
+    msg <- create_message("three and four. sum the numbers then multiply the output by ten")
+    resp <- chat("llama3.1", msg, tools = tools, output = "tools")
+    expect_equal(resp[[1]]$name, "add_two_numbers")
+    expect_equal(resp[[2]]$name, "multiply_two_numbers")
+
+})
