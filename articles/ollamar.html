@@ -427,7 +427,7 @@ shown below.</p>
 <span><span class="va">tool2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"function"</span>,</span>
 <span>              <span class="st">"function"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>                name <span class="op">=</span> <span class="st">"multiply_two_numbers"</span>,  <span class="co"># function name</span></span>
-<span>                description <span class="op">=</span> <span class="st">"add two numbers"</span>,</span>
+<span>                description <span class="op">=</span> <span class="st">"multiply two numbers"</span>,</span>
 <span>                parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>                  type <span class="op">=</span> <span class="st">"object"</span>,</span>
 <span>                  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>,  <span class="co"># function parameters</span></span>
@@ -436,29 +436,36 @@ shown below.</p>
 <span>                    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"numeric"</span>, description <span class="op">=</span> <span class="st">"second number"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>                <span class="op">)</span></span>
 <span>              <span class="op">)</span></span></code></pre></div>
-<p>Next call the <code><a href="../reference/chat.html">chat()</a></code> function with the
+<p>Then call the <code><a href="../reference/chat.html">chat()</a></code> function with the
 <code>tools</code> parameter set to a list of your tools. Pass in a
 single tool.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"what is three plus one?"</span><span class="op">)</span></span>
 <span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">msg</span>, tools <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">tool1</span><span class="op">)</span>, output <span class="op">=</span> <span class="st">"tools"</span><span class="op">)</span></span>
 <span><span class="va">tool</span> <span class="op">&lt;-</span> <span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get the first tool/function</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span>  <span class="co"># call the tool function with arguments: add_two_numbers(3, 1)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># call the tool function with arguments: add_two_numbers(3, 1)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span>  </span></code></pre></div>
 <p>Pass in multiple tools. The model will pick the best tool to use
 based on the context of the message.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"what is three times four?"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"what is three multiplied by four?"</span><span class="op">)</span></span>
 <span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">msg</span>, tools <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">tool1</span>, <span class="va">tool2</span><span class="op">)</span>, output <span class="op">=</span> <span class="st">"tools"</span><span class="op">)</span></span>
 <span><span class="va">tool</span> <span class="op">&lt;-</span> <span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get the first tool/function</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span>  <span class="co"># call the tool function with arguments: multiply_two_numbers(3, 4)</span></span></code></pre></div>
-<p>Pass in multiple tools and get the model to use multiple tools.</p>
+<span></span>
+<span><span class="co"># call the tool function with arguments: multiply_two_numbers(3, 4)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span>  </span></code></pre></div>
+<p>Pass in multiple tools and get the model to use multiple tools. Note
+that LLM responses are inherently stochastic, so sometimes the model
+might choose to call only one tool, and sometimes might call tools
+multiple times.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"add three plus four. then multiply by ten"</span><span class="op">)</span></span>
 <span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">msg</span>, tools <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">tool1</span>, <span class="va">tool2</span><span class="op">)</span>, output <span class="op">=</span> <span class="st">"tools"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># first tool/function: add_two_numbers(3, 4) </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">name</span>, <span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span> <span class="co"># 7</span></span>
-<span><span class="co"># multiply_two_numbers(7, 10)</span></span>
+<span><span class="co"># second tool/function: multiply_two_numbers(7, 10)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">resp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">name</span>, <span class="va">resp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span> <span class="co"># 70</span></span></code></pre></div>
 </div>
 <div class="section level3">
