@@ -317,7 +317,7 @@ tool1 <- list(type = "function",
 tool2 <- list(type = "function",
               "function" = list(
                 name = "multiply_two_numbers",  # function name
-                description = "add two numbers",
+                description = "multiply two numbers",
                 parameters = list(
                   type = "object",
                   required = list("a", "b"),  # function parameters
@@ -328,25 +328,29 @@ tool2 <- list(type = "function",
               )
 ```
 
-Next call the `chat()` function with the `tools` parameter set to a list of your tools. Pass in a single tool.
+Then call the `chat()` function with the `tools` parameter set to a list of your tools. Pass in a single tool.
 
 ```{r eval=FALSE}
 msg <- create_message("what is three plus one?")
 resp <- chat("llama3.1", msg, tools = list(tool1), output = "tools")
 tool <- resp[[1]]  # get the first tool/function
-do.call(tool$name, tool$arguments)  # call the tool function with arguments: add_two_numbers(3, 1)
+
+# call the tool function with arguments: add_two_numbers(3, 1)
+do.call(tool$name, tool$arguments)  
 ```
 
 Pass in multiple tools. The model will pick the best tool to use based on the context of the message.
 
 ```{r eval=FALSE}
-msg <- create_message("what is three times four?")
+msg <- create_message("what is three multiplied by four?")
 resp <- chat("llama3.1", msg, tools = list(tool1, tool2), output = "tools")
 tool <- resp[[1]]  # get the first tool/function
-do.call(tool$name, tool$arguments)  # call the tool function with arguments: multiply_two_numbers(3, 4)
+
+# call the tool function with arguments: multiply_two_numbers(3, 4)
+do.call(tool$name, tool$arguments)  
 ```
 
-Pass in multiple tools and get the model to use multiple tools.
+Pass in multiple tools and get the model to use multiple tools. Note that LLM responses are inherently stochastic, so sometimes the model might choose to call only one tool, and sometimes might call tools multiple times. 
 
 ```{r eval=FALSE}
 msg <- create_message("add three plus four. then multiply by ten")
@@ -354,7 +358,7 @@ resp <- chat("llama3.1", msg, tools = list(tool1, tool2), output = "tools")
 
 # first tool/function: add_two_numbers(3, 4) 
 do.call(resp[[1]]$name, resp[[1]]$arguments) # 7
-# multiply_two_numbers(7, 10)
+# second tool/function: multiply_two_numbers(7, 10)
 do.call(resp[[2]]$name, resp[[2]]$arguments) # 70
 ```
 

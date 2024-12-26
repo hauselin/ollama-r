@@ -83,25 +83,22 @@ stream_handler <- function(x, env, endpoint) {
 get_tool_calls <- function(resp) {
     body <- httr2::resp_body_json(resp)
     tools <- list()
-    tools_list <- list()
+    tools_called <- c()
+    tools_list <- c()
     if (!is.null(body$message)) {
         if (!is.null(body$message$tool_calls)) {
             tools <- body$message$tool_calls
-
             tools_list <- list()
             if (length(tools) > 0) {
                 for (i in seq_along(tools)) {
                     func <- tools[[i]]$`function`
                     func_name <- func$name
-                    tools_list[[i]] <- list()
-                    names(tools_list)[[i]] <- func_name
-                    tools_list[[func_name]] <- func
+                    tools_list[[i]] <- func
+                    tools_called <- c(tools_called, func_name)
                 }
             }
-
-            # remove empty lists
-            tools_list <- tools_list[which(sapply(tools_list, length) != 0)]
-            message(paste0("Tools: ", paste0(names(tools_list), collapse = ", ")))
+            tools_called <- unique(tools_called)
+            message(paste0("Tools called: ", paste0(tools_called, collapse = ", ")))
         }
     }
 
