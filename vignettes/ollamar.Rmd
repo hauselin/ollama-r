@@ -18,11 +18,11 @@ ollamar is the easiest way to integrate R with [Ollama](https://ollama.com/), wh
 - Linux: `curl -fsSL https://ollama.com/install.sh | sh`
 - [Docker image](https://hub.docker.com/r/ollama/ollama)
 
-2. Open/launch the Ollama app to start the local server. 
+2. Open/launch the Ollama app to start the local server.
 
 3. Install either the stable or latest/development version of `ollamar`.
 
-Stable version: 
+Stable version:
 
 ```{r eval=FALSE}
 install.packages("ollamar")
@@ -46,7 +46,7 @@ test_connection()  # test connection to Ollama server
 # if you see "Ollama local server not running or wrong server," Ollama app/server isn't running
 
 # generate a response/text based on a prompt; returns an httr2 response by default
-resp <- generate("llama3.1", "tell me a 5-word story") 
+resp <- generate("llama3.1", "tell me a 5-word story")
 resp
 
 #' interpret httr2 response object
@@ -56,15 +56,15 @@ resp
 #' Body: In memory (414 bytes)
 
 # get just the text from the response object
-resp_process(resp, "text") 
+resp_process(resp, "text")
 # get the text as a tibble dataframe
-resp_process(resp, "df") 
+resp_process(resp, "df")
 
 # alternatively, specify the output type when calling the function initially
 txt <- generate("llama3.1", "tell me a 5-word story", output = "text")
 
 # list available models (models you've pulled/downloaded)
-list_models()  
+list_models()
                         name    size parameter_size quantization_level            modified
 1               codegemma:7b    5 GB             9B               Q4_0 2024-07-27T23:44:10
 2            llama3.1:latest  4.7 GB           8.0B               Q4_0 2024-07-31T07:44:33
@@ -212,10 +212,10 @@ messages <- create_messages(
 You can convert `data.frame`, `tibble` or `data.table` objects to `list()` of messages and vice versa with functions from base R or other popular libraries.
 
 ```{r eval=FALSE}
-# create a list of messages 
+# create a list of messages
 messages <- create_messages(
   create_message("You're a knowledgeable tour guide.", role = "system"),
-  create_message("What is the capital of Australia?")  
+  create_message("What is the capital of Australia?")
 )
 
 # convert to dataframe
@@ -336,7 +336,7 @@ resp <- chat("llama3.1", msg, tools = list(tool1), output = "tools")
 tool <- resp[[1]]  # get the first tool/function
 
 # call the tool function with arguments: add_two_numbers(3, 1)
-do.call(tool$name, tool$arguments)  
+do.call(tool$name, tool$arguments)
 ```
 
 Pass in multiple tools. The model will pick the best tool to use based on the context of the message.
@@ -347,16 +347,16 @@ resp <- chat("llama3.1", msg, tools = list(tool1, tool2), output = "tools")
 tool <- resp[[1]]  # get the first tool/function
 
 # call the tool function with arguments: multiply_two_numbers(3, 4)
-do.call(tool$name, tool$arguments)  
+do.call(tool$name, tool$arguments)
 ```
 
-Pass in multiple tools and get the model to use multiple tools. Note that LLM responses are inherently stochastic, so sometimes the model might choose to call only one tool, and sometimes might call tools multiple times. 
+Pass in multiple tools and get the model to use multiple tools. Note that LLM responses are inherently stochastic, so sometimes the model might choose to call only one tool, and sometimes might call tools multiple times.
 
 ```{r eval=FALSE}
 msg <- create_message("add three plus four. then multiply by ten")
 resp <- chat("llama3.1", msg, tools = list(tool1, tool2), output = "tools")
 
-# first tool/function: add_two_numbers(3, 4) 
+# first tool/function: add_two_numbers(3, 4)
 do.call(resp[[1]]$name, resp[[1]]$arguments) # 7
 # second tool/function: multiply_two_numbers(7, 10)
 do.call(resp[[2]]$name, resp[[2]]$arguments) # 70
@@ -364,16 +364,16 @@ do.call(resp[[2]]$name, resp[[2]]$arguments) # 70
 
 ### Structured outputs
 
-The `chat()` and `generate()` functions support [structured outputs](https://ollama.com/blog/structured-outputs), making it possible to constrain a model's output to a specified format defined by a JSON schema (R list). 
+The `chat()` and `generate()` functions support [structured outputs](https://ollama.com/blog/structured-outputs), making it possible to constrain a model's output to a specified format defined by a JSON schema (R list).
 
-```{r eval=FALSE} 
+```{r eval=FALSE}
 # define a JSON schema as a list to constrain a model's output
 format <- list(
   type = "object",
   properties = list(
     name = list(type = "string"),
     capital = list(type = "string"),
-    languages = list(type = "array", 
+    languages = list(type = "array",
                      items = list(type = "string")
                      )
     ),
@@ -410,9 +410,9 @@ resps <- req_perform_parallel(reqs)  # list of httr2_request objects
 
 # process the responses
 sapply(resps, resp_process, "text")  # get responses as text
-# [1] "She found him in Paris."         "She found the key upstairs."    
-# [3] "She found her long-lost sister." "She found love on Mars."        
-# [5] "She found the diamond ring."    
+# [1] "She found him in Paris."         "She found the key upstairs."
+# [3] "She found her long-lost sister." "She found love on Mars."
+# [5] "She found the diamond ring."
 
 ```
 
@@ -437,7 +437,7 @@ resps <- req_perform_parallel(reqs)  # list of httr2_request objects
 
 # process the responses
 sapply(resps, resp_process, "text")  # get responses as text
-# [1] "Positive"                            "Negative."                          
+# [1] "Positive"                            "Negative."
 # [3] "'neutral' translates to... 'other'."
 
 
@@ -467,8 +467,8 @@ resps <- req_perform_parallel(reqs)  # list of httr2_request objects
 # process the responses
 bind_rows(lapply(resps, resp_process, "df"))  # get responses as dataframes
 # # A tibble: 3 × 4
-#   model    role      content  created_at                 
-#   <chr>    <chr>     <chr>    <chr>                      
+#   model    role      content  created_at
+#   <chr>    <chr>     <chr>    <chr>
 # 1 llama3.1 assistant Positive 2024-08-05T17:54:27.758618Z
 # 2 llama3.1 assistant negative 2024-08-05T17:54:27.657525Z
 # 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z

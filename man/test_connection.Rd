@@ -4,19 +4,21 @@
 \alias{test_connection}
 \title{Test connection to Ollama server}
 \usage{
-test_connection(url = "http://localhost:11434")
+test_connection(url = "http://localhost:11434", logical = FALSE)
 }
 \arguments{
 \item{url}{The URL of the Ollama server. Default is http://localhost:11434}
+
+\item{logical}{Logical. If TRUE, returns a boolean value. Default is FALSE.}
 }
 \value{
-Boolean TRUE if the server is running, otherwise FALSE.
+Boolean value or httr2 response object, where status_code is either 200 (success) or 503 (error).
 }
 \description{
-\code{test_connection()} tests whether the Ollama server is running or not.
+Tests whether the Ollama server is running or not.
 }
 \examples{
-test_connection()
+test_connection(logical = TRUE)
 test_connection("http://localhost:11434") # default url
 test_connection("http://127.0.0.1:11434")
 }

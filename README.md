@@ -101,7 +101,7 @@ test_connection()  # test connection to Ollama server
 pull("llama3.1")  # download a model (equivalent bash code: ollama run llama3.1)
 
 # generate a response/text based on a prompt; returns an httr2 response by default
-resp <- generate("llama3.1", "tell me a 5-word story") 
+resp <- generate("llama3.1", "tell me a 5-word story")
 resp
 
 #' interpret httr2 response object
@@ -112,15 +112,15 @@ resp
 #' Body: In memory (414 bytes)
 
 # get just the text from the response object
-resp_process(resp, "text") 
+resp_process(resp, "text")
 # get the text as a tibble dataframe
-resp_process(resp, "df") 
+resp_process(resp, "df")
 
 # alternatively, specify the output type when calling the function initially
 txt <- generate("llama3.1", "tell me a 5-word story", output = "text")
 
 # list available models (models you've pulled/downloaded)
-list_models()  
+list_models()
                         name    size parameter_size quantization_level            modified
 1               codegemma:7b    5 GB             9B               Q4_0 2024-07-27T23:44:10
 2            llama3.1:latest  4.7 GB           8.0B               Q4_0 2024-07-31T07:44:33

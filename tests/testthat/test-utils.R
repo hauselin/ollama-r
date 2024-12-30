@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("copy function works with basic input", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
 
     x <- rnorm(5)
     expect_true(vector_norm(x) == sqrt(sum(x^2)))

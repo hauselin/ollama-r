@@ -30,7 +30,7 @@ A response in the format specified in the output parameter.
 Model information includes details, modelfile, template, parameters, license, system prompt.
 }
 \examples{
-\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection(logical = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # show("llama3") # returns jsonlist
 show("llama3", output = "resp") # returns response object
 \dontshow{\}) # examplesIf}

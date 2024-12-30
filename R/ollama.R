@@ -76,7 +76,7 @@ create_request <- function(endpoint, host = NULL) {
 #' @references
 #' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion)
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' # text prompt
 #' generate("llama3", "The sky is...", stream = FALSE, output = "df")
 #' # stream and increase temperature
@@ -187,7 +187,7 @@ generate <- function(model, prompt, suffix = "", images = "", format = list(), s
 #' @return A response in the format specified in the output parameter.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' # one message
 #' messages <- list(
 #'     list(role = "user", content = "How are you doing?")
@@ -306,7 +306,7 @@ chat <- function(model, messages, tools = list(), stream = FALSE, format = list(
 #' @return A response in the format specified in the output parameter.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' create("mario", "FROM llama3\nSYSTEM You are mario from Super Mario Bros.")
 #' generate("mario", "who are you?", output = "text")  # model should say it's Mario
 #' delete("mario")  # delete the model created above
@@ -388,7 +388,7 @@ create <- function(name, modelfile = NULL, stream = FALSE, path = NULL, endpoint
 #' @return A response in the format specified in the output parameter.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' list_models() # returns dataframe
 #' list_models("df") # returns dataframe
 #' list_models("resp") # httr2 response object
@@ -435,7 +435,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
 #' @return A response in the format specified in the output parameter.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' # show("llama3") # returns jsonlist
 #' show("llama3", output = "resp") # returns response object
 show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), endpoint = "/api/show", host = NULL) {
@@ -482,7 +482,7 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 #' @return A httr2 response object.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' copy("llama3", "llama3_copy")
 #' delete("llama3_copy")  # delete the model was just got copied
 copy <- function(source, destination, endpoint = "/api/copy", host = NULL) {
@@ -576,7 +576,7 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
 #' @return A httr2 response object.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' pull("llama3")
 #' pull("all-minilm", stream = FALSE)
 pull <- function(name, stream = FALSE, insecure = FALSE, endpoint = "/api/pull", host = NULL) {
@@ -644,7 +644,7 @@ pull <- function(name, stream = FALSE, insecure = FALSE, endpoint = "/api/pull",
 #' @return A httr2 response object.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' push("mattw/pygmalion:latest")
 push <- function(name, insecure = FALSE, stream = FALSE, output = c("resp", "jsonlist", "raw", "text", "df"), endpoint = "/api/push", host = NULL) {
 
@@ -744,7 +744,7 @@ normalize <- function(x) {
 #' @return A numeric matrix of the embedding. Each column is the embedding for one input.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' embed("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 #' # pass multiple inputs
 #' embed("nomic-embed-text:latest", c("Good bye", "Bye", "See you."))
@@ -816,7 +816,7 @@ embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = 
 #' @return A numeric vector of the embedding.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' embeddings("nomic-embed-text:latest", "The quick brown fox jumps over the lazy dog.")
 #' # pass model options to the model
 #' embeddings("nomic-embed-text:latest", "Hello!", temperature = 0.1, num_predict = 3)
@@ -869,7 +869,7 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
 #' @return A response in the format specified in the output parameter.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' ps("text")
 ps <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "/api/ps", host = NULL) {
     output <- output[1]
@@ -915,7 +915,7 @@ ps <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "
 #' @return Does not return anything. It prints the conversation in the console.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' ohelp(first_prompt = "quit")
 #' # regular usage: ohelp()
 ohelp <- function(model = "codegemma:7b", ...) {
@@ -964,7 +964,7 @@ ohelp <- function(model = "codegemma:7b", ...) {
 #' @return A logical value indicating if the model exists.
 #' @export
 #'
-#' @examplesIf test_connection()
+#' @examplesIf test_connection(logical = TRUE)
 #' model_avail("codegemma:7b")
 #' model_avail("abc")
 #' model_avail("llama3")

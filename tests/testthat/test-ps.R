@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("ps list running models endpoint", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
 
     # load models first
     g1 <- generate('llama3', "tell me a 5 word story")

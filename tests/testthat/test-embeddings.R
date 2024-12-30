@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("embeddings function works with basic input", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
 
     result <- embeddings("all-minilm", "hello")
     expect_type(result, "double")

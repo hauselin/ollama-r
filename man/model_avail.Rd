@@ -16,7 +16,7 @@ A logical value indicating if the model exists.
 Check if model is available locally
 }
 \examples{
-\dontshow{if (test_connection()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (test_connection(logical = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 model_avail("codegemma:7b")
 model_avail("abc")
 model_avail("llama3")

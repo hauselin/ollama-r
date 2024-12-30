@@ -2,7 +2,7 @@ library(testthat)
 library(ollamar)
 
 test_that("generate function works with different outputs and resp_process", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
 
     # incorrect output type
     expect_error(generate("llama3", "The sky is...", output = "abc"))
@@ -46,7 +46,7 @@ test_that("generate function works with different outputs and resp_process", {
 })
 
 test_that("generate function works with additional options", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
 
     expect_s3_class(generate("llama3", "The sky is...", num_predict = 1, temperature = 0), "httr2_response")
     expect_error(generate("llama3", "The sky is...", abc = 1, sdf = 2))
@@ -55,7 +55,7 @@ test_that("generate function works with additional options", {
 
 
 test_that("generate function works with images", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
     skip_if_not(model_avail("benzie/llava-phi-3"), "benzie/llava-phi-3 model not available")
 
     image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
@@ -83,7 +83,7 @@ test_that("generate function works with images", {
 
 
 test_that("structured output", {
-    skip_if_not(test_connection(), "Ollama server not available")
+    skip_if_not(test_connection(logical = TRUE), "Ollama server not available")
 
     format <- list(
         type = "object",
