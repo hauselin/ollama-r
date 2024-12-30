@@ -43,7 +43,7 @@
 <ul><li>
 <code><a href="../reference/generate.html">generate()</a></code> and <code><a href="../reference/chat.html">chat()</a></code> support <a href="https://ollama.com/blog/structured-outputs" class="external-link">structured output</a> via <code>format</code> parameter.</li>
 <li>
-<code><a href="../reference/test_connection.html">test_connection()</a></code> returns boolean instead of <code>httr2</code> object. <a href="https://github.com/hauselin/ollama-r/issues/29" class="external-link">#29</a></li>
+<code><a href="../reference/test_connection.html">test_connection()</a></code> returns <code><a href="https://httr2.r-lib.org/reference/response.html" class="external-link">httr2::response</a></code> object by default, but also support returning a logical value. <a href="https://github.com/hauselin/ollama-r/issues/29" class="external-link">#29</a></li>
 <li>
 <code><a href="../reference/chat.html">chat()</a></code> supports <a href="https://ollama.com/blog/tool-support" class="external-link">tool calling</a> via <code>tools</code> parameter. Added <code><a href="../reference/get_tool_calls.html">get_tool_calls()</a></code> helper function to process tools. <a href="https://github.com/hauselin/ollama-r/issues/30" class="external-link">#30</a></li>
 <li>Simplify README and add Get started vignette with more examples.</li>
@@ -84,7 +84,7 @@
 </ul><div class="section level3">
 <h3 id="new-features-1-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0"></a></h3>
 <ul><li>Integrate R with Ollama to run language models locally on your own machine.</li>
-<li>Include <code><a href="../reference/test_connection.html">test_connection()</a></code> function to test connection to Ollama server.</li>
+<li>Include <code>test_connection(logical = TRUE)</code> function to test connection to Ollama server.</li>
 <li>Include <code><a href="../reference/list_models.html">list_models()</a></code> function to list available models.</li>
 <li>Include <code><a href="../reference/pull.html">pull()</a></code> function to pull a model from Ollama server.</li>
 <li>Include <code><a href="../reference/delete.html">delete()</a></code> function to delete a model from Ollama server.</li>

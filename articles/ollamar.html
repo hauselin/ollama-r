@@ -125,7 +125,7 @@ successful.</p>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># if you see "Ollama local server not running or wrong server," Ollama app/server isn't running</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># generate a response/text based on a prompt; returns an httr2 response by default</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>) </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>resp</span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#' interpret httr2 response object</span></span>
@@ -135,15 +135,15 @@ successful.</p>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#' Body: In memory (414 bytes)</span></span>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># get just the text from the response object</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"text"</span>) </span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"text"</span>)</span>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co"># get the text as a tibble dataframe</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"df"</span>) </span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="fu">resp_process</span>(resp, <span class="st">"df"</span>)</span>
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># alternatively, specify the output type when calling the function initially</span></span>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">generate</span>(<span class="st">"llama3.1"</span>, <span class="st">"tell me a 5-word story"</span>, <span class="at">output =</span> <span class="st">"text"</span>)</span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a></span>
 <span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co"># list available models (models you've pulled/downloaded)</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="fu">list_models</span>()  </span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="fu">list_models</span>()</span>
 <span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>                        name    size parameter_size quantization_level            modified</span>
 <span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="dv">1</span>               codegemma<span class="sc">:</span><span class="dv">7</span>b    <span class="dv">5</span> GB             <span class="dv">9</span>B               Q4_0 <span class="dv">2024-07-27</span>T23<span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">10</span></span>
 <span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="dv">2</span>            llama3<span class="fl">.1</span><span class="sc">:</span>latest  <span class="fl">4.7</span> GB           <span class="fl">8.0</span>B               Q4_0 <span class="dv">2024-07-31</span>T07<span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">33</span></span></code></pre></div>
@@ -313,10 +313,10 @@ in the existing messages
 <code>data.table</code> objects to <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of messages and
 vice versa with functions from base R or other popular libraries.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># create a list of messages </span></span>
+<code class="sourceCode R"><span><span class="co"># create a list of messages</span></span>
 <span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_messages.html">create_messages</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"You're a knowledgeable tour guide."</span>, role <span class="op">=</span> <span class="st">"system"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"What is the capital of Australia?"</span><span class="op">)</span>  </span>
+<span>  <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"What is the capital of Australia?"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># convert to dataframe</span></span>
@@ -445,7 +445,7 @@ single tool.</p>
 <span><span class="va">tool</span> <span class="op">&lt;-</span> <span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get the first tool/function</span></span>
 <span></span>
 <span><span class="co"># call the tool function with arguments: add_two_numbers(3, 1)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span>  </span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span></span></code></pre></div>
 <p>Pass in multiple tools. The model will pick the best tool to use
 based on the context of the message.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -454,7 +454,7 @@ based on the context of the message.</p>
 <span><span class="va">tool</span> <span class="op">&lt;-</span> <span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># get the first tool/function</span></span>
 <span></span>
 <span><span class="co"># call the tool function with arguments: multiply_two_numbers(3, 4)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span>  </span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">tool</span><span class="op">$</span><span class="va">name</span>, <span class="va">tool</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span></span></code></pre></div>
 <p>Pass in multiple tools and get the model to use multiple tools. Note
 that LLM responses are inherently stochastic, so sometimes the model
 might choose to call only one tool, and sometimes might call tools
@@ -463,7 +463,7 @@ multiple times.</p>
 <code class="sourceCode R"><span><span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_message.html">create_message</a></span><span class="op">(</span><span class="st">"add three plus four. then multiply by ten"</span><span class="op">)</span></span>
 <span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/chat.html">chat</a></span><span class="op">(</span><span class="st">"llama3.1"</span>, <span class="va">msg</span>, tools <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">tool1</span>, <span class="va">tool2</span><span class="op">)</span>, output <span class="op">=</span> <span class="st">"tools"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># first tool/function: add_two_numbers(3, 4) </span></span>
+<span><span class="co"># first tool/function: add_two_numbers(3, 4)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">name</span>, <span class="va">resp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span> <span class="co"># 7</span></span>
 <span><span class="co"># second tool/function: multiply_two_numbers(7, 10)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">resp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">name</span>, <span class="va">resp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">arguments</span><span class="op">)</span> <span class="co"># 70</span></span></code></pre></div>
@@ -482,7 +482,7 @@ specified format defined by a JSON schema (R list).</p>
 <span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"string"</span><span class="op">)</span>,</span>
 <span>    capital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"string"</span><span class="op">)</span>,</span>
-<span>    languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"array"</span>, </span>
+<span>    languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"array"</span>,</span>
 <span>                     items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"string"</span><span class="op">)</span></span>
 <span>                     <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
@@ -522,9 +522,9 @@ documentation</a> for details.</p>
 <span></span>
 <span><span class="co"># process the responses</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">resps</span>, <span class="va">resp_process</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># get responses as text</span></span>
-<span><span class="co"># [1] "She found him in Paris."         "She found the key upstairs."    </span></span>
-<span><span class="co"># [3] "She found her long-lost sister." "She found love on Mars."        </span></span>
-<span><span class="co"># [5] "She found the diamond ring."    </span></span></code></pre></div>
+<span><span class="co"># [1] "She found him in Paris."         "She found the key upstairs."</span></span>
+<span><span class="co"># [3] "She found her long-lost sister." "She found love on Mars."</span></span>
+<span><span class="co"># [5] "She found the diamond ring."</span></span></code></pre></div>
 <p>Example sentiment analysis with parallel requests with
 <code><a href="../reference/generate.html">generate()</a></code> function</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -546,7 +546,7 @@ documentation</a> for details.</p>
 <span></span>
 <span><span class="co"># process the responses</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">resps</span>, <span class="va">resp_process</span>, <span class="st">"text"</span><span class="op">)</span>  <span class="co"># get responses as text</span></span>
-<span><span class="co"># [1] "Positive"                            "Negative."                          </span></span>
+<span><span class="co"># [1] "Positive"                            "Negative."</span></span>
 <span><span class="co"># [3] "'neutral' translates to... 'other'."</span></span></code></pre></div>
 <p>Example sentiment analysis with parallel requests with
 <code><a href="../reference/chat.html">chat()</a></code> function</p>
@@ -572,8 +572,8 @@ documentation</a> for details.</p>
 <span><span class="co"># process the responses</span></span>
 <span><span class="fu">bind_rows</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">resps</span>, <span class="va">resp_process</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">)</span>  <span class="co"># get responses as dataframes</span></span>
 <span><span class="co"># # A tibble: 3 × 4</span></span>
-<span><span class="co">#   model    role      content  created_at                 </span></span>
-<span><span class="co">#   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;                      </span></span>
+<span><span class="co">#   model    role      content  created_at</span></span>
+<span><span class="co">#   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;</span></span>
 <span><span class="co"># 1 llama3.1 assistant Positive 2024-08-05T17:54:27.758618Z</span></span>
 <span><span class="co"># 2 llama3.1 assistant negative 2024-08-05T17:54:27.657525Z</span></span>
 <span><span class="co"># 3 llama3.1 assistant other    2024-08-05T17:54:27.657067Z</span></span></code></pre></div>
