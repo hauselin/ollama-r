@@ -1,4 +1,4 @@
-# ollamar (development version)
+# ollamar 1.2.2
 
 - `generate()` and `chat()` support [structured output](https://ollama.com/blog/structured-outputs) via `format` parameter.
 - `test_connection()` returns `httr2::response` object by default, but also support returning a logical value. #29

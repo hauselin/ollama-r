@@ -26,9 +26,3 @@
 
 # Revdeps
 
-## New problems (1)
-
-|package |version |error  |warning |note |
-|:-------|:-------|:------|:-------|:----|
-|[mall](problems.md#mall)|0.1.0   |__+1__ |        |     |
-
