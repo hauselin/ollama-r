@@ -1,3 +1,5 @@
+# ollamar (development version)
+
 # ollamar 1.2.2
 
 - `generate()` and `chat()` support [structured output](https://ollama.com/blog/structured-outputs) via `format` parameter.
