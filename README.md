@@ -9,6 +9,7 @@
 status](https://www.r-pkg.org/badges/version/ollamar)](https://CRAN.R-project.org/package=ollamar)
 [![R-CMD-check](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hauselin/ollama-r/actions/workflows/R-CMD-check.yaml)
 [![CRAN_Download_Badge](https://cranlogs.r-pkg.org/badges/grand-total/ollamar)](https://cran.r-project.org/package=ollamar)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.07211/status.svg)](https://doi.org/10.21105/joss.07211)
 <!-- badges: end -->
 
 The [Ollama R library](https://hauselin.github.io/ollama-r/) is the
@@ -133,14 +134,17 @@ paper](https://doi.org/10.31234/osf.io/zsrg5) using the following BibTeX
 entry:
 
 ``` bibtex
-@article{Lin2024Aug,
-    author = {Lin, Hause and Safi, Tawab},
-    title = {{ollamar: An R package for running large language models}},
-    journal = {PsyArXiv},
-    year = {2024},
-    month = aug,
-    publisher = {OSF},
-    doi = {10.31234/osf.io/zsrg5},
-    url = {https://doi.org/10.31234/osf.io/zsrg5}
+@article{Lin2025JOSS,
+  author = {Lin, Hause and Safi, Tawab}, 
+  title = {ollamar: An R package for running large language models}, 
+  journal = {Journal of Open Source Software}, 
+  volume = {10}, 
+  number = {105}, 
+  pages = {7211}, 
+  year = {2025},
+  month = jan,
+  volume = {10}, 
+  doi = {10.21105/joss.07211},
+    url = {https://joss.theoj.org/papers/10.21105/joss.07211}
 }
 ```
