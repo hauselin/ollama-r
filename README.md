@@ -130,8 +130,8 @@ list_models()
 ## Citing `ollamar`
 
 If you use this library, please cite [this
-paper](https://doi.org/10.31234/osf.io/zsrg5) using the following BibTeX
-entry:
+paper](https://joss.theoj.org/papers/10.21105/joss.07211) using the
+following BibTeX entry:
 
 ``` bibtex
 @article{Lin2025JOSS,
