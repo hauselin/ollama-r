@@ -45,6 +45,7 @@ reference:
       - embed
       - embeddings
       - ps
+      - ver
 
   - subtitle: API helpers
     desc: Work with and extend the Ollama API.

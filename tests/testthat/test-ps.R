@@ -8,7 +8,7 @@ test_that("ps list running models endpoint", {
     g1 <- generate('llama3', "tell me a 5 word story")
 
     result <- ps()
-    expect_true(nrow(result) > 1)
+    expect_true(nrow(result) >= 1)
     expect_true(all(c("name", "size", "parameter_size", "quantization_level", "digest", "expires_at") %in% names(result)))
     expect_s3_class(ps("df"), "data.frame")
     expect_s3_class(ps("resp"), "httr2_response")

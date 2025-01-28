@@ -275,6 +275,8 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
         } else if (output == "text") {
             return(df_response$name)
         }
+    } else if (grepl("api/version", resp$url)) {
+        return(httr2::resp_body_json(resp)$version)
     }
 }
 

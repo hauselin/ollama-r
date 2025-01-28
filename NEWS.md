@@ -1,5 +1,8 @@
 # ollamar (development version)
 
+- Add `ver()` function to [retrieve Ollama version](https://github.com/ollama/ollama/blob/main/docs/api.md#version).
+- Update `create()` function.
+
 # ollamar 1.2.2
 
 - `generate()` and `chat()` support [structured output](https://ollama.com/blog/structured-outputs) via `format` parameter.

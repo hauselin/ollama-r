@@ -105,7 +105,7 @@ test_that("structured output", {
     )
 
     msg <- "tell me about canada"
-    resp <- generate("llama3.1", prompt = msg, format = format)
+    resp <- generate("llama3.1:8b", prompt = msg, format = format)
     # response <- httr2::resp_body_json(resp)$response
     structured_output <- resp_process(resp, "structured")
     expect_equal(tolower(structured_output$name), "canada")

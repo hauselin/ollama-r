@@ -289,14 +289,14 @@ chat <- function(model, messages, tools = list(), stream = FALSE, format = list(
 
 
 
-#' Create a model from a Modelfile
+#' Create a model
 #'
-#' It is recommended to set `modelfile` to the content of the Modelfile rather than just set path.
+#' Create a model from another model, a safetensors directory (not implemented), or a GGUF file (not implemented).
 #'
-#' @param name Name of the model to create.
-#' @param modelfile Contents of the Modelfile as character string. Default is NULL.
+#' @param model Name of the model to create.
+#' @param from Name of an existing model to create the new model from.
+#' @param system System prompt for the model. Default is NULL.
 #' @param stream Enable response streaming. Default is FALSE.
-#' @param path The path to the Modelfile. Default is NULL.
 #' @param endpoint The endpoint to create the model. Default is "/api/create".
 #' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
 #'
@@ -307,34 +307,22 @@ chat <- function(model, messages, tools = list(), stream = FALSE, format = list(
 #' @export
 #'
 #' @examplesIf test_connection(logical = TRUE)
-#' create("mario", "FROM llama3\nSYSTEM You are mario from Super Mario Bros.")
+#' create("mario", "deepseek-r1:1.5b", system = "You are Mario from Super Mario Bros.")
+#' model_avail("mario")  # check mario model has been created
+#' list_models()  # mario model has been created
 #' generate("mario", "who are you?", output = "text")  # model should say it's Mario
 #' delete("mario")  # delete the model created above
-create <- function(name, modelfile = NULL, stream = FALSE, path = NULL, endpoint = "/api/create", host = NULL) {
-
-    if (is.null(modelfile) && is.null(path)) {
-        stop("Either modelfile or path must be provided. Using modelfile is recommended.")
-    }
-
-    if (!is.null(modelfile) && !is.null(path)) {
-        stop("Only one of modelfile or path should be provided.")
-    }
-
-    if (!is.null(path)) {
-        if (file.exists(path)) {
-            modelfile <- paste0(readLines("inst/extdata/example_modefile.txt", warn = FALSE), collapse = "\n")
-            cat(paste0("Modefile\n", modelfile, "\n"))
-        } else {
-            stop("The path provided does not exist.")
-        }
-    }
+#' model_avail("mario")  # model no longer exists
+create <- function(model, from, system = NULL, stream = FALSE, endpoint = "/api/create", host = NULL) {
 
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
+    # TODO: add other parameters
     body_json <- list(
-        name = name,
-        modelfile = modelfile,
+        model = model,
+        from = from,
+        system = system,
         stream = stream
     )
 
@@ -882,6 +870,40 @@ ps <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "
         {
             resp <- httr2::req_perform(req)
             return(resp_process(resp = resp, output = output))
+        },
+        error = function(e) {
+            stop(e)
+        }
+    )
+}
+
+
+
+
+
+
+
+
+#' Retrieve Ollama version
+#'
+#' @param endpoint The endpoint to list the running models. Default is "/api/version".
+#' @param host The base URL to use. Default is NULL, which uses Ollama's default base URL.
+#'
+#' @references
+#' [API documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#version)
+#'
+#' @return A character string of the Ollama version.
+#' @export
+#'
+#' @examplesIf test_connection(logical = TRUE)
+#' ver()
+ver <- function(endpoint = "/api/version", host = NULL) {
+    req <- create_request(endpoint, host)
+    req <- httr2::req_method(req, "GET")
+    tryCatch(
+        {
+            resp <- httr2::req_perform(req)
+            return(resp_process(resp = resp, output = "text"))
         },
         error = function(e) {
             stop(e)

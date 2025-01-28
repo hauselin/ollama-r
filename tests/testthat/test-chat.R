@@ -262,7 +262,7 @@ test_that("structured output", {
     )
 
     msg <- create_message("tell me about canada")
-    resp <- chat("llama3.1", msg, format = format)
+    resp <- chat("llama3.1:8b", msg, format = format)
     # content <- httr2::resp_body_json(resp)$message$content
     structured_output <- resp_process(resp, "structured")
     expect_equal(tolower(structured_output$name), "canada")

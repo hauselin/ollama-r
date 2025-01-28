@@ -2,25 +2,25 @@
 % Please edit documentation in R/ollama.R
 \name{create}
 \alias{create}
-\title{Create a model from a Modelfile}
+\title{Create a model}
 \usage{
 create(
-  name,
-  modelfile = NULL,
+  model,
+  from,
+  system = NULL,
   stream = FALSE,
-  path = NULL,
   endpoint = "/api/create",
   host = NULL
 )
 }
 \arguments{
-\item{name}{Name of the model to create.}
+\item{model}{Name of the model to create.}
 
-\item{modelfile}{Contents of the Modelfile as character string. Default is NULL.}
+\item{from}{Name of an existing model to create the new model from.}
+
+\item{system}{System prompt for the model. Default is NULL.}
 
 \item{stream}{Enable response streaming. Default is FALSE.}
-
-\item{path}{The path to the Modelfile. Default is NULL.}
 
 \item{endpoint}{The endpoint to create the model. Default is "/api/create".}
 
@@ -30,13 +30,16 @@ create(
 A response in the format specified in the output parameter.
 }
 \description{
-It is recommended to set \code{modelfile} to the content of the Modelfile rather than just set path.
+Create a model from another model, a safetensors directory (not implemented), or a GGUF file (not implemented).
 }
 \examples{
 \dontshow{if (test_connection(logical = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-create("mario", "FROM llama3\nSYSTEM You are mario from Super Mario Bros.")
+create("mario", "deepseek-r1:1.5b", system = "You are Mario from Super Mario Bros.")
+model_avail("mario")  # check mario model has been created
+list_models()  # mario model has been created
 generate("mario", "who are you?", output = "text")  # model should say it's Mario
 delete("mario")  # delete the model created above
+model_avail("mario")  # model no longer exists
 \dontshow{\}) # examplesIf}
 }
 \references{
