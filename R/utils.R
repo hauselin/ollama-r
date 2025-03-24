@@ -762,6 +762,9 @@ encode_images_in_messages <- function(messages) {
 last_response <- function() {
     failed_resp <- httr2::last_response()
     print(failed_resp$headers)
+    if (is.null(failed_resp)) {
+        return(NULL)
+    }
     tryCatch(
         {
             body <- httr2::resp_body_json(failed_resp)
