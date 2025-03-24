@@ -56,6 +56,7 @@ reference:
       - image_encode_base64
       - test_connection
       - create_request
+      - last_response
 
   - subtitle: Manipulate chat history
     desc: Manipulate chat history for Ollama and other LLM providers.

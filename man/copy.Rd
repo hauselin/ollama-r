@@ -24,7 +24,7 @@ Creates a model with another name from an existing model.
 \examples{
 \dontshow{if (test_connection(logical = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 copy("llama3", "llama3_copy")
-delete("llama3_copy")  # delete the model was just got copied
+delete("llama3_copy") # delete the model was just got copied
 \dontshow{\}) # examplesIf}
 }
 \references{

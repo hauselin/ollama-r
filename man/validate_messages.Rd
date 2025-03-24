@@ -17,7 +17,7 @@ Validate a list of messages to ensure they have the required fields and the corr
 }
 \examples{
 validate_messages(create_messages(
-   create_message("Be friendly", "system"),
-   create_message("Hello")
+    create_message("Be friendly", "system"),
+    create_message("Hello")
 ))
 }

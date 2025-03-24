@@ -134,7 +134,6 @@ get_tool_calls <- function(resp) {
 #' resp_process(resp, "text") # return text/character vector
 #' resp_process(resp, "tools") # return tool_calls
 resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text", "tools")) {
-
     if (!inherits(resp, "httr2_response")) {
         stop("Input must be a httr2 response object")
     }
@@ -185,9 +184,12 @@ resp_process <- function(resp, output = c("df", "jsonlist", "raw", "resp", "text
     if (output == "raw") {
         return(rawToChar(resp$body))
     } else if (output == "jsonlist") {
-        tryCatch({
-            return(httr2::resp_body_json(resp))
-        }, error = function(e) {})
+        tryCatch(
+            {
+                return(httr2::resp_body_json(resp))
+            },
+            error = function(e) {}
+        )
     }
 
     # process different endpoints
@@ -364,7 +366,6 @@ resp_process_stream <- function(resp, output) {
         if (output[1] == "text") {
             return(paste0(df_response$status, collapse = ""))
         }
-
     } else if (grepl("api/push", resp$url)) {
         json_lines <- strsplit(rawToChar(resp$body), "\n")[[1]]
 
@@ -590,7 +591,6 @@ delete_message <- function(x, position = -1) {
 #' validate_message(create_message("Hello"))
 #' validate_message(list(role = "user", content = "Hello"))
 validate_message <- function(message) {
-
     # if message is a list of messages, extract the first message
     # likely created by create_message()
     if (is.list(message) & all(c("role", "content") %in% names(message[[1]]))) {
@@ -678,18 +678,21 @@ create_messages <- function(...) {
 #'
 #' @examples
 #' validate_messages(create_messages(
-#'    create_message("Be friendly", "system"),
-#'    create_message("Hello")
+#'     create_message("Be friendly", "system"),
+#'     create_message("Hello")
 #' ))
 validate_messages <- function(messages) {
     status <- TRUE
     for (i in 1:length(messages)) {
-        tryCatch({
-            validate_message(messages[[i]])
-        }, error = function(e) {
-            status <<- FALSE
-            message(paste0("Message ", i, ": ", conditionMessage(e)))
-        })
+        tryCatch(
+            {
+                validate_message(messages[[i]])
+            },
+            error = function(e) {
+                status <<- FALSE
+                message(paste0("Message ", i, ": ", conditionMessage(e)))
+            }
+        )
     }
     return(status)
 }
@@ -731,4 +734,42 @@ encode_images_in_messages <- function(messages) {
     }
 
     return(messages)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Get last response.
+#'
+#' Get and print the last response for debugging or when catching errors.
+#'
+#' @return Last httr2 response or NULL.
+#' @export
+#'
+#' @examples test_connection(logical = TRUE)
+#' last_response()
+last_response <- function() {
+    failed_resp <- httr2::last_response()
+    print(failed_resp$headers)
+    tryCatch(
+        {
+            body <- httr2::resp_body_json(failed_resp)
+            print(body)
+        },
+        error = function(e_body) {
+            cat(httr2::resp_body_string(failed_resp), "\n")
+        }
+    )
+    return(failed_resp)
 }

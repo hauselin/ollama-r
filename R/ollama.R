@@ -140,6 +140,7 @@ generate <- function(model, prompt, suffix = "", images = "", format = list(), s
                 return(resp_process(resp = resp, output = output))
             },
             error = function(e) {
+                last_response()
                 stop(e)
             }
         )
@@ -211,9 +212,9 @@ generate <- function(model, prompt, suffix = "", images = "", format = list(), s
 #' # image
 #' image_path <- file.path(system.file("extdata", package = "ollamar"), "image1.png")
 #' messages <- list(
-#'    list(role = "user", content = "What is in the image?", images = image_path)
+#'     list(role = "user", content = "What is in the image?", images = image_path)
 #' )
-#' chat("benzie/llava-phi-3", messages, output = 'text')
+#' chat("benzie/llava-phi-3", messages, output = "text")
 chat <- function(model, messages, tools = list(), stream = FALSE, format = list(), keep_alive = "5m", output = c("resp", "jsonlist", "raw", "df", "text", "req", "tools", "structured"), endpoint = "/api/chat", host = NULL, ...) {
     output <- output[1]
     if (!output %in% c("df", "resp", "jsonlist", "raw", "text", "req", "tools", "structured")) {
@@ -262,6 +263,7 @@ chat <- function(model, messages, tools = list(), stream = FALSE, format = list(
                 return(resp_process(resp = resp, output = output))
             },
             error = function(e) {
+                last_response()
                 stop(e)
             }
         )
@@ -308,13 +310,12 @@ chat <- function(model, messages, tools = list(), stream = FALSE, format = list(
 #'
 #' @examplesIf test_connection(logical = TRUE)
 #' create("mario", "deepseek-r1:1.5b", system = "You are Mario from Super Mario Bros.")
-#' model_avail("mario")  # check mario model has been created
-#' list_models()  # mario model has been created
-#' generate("mario", "who are you?", output = "text")  # model should say it's Mario
-#' delete("mario")  # delete the model created above
-#' model_avail("mario")  # model no longer exists
+#' model_avail("mario") # check mario model has been created
+#' list_models() # mario model has been created
+#' generate("mario", "who are you?", output = "text") # model should say it's Mario
+#' delete("mario") # delete the model created above
+#' model_avail("mario") # model no longer exists
 create <- function(model, from, system = NULL, stream = FALSE, endpoint = "/api/create", host = NULL) {
-
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
 
@@ -335,6 +336,7 @@ create <- function(model, from, system = NULL, stream = FALSE, endpoint = "/api/
                 return(resp)
             },
             error = function(e) {
+                last_response()
                 stop(e)
             }
         )
@@ -349,7 +351,6 @@ create <- function(model, from, system = NULL, stream = FALSE, endpoint = "/api/
     resp <- httr2::req_perform_stream(req, wrapped_handler, buffer_kb = 1)
     resp$body <- env$accumulated_data
     return(resp)
-
 }
 
 
@@ -395,6 +396,7 @@ list_models <- function(output = c("df", "resp", "jsonlist", "raw", "text"), end
             return(resp_process(resp = resp, output = output))
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )
@@ -445,6 +447,7 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
             return(resp_process(resp, output = output))
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )
@@ -472,9 +475,8 @@ show <- function(name, verbose = FALSE, output = c("jsonlist", "resp", "raw"), e
 #'
 #' @examplesIf test_connection(logical = TRUE)
 #' copy("llama3", "llama3_copy")
-#' delete("llama3_copy")  # delete the model was just got copied
+#' delete("llama3_copy") # delete the model was just got copied
 copy <- function(source, destination, endpoint = "/api/copy", host = NULL) {
-
     if (!model_avail(source)) {
         return(invisible())
     }
@@ -492,6 +494,7 @@ copy <- function(source, destination, endpoint = "/api/copy", host = NULL) {
             return(resp)
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )
@@ -539,6 +542,7 @@ delete <- function(name, endpoint = "/api/delete", host = NULL) {
             return(resp)
         },
         error = function(e) {
+            last_response()
             stop("Model not found and cannot be deleted. Please check the model name with list_models() and try again.")
         }
     )
@@ -581,6 +585,7 @@ pull <- function(name, stream = FALSE, insecure = FALSE, endpoint = "/api/pull",
                 return(resp)
             },
             error = function(e) {
+                last_response()
                 stop(e)
             }
         )
@@ -635,7 +640,6 @@ pull <- function(name, stream = FALSE, insecure = FALSE, endpoint = "/api/pull",
 #' @examplesIf test_connection(logical = TRUE)
 #' push("mattw/pygmalion:latest")
 push <- function(name, insecure = FALSE, stream = FALSE, output = c("resp", "jsonlist", "raw", "text", "df"), endpoint = "/api/push", host = NULL) {
-
     output <- output[1]
     if (!output %in% c("text", "jsonlist", "raw", "resp", "df")) {
         stop("Invalid output format specified.")
@@ -656,6 +660,7 @@ push <- function(name, insecure = FALSE, stream = FALSE, output = c("resp", "jso
                 return(resp)
             },
             error = function(e) {
+                last_response()
                 stop(e)
             }
         )
@@ -769,6 +774,7 @@ embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = 
             return(m)
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )
@@ -835,6 +841,7 @@ embeddings <- function(model, prompt, normalize = TRUE, keep_alive = "5m", endpo
             return(v)
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )
@@ -872,6 +879,7 @@ ps <- function(output = c("df", "resp", "jsonlist", "raw", "text"), endpoint = "
             return(resp_process(resp = resp, output = output))
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )
@@ -906,6 +914,7 @@ ver <- function(endpoint = "/api/version", host = NULL) {
             return(resp_process(resp = resp, output = "text"))
         },
         error = function(e) {
+            last_response()
             stop(e)
         }
     )

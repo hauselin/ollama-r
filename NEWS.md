@@ -2,6 +2,7 @@
 
 - Add `ver()` function to [retrieve Ollama version](https://github.com/ollama/ollama/blob/main/docs/api.md#version).
 - Update `create()` function.
+- Add `last_response()` to provide more informative error messages if requests fail.
 
 # ollamar 1.2.2
 
