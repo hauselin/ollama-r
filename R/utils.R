@@ -750,7 +750,7 @@ encode_images_in_messages <- function(messages) {
 
 
 
-#' Get last response.
+#' Get last response
 #'
 #' Get and print the last response for debugging or when catching errors.
 #'

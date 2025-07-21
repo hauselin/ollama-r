@@ -746,7 +746,7 @@ normalize <- function(x) {
 embed <- function(model, input, truncate = TRUE, normalize = TRUE, keep_alive = "5m", endpoint = "/api/embed", host = NULL, ...) {
     req <- create_request(endpoint, host)
     req <- httr2::req_method(req, "POST")
-    body_json <- list(model = model, input = input, keep_alive = keep_alive)
+    body_json <- list(model = model, input = input, truncate = truncate, keep_alive = keep_alive)
 
     opts <- list(...)
     if (length(opts) > 0) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{last_response}
 \alias{last_response}
-\title{Get last response.}
+\title{Get last response}
 \usage{
 last_response()
 }
